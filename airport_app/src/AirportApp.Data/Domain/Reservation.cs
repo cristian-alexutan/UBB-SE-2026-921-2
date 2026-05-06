@@ -7,7 +7,7 @@ namespace AirportApp.Data.Domain
         public bool Active { get; set; }
         public DateTime ReservationDate { get; set; }
 
-        protected Reservation()
+        public Reservation()
         {
         }
 
