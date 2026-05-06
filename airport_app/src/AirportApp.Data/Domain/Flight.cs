@@ -8,5 +8,9 @@
         public Route Route { get; set; }
         public Runway Runway { get; set; }
         public Gate Gate { get; set; }
+
+        internal Flight()
+        {
+        }
     }
 }

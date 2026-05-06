@@ -4,5 +4,8 @@
     {
         public Employee Employee { get; set; }
         public Flight Flight { get; set; }
+        internal EmployeeFlight()
+        {
+        }
     }
 }

@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
+
+using AirportApp.WinUI.AirportAdmin.Components;
 
 using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml;
-
-using AirportApp.Data.Services;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.WinUI.AirportAdmin.Components;
 
 namespace AirportApp.ViewModel
 {
@@ -112,9 +109,8 @@ namespace AirportApp.ViewModel
             AvailableCrew.Clear();
             foreach (CrewMemberSelectionData item in crewData)
             {
-                AvailableCrew.Add(new CrewSelectionWrapper
+                AvailableCrew.Add(new CrewSelectionWrapper(item.Employee)
                 {
-                    Employee = item.Employee,
                     IsSelected = item.IsSelected,
                     RoleHeader = item.RoleHeader,
                     RoleHeaderVisibility = item.IsFirstInRoleGroup ? Visibility.Visible : Visibility.Collapsed
@@ -174,7 +170,11 @@ namespace AirportApp.ViewModel
 
     public class CrewSelectionWrapper
     {
-        public Employee Employee { get; set; } = new();
+        public CrewSelectionWrapper(Employee employee)
+        {
+            this.Employee = employee;
+        }
+        public Employee Employee { get; set; }
         public bool IsSelected { get; set; }
         public bool ShowRoleHeader { get; set; }
         public string RoleHeader { get; set; } = string.Empty;

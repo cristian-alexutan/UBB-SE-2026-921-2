@@ -12,5 +12,9 @@
         public int Capacity { get; set; }
         public Company Company { get; set; }
         public Airport Airport { get; set; }
+
+        internal Route()
+        {
+        }
     }
 }

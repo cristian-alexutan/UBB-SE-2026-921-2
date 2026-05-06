@@ -501,7 +501,7 @@ public class FlightRouteServiceTests
         {
             Route = new Route
             {
-                Airport = new Airport { AirportCode = AirportCodeJfk, AirportName = AirportNameJfk }
+                Airport = new Airport { Code = AirportCodeJfk, Name = AirportNameJfk }
             }
         };
 
@@ -742,7 +742,7 @@ public class FlightRouteServiceTests
         var gateService = new Mock<IGateService>();
         var airportServic = new Mock<IAirportService>();
 
-        var targetAirport = new Airport { Id = TargetAirportId, AirportCode = TargetAirportCode };
+        var targetAirport = new Airport { Id = TargetAirportId, Code = TargetAirportCode };
         var targetRoute = new Route { Id = TargetRouteId, Airport = new Airport { Id = TargetAirportId } };
         var targetRunway = new Runway { Id = TargetRunwayId, Name = TargetRunwayName };
         var targetGate = new Gate { Id = TargetGateId, Name = TargetGateName };
@@ -768,7 +768,7 @@ public class FlightRouteServiceTests
         Assert.Single(resultList);
         Assert.Equal(TargetRunwayName, resultList[0].Runway.Name);
         Assert.Equal(TargetGateName, resultList[0].Gate.Name);
-        Assert.Equal(TargetAirportCode, resultList[0].Route.Airport.AirportCode);
+        Assert.Equal(TargetAirportCode, resultList[0].Route.Airport.Code);
     }
 
     [Fact]

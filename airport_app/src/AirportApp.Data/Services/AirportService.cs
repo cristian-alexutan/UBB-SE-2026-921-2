@@ -38,8 +38,8 @@
 
             Airport newAirport = new Airport
             {
-                AirportCode = airportCode,
-                AirportName = airportName,
+                Code = airportCode,
+                Name = airportName,
                 City = city
             };
 
@@ -60,7 +60,7 @@
 
             if (newName != null)
             {
-                existingAirport.AirportName = newName;
+                existingAirport.Name = newName;
             }
 
             if (newCity != null)
@@ -70,7 +70,7 @@
 
             if (newCode != null)
             {
-                existingAirport.AirportCode = newCode;
+                existingAirport.Code = newCode;
             }
 
             airportRepository.UpdateAirport(existingAirport);
@@ -106,9 +106,9 @@
             bool hasFlights = HasFlights(id);
             if (hasFlights)
             {
-                return $"CRITICAL: Airport '{GetAirportById(id).AirportName}' has flights assigned. Deleting it will remove ALL associated flights. Proceed?";
+                return $"CRITICAL: Airport '{GetAirportById(id).Name}' has flights assigned. Deleting it will remove ALL associated flights. Proceed?";
             }
-            return $"Are you sure you want to delete airport '{GetAirportById(id).AirportName}'?";
+            return $"Are you sure you want to delete airport '{GetAirportById(id).Name}'?";
         }
     }
 }
