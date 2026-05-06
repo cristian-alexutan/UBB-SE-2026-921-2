@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using CommunityToolkit.Mvvm.Input;
@@ -122,7 +120,7 @@ namespace AirportApp.ViewModel
             }
         }
 
-        private Employee editingEmployee = new();
+        private Employee editingEmployee = new Employee("New Employee", EmployeeRole.Other);
         public Employee EditingEmployee
         {
             get => editingEmployee;
@@ -299,7 +297,8 @@ namespace AirportApp.ViewModel
         [RelayCommand]
         private void AddEmployee(string targetRole)
         {
-            EditingEmployee = new Employee { Role = employeeService.ParseRole(targetRole) };
+            EmployeeRole assignedRole = this.employeeService.ParseRole(targetRole);
+            this.EditingEmployee = new Employee("New Employee", assignedRole);
             EditingBirthday = null;
             EditingHiringDate = null;
             EditingSalaryText = string.Empty;
@@ -317,11 +316,9 @@ namespace AirportApp.ViewModel
                 return;
             }
 
-            EditingEmployee = new Employee
+            this.EditingEmployee = new Employee(employee.Name, employee.Role)
             {
                 Id = employee.Id,
-                Name = employee.Name,
-                Role = employee.Role,
                 Salary = employee.Salary,
                 Birthday = employee.Birthday,
                 HiringDate = employee.HiringDate
