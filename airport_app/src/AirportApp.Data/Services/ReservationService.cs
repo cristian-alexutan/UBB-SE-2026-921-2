@@ -30,7 +30,7 @@ namespace AirportApp.Data.Services
         {
             var reservationCartItems = reservation.ReservationCart.CartItems;
 
-            foreach (var cartItem in reservationCartItems.Values)
+            foreach (var cartItem in reservationCartItems)
             {
                 var shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
                 if (shopItem.Quantity < cartItem.Quantity)
@@ -40,7 +40,7 @@ namespace AirportApp.Data.Services
                 }
             }
 
-            foreach (var cartItem in reservationCartItems.Values)
+            foreach (var cartItem in reservationCartItems)
             {
                 var shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
                 shopItem.Quantity -= cartItem.Quantity;
@@ -79,7 +79,7 @@ namespace AirportApp.Data.Services
 
             if (reservation.ReservationCart?.CartItems != null)
             {
-                foreach (var cartItem in reservation.ReservationCart.CartItems.Values)
+                foreach (var cartItem in reservation.ReservationCart.CartItems)
                 {
                     var shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
                     shopItem.Quantity += cartItem.Quantity;

@@ -9,7 +9,7 @@ namespace AirportApp.Data.Domain
     public class CartItem
     {
         public int Id { get; set; }
-        public ShopItem ShopItem { get; set; }
+        public ShopItem ShopItem { get; set; } = null!;
         public int Quantity { get; set; }
 
         public CartItem(int id, ShopItem shopItem, int quantity)
@@ -17,6 +17,10 @@ namespace AirportApp.Data.Domain
             this.Id = id;
             this.ShopItem = shopItem;
             this.Quantity = quantity;
+        }
+
+        public CartItem()
+        {
         }
 
         public float GetTotalPrice()
