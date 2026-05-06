@@ -33,7 +33,7 @@ namespace AirportApp.Data.Services
             var cart = this.cartRepo.GetById(userId);
             if (cart == null)
             {
-                cart = new Cart(userId, new Client(userId, "Current Client"), new Dictionary<int, CartItem>());
+                cart = new Cart(userId, new Client(userId, "Current Client"), new List<CartItem>());
                 this.cartRepo.Add(cart);
             }
 
@@ -56,7 +56,7 @@ namespace AirportApp.Data.Services
             CartItem existing = null;
             if (cart != null)
             {
-                foreach (var currentCartItem in cart.CartItems.Values)
+                foreach (var currentCartItem in cart.CartItems)
                 {
                     if (currentCartItem.ShopItem?.Id == item.ShopItem.Id)
                     {
@@ -95,7 +95,7 @@ namespace AirportApp.Data.Services
             CartItem cartItem = null;
             if (cart != null)
             {
-                foreach (var currentCartItem in cart.CartItems.Values)
+                foreach (var currentCartItem in cart.CartItems)
                 {
                     if (currentCartItem.Id == cartItemId)
                     {
@@ -139,7 +139,7 @@ namespace AirportApp.Data.Services
             CartItem cartItem = null;
             if (cart != null)
             {
-                foreach (var currentCartItem in cart.CartItems.Values)
+                foreach (var currentCartItem in cart.CartItems)
                 {
                     if (currentCartItem.Id == cartItemId)
                     {
@@ -172,7 +172,7 @@ namespace AirportApp.Data.Services
                 return new List<CartItem>();
             }
 
-            return cart.CartItems.Values;
+            return cart.CartItems;
         }
 
         public bool IsLastCartItem(int cartId, int cartItemId)
@@ -184,7 +184,7 @@ namespace AirportApp.Data.Services
             }
 
             CartItem cartItem = null;
-            foreach (var currentCartItem in cart.CartItems.Values)
+            foreach (var currentCartItem in cart.CartItems)
             {
                 if (currentCartItem.Id == cartItemId)
                 {

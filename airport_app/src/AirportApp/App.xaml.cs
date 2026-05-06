@@ -17,6 +17,8 @@ using AirportApp.WinUI.Services;
 
 // Domain (needed for factory lambdas)
 using AirportApp.Data.Domain;
+using AirportApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp
 {
@@ -47,6 +49,9 @@ namespace AirportApp
 
         private static void ConfigureServices(ServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(@"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"));
+
             // ── Airport Management: Infrastructure ────────────────────────
             services.AddSingleton<DatabaseConnectionFactory>();
 

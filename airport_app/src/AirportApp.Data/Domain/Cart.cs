@@ -10,17 +10,23 @@ namespace AirportApp.Data.Domain
     {
         public int Id { get; set; }
         public Client Client { get; set; }
-        public Dictionary<int, CartItem> CartItems { get; set; }
-        public Cart(int id, Client client, Dictionary<int, CartItem> cartItems)
+        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+
+        public Cart()
+        {
+        }
+
+        public Cart(int id, Client client, ICollection<CartItem> cartItems)
         {
             this.Id = id;
             this.Client = client;
             this.CartItems = cartItems;
         }
+
         public float GetOverallPrice()
         {
             float overallPrice = 0;
-            foreach (CartItem cartItem in CartItems.Values)
+            foreach (CartItem cartItem in CartItems)
             {
                 overallPrice += cartItem.GetTotalPrice();
             }
@@ -34,17 +40,33 @@ namespace AirportApp.Data.Domain
 
         public void UpdateQuantity(int cartItemId, int quantity)
         {
-            CartItems[cartItemId].Quantity = quantity;
+            var item = CartItems.FirstOrDefault(ci => ci.Id == cartItemId);
+            if (item != null)
+            {
+                item.Quantity = quantity;
+            }
         }
 
         public void AddCartItem(CartItem cartItem)
         {
-            CartItems[cartItem.Id] = cartItem;
+            var existing = CartItems.FirstOrDefault(ci => ci.Id == cartItem.Id);
+            if (existing != null)
+            {
+                existing.Quantity = cartItem.Quantity;
+            }
+            else
+            {
+                CartItems.Add(cartItem);
+            }
         }
 
         public void RemoveCartItem(int cartItemId)
         {
-            CartItems.Remove(cartItemId);
+            var item = CartItems.FirstOrDefault(ci => ci.Id == cartItemId);
+            if (item != null)
+            {
+                CartItems.Remove(item);
+            }
         }
     }
 }

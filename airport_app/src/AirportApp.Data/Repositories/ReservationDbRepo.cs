@@ -37,7 +37,7 @@ namespace AirportApp.Data.Repositories
                     var cart = new Cart(
                         (int)reader["cart_id"],
                         new Client((int)reader["client_id"], (string)reader["client_name"]),
-                        new Dictionary<int, CartItem>());
+                        new List<CartItem>());
                     carts[cart.Id] = cart;
 
                     var reservation = new Reservation(
@@ -77,7 +77,7 @@ namespace AirportApp.Data.Repositories
                     cart = new Cart(
                         (int)reader["cart_id"],
                         new Client((int)reader["client_id"], (string)reader["client_name"]),
-                        new Dictionary<int, CartItem>());
+                        new List<CartItem>());
                     reservation = new Reservation(
                         (int)reader["reservation_id"],
                         cart,
@@ -180,7 +180,7 @@ namespace AirportApp.Data.Repositories
                     Shop shop = new Shop(shopId, string.Empty, string.Empty, manager);
 
                     var shopItem = new ShopItem(itemId, stock, price, shop, photo, name, description);
-                    cart.CartItems[cartItemId] = new CartItem(cartItemId, shopItem, quantity);
+                    cart.CartItems.Add(new CartItem(cartItemId, shopItem, quantity));
                 }
             }
         }
