@@ -50,15 +50,13 @@ public class AppDbContext : DbContext
             route.Property(routeInstance => routeInstance.DepartureTime)
             .HasConversion(
                 timeOnlyValue => DateOnly.MinValue.ToDateTime(timeOnlyValue),
-                dateTimeValue => TimeOnly.FromDateTime(dateTimeValue)
-            )
+                dateTimeValue => TimeOnly.FromDateTime(dateTimeValue))
             .HasColumnName("departure_time");
 
             route.Property(routeInstance => routeInstance.ArrivalTime)
                 .HasConversion(
                     timeOnlyValue => DateOnly.MinValue.ToDateTime(timeOnlyValue),
-                    dateTimeValue => TimeOnly.FromDateTime(dateTimeValue)
-                )
+                    dateTimeValue => TimeOnly.FromDateTime(dateTimeValue))
                 .HasColumnName("arrival_time");
 
             route.Property(routeStartDate => routeStartDate.StartDate).HasColumnName("start_date");
