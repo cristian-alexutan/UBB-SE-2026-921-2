@@ -1,47 +1,131 @@
-using Microsoft.EntityFrameworkCore;
+﻿using AirportApp.Data.Domain;
+using AirportApp.Data.Repositories.Interfaces;
 
-namespace AirportApp.Data.Repositories
+using Microsoft.Data.SqlClient;
+
+namespace AirportApp.Data.Repositories;
+
+internal class ShopItemDbRepo : IShopItemRepo
 {
-    public class ShopItemDbRepo : IShopItemRepo
+    private readonly DatabaseConnectionFactory connectionFactory;
+
+    public ShopItemDbRepo(DatabaseConnectionFactory connectionFactory)
     {
-        private readonly AppDbContext dbContext;
+        this.connectionFactory = connectionFactory;
+    }
 
-        public ShopItemDbRepo(AppDbContext dbContext)
+    public IEnumerable<ShopItem> GetAll()
+    {
+        List<ShopItem> shopItems = new List<ShopItem>();
+
+        using (SqlConnection connection = this.connectionFactory.GetConnection())
         {
-            this.dbContext = dbContext;
-        }
-
-        public IEnumerable<ShopItem> GetAll()
-        {
-            return this.dbContext.ShopItems.Include(shopItem => shopItem.Shop).ToList();
-        }
-
-        public ShopItem? GetById(int shopItemId)
-        {
-            return this.dbContext.ShopItems.Include(shopItem => shopItem.Shop).FirstOrDefault(shopItem => shopItem.Id == shopItemId);
-        }
-
-        public void Add(ShopItem shopItem)
-        {
-            this.dbContext.ShopItems.Add(shopItem);
-            this.dbContext.SaveChanges();
-        }
-
-        public void Delete(int shopItemId)
-        {
-            ShopItem? shopItem = this.dbContext.ShopItems.Find(shopItemId);
-
-            if (shopItem != null)
+            connection.Open();
+            using (SqlCommand command = new SqlCommand("SELECT item_id, shop_id, stock, price, img, name, description FROM Item", connection))
             {
-                this.dbContext.ShopItems.Remove(shopItem);
-                this.dbContext.SaveChanges();
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    shopItems.Add(this.MapShopItem(dataReader));
+                }
             }
         }
 
-        public void Update(ShopItem shopItem)
+        return shopItems;
+    }
+
+    public ShopItem? GetById(int shopItemId)
+    {
+        using (SqlConnection connection = this.connectionFactory.GetConnection())
         {
-            this.dbContext.ShopItems.Update(shopItem);
-            this.dbContext.SaveChanges();
+            connection.Open();
+            using (SqlCommand command = new SqlCommand("SELECT item_id, shop_id, stock, price, img, name, description FROM Item WHERE item_id = @shopItemId", connection))
+            {
+                command.Parameters.AddWithValue("@shopItemId", shopItemId);
+
+                SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.Read())
+                {
+                    return this.MapShopItem(dataReader);
+                }
+            }
         }
+
+        return null;
+    }
+
+    public void Add(ShopItem shopItem)
+    {
+        using (SqlConnection connection = this.connectionFactory.GetConnection())
+        {
+            connection.Open();
+            using (SqlCommand command = new SqlCommand(
+                "INSERT INTO Item (shop_id, stock, price, img, name, description) VALUES (@shopId, @quantity, @price, @photo, @name, @description);" +
+                "SELECT SCOPE_IDENTITY();",
+                connection))
+            {
+                command.Parameters.AddWithValue("@shopId", shopItem.Shop.Id);
+                command.Parameters.AddWithValue("@quantity", shopItem.Quantity);
+                command.Parameters.AddWithValue("@price", shopItem.Price);
+                command.Parameters.AddWithValue("@photo", string.IsNullOrEmpty(shopItem.Photo) ? (object)DBNull.Value : shopItem.Photo);
+                command.Parameters.AddWithValue("@name", shopItem.Name);
+                command.Parameters.AddWithValue("@description", string.IsNullOrEmpty(shopItem.Description) ? (object)DBNull.Value : shopItem.Description);
+
+                shopItem.Id = Convert.ToInt32(command.ExecuteScalar());
+            }
+        }
+    }
+
+    public void Update(ShopItem shopItem)
+    {
+        using (SqlConnection connection = this.connectionFactory.GetConnection())
+        {
+            connection.Open();
+            using (SqlCommand command = new SqlCommand(
+                "UPDATE Item SET shop_id = @shopId, stock = @quantity, price = @price, img = @photo, name = @name, description = @description WHERE item_id = @shopItemId",
+                connection))
+            {
+                command.Parameters.AddWithValue("@shopId", shopItem.Shop.Id);
+                command.Parameters.AddWithValue("@quantity", shopItem.Quantity);
+                command.Parameters.AddWithValue("@price", shopItem.Price);
+                command.Parameters.AddWithValue("@photo", string.IsNullOrEmpty(shopItem.Photo) ? (object)DBNull.Value : shopItem.Photo);
+                command.Parameters.AddWithValue("@name", shopItem.Name);
+                command.Parameters.AddWithValue("@description", string.IsNullOrEmpty(shopItem.Description) ? (object)DBNull.Value : shopItem.Description);
+                command.Parameters.AddWithValue("@shopItemId", shopItem.Id);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    public void Delete(int shopItemId)
+    {
+        using (SqlConnection connection = this.connectionFactory.GetConnection())
+        {
+            connection.Open();
+            using (SqlCommand command = new SqlCommand("DELETE FROM Item WHERE item_id = @shopItemId", connection))
+            {
+                command.Parameters.AddWithValue("@shopItemId", shopItemId);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    private ShopItem MapShopItem(SqlDataReader dataReader)
+    {
+        int shopItemId = (int)dataReader["item_id"];
+        int shopId = (int)dataReader["shop_id"];
+        int quantity = (int)dataReader["stock"];
+        float price = Convert.ToSingle(dataReader["price"]);
+        string photo = dataReader["img"] == DBNull.Value ? string.Empty : (string)dataReader["img"];
+        string name = (string)dataReader["name"];
+        string description = dataReader["description"] == DBNull.Value ? string.Empty : (string)dataReader["description"];
+
+        Manager manager = new Manager(0, string.Empty, string.Empty, string.Empty);
+        Shop shop = new Shop(shopId, string.Empty, string.Empty, manager);
+
+        return new ShopItem(shopItemId, quantity, price, shop, photo, name, description);
     }
 }

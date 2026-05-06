@@ -85,7 +85,7 @@ namespace AirportApp
             services.AddSingleton<ITicketRepo, TicketDbRepo>();
             services.AddSingleton<IManagerRepo, ManagerDbRepo>();
             services.AddSingleton<IShopRepo, ShopDbRepo>();
-            services.AddSingleton<IShopItemRepo, ShopItemDbRepo>();
+            services.AddSingleton<IShopItemRepo, EfShopItemDbRepo>();
             services.AddSingleton<ICartRepo, CartDbRepo>();
             services.AddScoped<IReservationRepo, ReservationDbRepo>();
 
