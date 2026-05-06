@@ -1,0 +1,65 @@
+<Page
+    x:Class="AirportApp.WinUI.ModuleSelection.ModuleSelectionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AirportApp.WinUI.ModuleSelection"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="#0F172A">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="32">
+
+            <TextBlock
+                Text="Airport Management System"
+                FontSize="36"
+                FontWeight="SemiBold"
+                Foreground="White"
+                HorizontalAlignment="Center" />
+
+            <TextBlock
+                Text="Choose a module to continue"
+                FontSize="16"
+                Foreground="#94A3B8"
+                HorizontalAlignment="Center" />
+
+            <StackPanel Orientation="Horizontal" Spacing="24" HorizontalAlignment="Center">
+
+                <Button x:Name="AirportMgmtButton"
+                        Width="260" Height="120"
+                        CornerRadius="16"
+                        Background="#1E293B"
+                        BorderBrush="#334155"
+                        BorderThickness="1"
+                        Click="AirportMgmtButton_Click">
+                    <StackPanel Spacing="10" HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE709;" FontFamily="Segoe MDL2 Assets"
+                                  FontSize="36" Foreground="#2bb8c0" />
+                        <TextBlock Text="Airport Management"
+                                   FontSize="16" FontWeight="SemiBold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="DutyFreeButton"
+                        Width="260" Height="120"
+                        CornerRadius="16"
+                        Background="#1E293B"
+                        BorderBrush="#334155"
+                        BorderThickness="1"
+                        Click="DutyFreeButton_Click">
+                    <StackPanel Spacing="10" HorizontalAlignment="Center">
+                        <FontIcon Glyph="&#xE719;" FontFamily="Segoe MDL2 Assets"
+                                  FontSize="36" Foreground="#2bb8c0" />
+                        <TextBlock Text="Duty Free Shops"
+                                   FontSize="16" FontWeight="SemiBold"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
