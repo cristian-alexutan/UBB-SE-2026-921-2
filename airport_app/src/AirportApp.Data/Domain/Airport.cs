@@ -3,8 +3,12 @@
     public class Airport
     {
         public int Id { get; set; }
-        public string AirportCode { get; set; }
-        public string AirportName { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
         public string City { get; set; }
+
+        internal Airport()
+        {
+        }
     }
 }

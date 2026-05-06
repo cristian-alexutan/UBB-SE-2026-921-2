@@ -14,5 +14,9 @@ namespace AirportApp.Data.Domain
             this.Email = email;
             this.Phone = phone;
         }
+
+        internal Manager()
+        {
+        }
     }
 }

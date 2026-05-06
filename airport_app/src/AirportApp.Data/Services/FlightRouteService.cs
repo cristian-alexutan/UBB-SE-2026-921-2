@@ -374,7 +374,7 @@
                 return EmptyFieldPlaceholder;
             }
 
-            return $"{flight.Route.Airport.AirportCode} - {flight.Route.Airport.AirportName}";
+            return $"{flight.Route.Airport.Code} - {flight.Route.Airport.Name}";
         }
 
         public FlightSummary BuildFlightSummary(Flight flight, string crewText)

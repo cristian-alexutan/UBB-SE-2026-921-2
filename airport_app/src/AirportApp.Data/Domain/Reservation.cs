@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace AirportApp.Data.Domain
 {
     public class Reservation
@@ -30,6 +24,10 @@ namespace AirportApp.Data.Domain
             this.ReservationCart = reservationCart;
             this.Active = active;
             this.ReservationDate = reservationDate;
+        }
+
+        public Reservation()
+        {
         }
     }
 }

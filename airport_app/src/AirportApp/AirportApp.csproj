@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AirportApp.Data\AirportApp.Data.csproj" />
-    <ProjectReference Include="..\AirportApp.Test\AirportApp.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="WinUI\CompanyPage.xaml">
