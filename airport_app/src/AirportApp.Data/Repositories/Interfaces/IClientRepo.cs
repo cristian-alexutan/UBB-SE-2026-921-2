@@ -7,7 +7,7 @@ namespace AirportApp.Data.Repositories.Interfaces
     {
         IEnumerable<Client> GetAll();
 
-        Client GetById(int clientId);
+        Client? GetById(int clientId);
 
         void Add(Client client);
 
