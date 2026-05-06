@@ -41,7 +41,7 @@ namespace AirportApp.Data.Repositories
             return managers;
         }
 
-        public Manager GetById(int managerId)
+        public Manager? GetById(int managerId)
         {
             using (SqlConnection connection = this.databaseConnectionFactory.GetConnection())
             {
