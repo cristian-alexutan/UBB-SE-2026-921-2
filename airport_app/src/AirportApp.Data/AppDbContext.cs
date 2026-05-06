@@ -92,7 +92,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Shop>().HasOne(shop => shop.Manager).WithMany().HasForeignKey("ManagerId");
 
-        modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId");
+        modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId").OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Cart>().HasOne(cart => cart.Client).WithMany().HasForeignKey("ClientId");
 
