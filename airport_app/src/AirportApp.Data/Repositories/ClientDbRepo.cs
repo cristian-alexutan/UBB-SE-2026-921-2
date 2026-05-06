@@ -36,7 +36,7 @@ namespace AirportApp.Data.Repositories
             return clients;
         }
 
-        public Client GetById(int clientId)
+        public Client? GetById(int clientId)
         {
             using (SqlConnection connection = this.databaseConnectionFactory.GetConnection())
             {

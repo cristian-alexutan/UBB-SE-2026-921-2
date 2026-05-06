@@ -1,6 +1,7 @@
 using System;
 using AirportApp.Data.Domain;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
+using AirportApp.WinUI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

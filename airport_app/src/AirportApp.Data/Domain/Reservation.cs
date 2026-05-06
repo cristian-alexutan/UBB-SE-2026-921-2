@@ -7,10 +7,6 @@ namespace AirportApp.Data.Domain
         public bool Active { get; set; }
         public DateTime ReservationDate { get; set; }
 
-        public Reservation()
-        {
-        }
-
         public Reservation(int id, Cart reservationCart, bool active, DateTime reservationDate)
         {
             this.Id = id;

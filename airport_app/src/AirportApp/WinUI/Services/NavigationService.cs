@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml.Controls;
 
 using AirportApp.ViewModel;
 using AirportApp.WinUI.AirportAdmin;
-using AirportApp.WinUI.ModuleSelection;
 using AirportApp.WinUI.StaffLogin;
 
 namespace AirportApp.WinUI.Services
@@ -21,11 +20,6 @@ namespace AirportApp.WinUI.Services
         public void Initialize(Frame frame)
         {
             this.frame = frame;
-        }
-
-        public void NavigateToModuleSelection()
-        {
-            frame.Navigate(typeof(ModuleSelectionPage));
         }
 
         public void NavigateToHome()
