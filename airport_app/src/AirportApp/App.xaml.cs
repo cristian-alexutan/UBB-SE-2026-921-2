@@ -50,7 +50,7 @@ namespace AirportApp
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(@"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"));
+                options.UseSqlServer(@"Server=DESKTOP-08EBK33\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"));
 
             // ── Airport Management: Infrastructure ────────────────────────
             services.AddSingleton<DatabaseConnectionFactory>();
@@ -95,7 +95,7 @@ namespace AirportApp
             services.AddSingleton<IShopRepo, ShopDbRepo>();
             services.AddSingleton<IShopItemRepo, ShopItemDbRepo>();
             services.AddSingleton<ICartRepo, CartDbRepo>();
-            services.AddSingleton<IReservationRepo, ReservationDbRepo>();
+            services.AddScoped<IReservationRepo, ReservationDbRepo>();
 
             // ── Duty-Free Shops: Services ─────────────────────────────────
             services.AddSingleton<IShopItemService, ShopItemService>();
@@ -104,7 +104,7 @@ namespace AirportApp
             services.AddSingleton<ITicketService, TicketService>();
             services.AddSingleton<IClientService, ClientService>();
             services.AddSingleton<IManagerService, ManagerService>();
-            services.AddSingleton<IReservationService, ReservationService>();
+            services.AddScoped<IReservationService, ReservationService>();
 
             // ── Duty-Free Shops: Session + ViewModels ─────────────────────
             services.AddSingleton<UserSession>();
