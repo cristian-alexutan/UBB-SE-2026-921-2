@@ -21,9 +21,5 @@ namespace AirportApp.Data.Domain
             this.Active = active;
             this.ReservationDate = reservationDate;
         }
-
-        public Reservation()
-        {
-        }
     }
 }

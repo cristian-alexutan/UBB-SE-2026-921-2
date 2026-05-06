@@ -92,12 +92,12 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Shop>().HasOne(shop => shop.Manager).WithMany().HasForeignKey("ManagerId");
 
-        modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId");
+        modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId").OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Cart>().HasOne(cart => cart.Client).WithMany().HasForeignKey("ClientId");
 
-        modelBuilder.Entity<CartItem>().HasOne(cartItem => cartItem.ShopItem).WithMany().HasForeignKey("ShopItemId");
-        modelBuilder.Entity<CartItem>().HasOne<Cart>().WithMany().HasForeignKey("CartId");
+        modelBuilder.Entity<CartItem>().HasOne(cartItem => cartItem.ShopItem).WithMany().HasForeignKey("ShopItemId").OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<CartItem>().HasOne<Cart>().WithMany().HasForeignKey("CartId").OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Reservation>().HasOne(reservation => reservation.ReservationCart).WithMany().HasForeignKey("CartId");
 
