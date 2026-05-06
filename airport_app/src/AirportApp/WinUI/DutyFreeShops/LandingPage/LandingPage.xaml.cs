@@ -14,6 +14,7 @@ namespace AirportApp
             this.InitializeComponent();
 
             ViewModel = App.Services.GetRequiredService<ILandingViewModel>();
+            this.DataContext = ViewModel;
 
             ClientButton.Click += ClientButton_Click;
             AdminButton.Click += AdminButton_Click;

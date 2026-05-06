@@ -26,7 +26,6 @@
     <None Remove="WinUI\Components\Header.xaml" />
     <None Remove="WinUI\HomePage.xaml" />
     <None Remove="WinUI\StaffPage.xaml" />
-    <None Remove="WinUI\ModuleSelection\ModuleSelectionPage.xaml" />
     <None Remove="WinUI\DutyFreeShops\LandingPage\LandingPage.xaml" />
     <None Remove="WinUI\DutyFreeShops\ShopPage\ShopPage.xaml" />
     <None Remove="WinUI\DutyFreeShops\ShopItemsPage\ShopItemsPage.xaml" />
@@ -108,6 +107,9 @@
     <None Update="WinUI\EmployeeDashboardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="WinUI\ShellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <Page Update="WinUI\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,9 +117,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="WinUI\StaffPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="WinUI\ModuleSelection\ModuleSelectionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="WinUI\DutyFreeShops\LandingPage\LandingPage.xaml">
