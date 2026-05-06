@@ -86,7 +86,7 @@ namespace AirportApp
             services.AddSingleton<IManagerRepo, ManagerDbRepo>();
             services.AddSingleton<IShopRepo, ShopDbRepo>();
             services.AddSingleton<IShopItemRepo, ShopItemDbRepo>();
-            services.AddSingleton<ICartRepo, CartDbRepo>();
+            services.AddSingleton<ICartRepo, EfCartDbRepo>();
             services.AddScoped<IReservationRepo, ReservationDbRepo>();
 
             // ── Duty-Free Shops: Services ─────────────────────────────────
