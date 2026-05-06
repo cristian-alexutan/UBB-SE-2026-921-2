@@ -130,8 +130,8 @@ public class AirportServiceTests
 
         var existingAirportsList = new List<Airport>
         {
-            new Airport { AirportCode = DefaultTestCode, AirportName = DefaultTestName, City = DefaultTestCity },
-            new Airport { AirportCode = SecondTestCode, AirportName = SecondTestName, City = SecondTestCity }
+            new Airport { Code = DefaultTestCode, Name = DefaultTestName, City = DefaultTestCity },
+            new Airport { Code = SecondTestCode, Name = SecondTestName, City = SecondTestCity }
         };
 
         airportRepository.Setup(getAllAirports => getAllAirports.GetAllAirports())
@@ -162,7 +162,7 @@ public class AirportServiceTests
     {
         var airportRepository = new Mock<IAirportRepository>();
         var flightRepository = new Mock<IFlightRepository>();
-        var existingAirport = new Airport { Id = TargetAirportId, AirportCode = DefaultTestCode };
+        var existingAirport = new Airport { Id = TargetAirportId, Code = DefaultTestCode };
 
         airportRepository.Setup(getTargetAirport => getTargetAirport.GetAirportById(TargetAirportId))
             .Returns(existingAirport);
@@ -195,7 +195,7 @@ public class AirportServiceTests
     {
         var airportRepository = new Mock<IAirportRepository>();
         var flightRepository = new Mock<IFlightRepository>();
-        var airportToUpdate = new Airport { AirportCode = DefaultTestCode, AirportName = DefaultTestName, City = DefaultTestCity };
+        var airportToUpdate = new Airport { Code = DefaultTestCode, Name = DefaultTestName, City = DefaultTestCity };
 
         airportRepository.Setup(getAirportToUpdate => getAirportToUpdate.GetAirportById(TargetAirportId))
             .Returns(airportToUpdate);
@@ -204,8 +204,8 @@ public class AirportServiceTests
 
         airportService.UpdateAirport(TargetAirportId, newName: UpdatedName);
 
-        Assert.Equal(DefaultTestCode, airportToUpdate.AirportCode);
-        Assert.Equal(UpdatedName, airportToUpdate.AirportName);
+        Assert.Equal(DefaultTestCode, airportToUpdate.Code);
+        Assert.Equal(UpdatedName, airportToUpdate.Name);
         Assert.Equal(DefaultTestCity, airportToUpdate.City);
 
         airportRepository.Verify(callsRepositoryToUpdateAirport => callsRepositoryToUpdateAirport.UpdateAirport(airportToUpdate), Times.Once);
@@ -216,7 +216,7 @@ public class AirportServiceTests
     {
         var airportRepository = new Mock<IAirportRepository>();
         var flightRepository = new Mock<IFlightRepository>();
-        var airportToUpdate = new Airport { AirportCode = DefaultTestCode, AirportName = DefaultTestName, City = DefaultTestCity };
+        var airportToUpdate = new Airport { Code = DefaultTestCode, Name = DefaultTestName, City = DefaultTestCity };
 
         airportRepository.Setup(getAirportToUpdate => getAirportToUpdate.GetAirportById(TargetAirportId))
             .Returns(airportToUpdate);
@@ -225,8 +225,8 @@ public class AirportServiceTests
 
         airportService.UpdateAirport(TargetAirportId, newCity: UpdatedCity);
 
-        Assert.Equal(DefaultTestCode, airportToUpdate.AirportCode);
-        Assert.Equal(DefaultTestName, airportToUpdate.AirportName);
+        Assert.Equal(DefaultTestCode, airportToUpdate.Code);
+        Assert.Equal(DefaultTestName, airportToUpdate.Name);
         Assert.Equal(UpdatedCity, airportToUpdate.City);
 
         airportRepository.Verify(callsRepositorytoUpdateairport => callsRepositorytoUpdateairport.UpdateAirport(airportToUpdate), Times.Once);
@@ -237,7 +237,7 @@ public class AirportServiceTests
     {
         var airportRepository = new Mock<IAirportRepository>();
         var flightRepository = new Mock<IFlightRepository>();
-        var airportToUpdate = new Airport { AirportCode = DefaultTestCode, AirportName = DefaultTestName, City = DefaultTestCity };
+        var airportToUpdate = new Airport { Code = DefaultTestCode, Name = DefaultTestName, City = DefaultTestCity };
 
         airportRepository.Setup(getAirportToUpdate => getAirportToUpdate.GetAirportById(TargetAirportId))
             .Returns(airportToUpdate);
@@ -246,8 +246,8 @@ public class AirportServiceTests
 
         airportService.UpdateAirport(TargetAirportId, newCode: UpdatedCode);
 
-        Assert.Equal(UpdatedCode, airportToUpdate.AirportCode);
-        Assert.Equal(DefaultTestName, airportToUpdate.AirportName);
+        Assert.Equal(UpdatedCode, airportToUpdate.Code);
+        Assert.Equal(DefaultTestName, airportToUpdate.Name);
         Assert.Equal(DefaultTestCity, airportToUpdate.City);
 
         airportRepository.Verify(callsRepositoryToUpdateAirport => callsRepositoryToUpdateAirport.UpdateAirport(airportToUpdate), Times.Once);
@@ -258,7 +258,7 @@ public class AirportServiceTests
     {
         var airportRepository = new Mock<IAirportRepository>();
         var flightRepository = new Mock<IFlightRepository>();
-        var airportToUpdate = new Airport { AirportCode = DefaultTestCode, AirportName = DefaultTestName, City = DefaultTestCity };
+        var airportToUpdate = new Airport { Code = DefaultTestCode, Name = DefaultTestName, City = DefaultTestCity };
 
         airportRepository.Setup(getAirportToUpdate => getAirportToUpdate.GetAirportById(TargetAirportId))
             .Returns(airportToUpdate);
@@ -267,8 +267,8 @@ public class AirportServiceTests
 
         airportService.UpdateAirport(TargetAirportId, newCode: DefaultTestCode, newName: DefaultTestName, newCity: DefaultTestCity);
 
-        Assert.Equal(DefaultTestCode, airportToUpdate.AirportCode);
-        Assert.Equal(DefaultTestName, airportToUpdate.AirportName);
+        Assert.Equal(DefaultTestCode, airportToUpdate.Code);
+        Assert.Equal(DefaultTestName, airportToUpdate.Name);
         Assert.Equal(DefaultTestCity, airportToUpdate.City);
 
         airportRepository.Verify(callsRepositoryToUpdateAirport => callsRepositoryToUpdateAirport.UpdateAirport(airportToUpdate), Times.Once);
@@ -279,7 +279,7 @@ public class AirportServiceTests
     {
         var airportRepository = new Mock<IAirportRepository>();
         var flightRepository = new Mock<IFlightRepository>();
-        var airportToUpdate = new Airport { AirportCode = DefaultTestCode, AirportName = DefaultTestName, City = DefaultTestCity };
+        var airportToUpdate = new Airport { Code = DefaultTestCode, Name = DefaultTestName, City = DefaultTestCity };
 
         airportRepository.Setup(getAirportToUpdate => getAirportToUpdate.GetAirportById(TargetAirportId))
             .Returns(airportToUpdate);
@@ -288,8 +288,8 @@ public class AirportServiceTests
 
         airportService.UpdateAirport(TargetAirportId, newCode: UpdatedCode, newName: UpdatedName, newCity: UpdatedCity);
 
-        Assert.Equal(UpdatedCode, airportToUpdate.AirportCode);
-        Assert.Equal(UpdatedName, airportToUpdate.AirportName);
+        Assert.Equal(UpdatedCode, airportToUpdate.Code);
+        Assert.Equal(UpdatedName, airportToUpdate.Name);
         Assert.Equal(UpdatedCity, airportToUpdate.City);
 
         airportRepository.Verify(callsRepositoryToUpdateAirport => callsRepositoryToUpdateAirport.UpdateAirport(airportToUpdate), Times.Once);

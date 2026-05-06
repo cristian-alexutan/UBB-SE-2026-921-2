@@ -9,5 +9,8 @@
         public string GateName { get; set; }
         public string RunwayName { get; set; }
         public string FlightTime { get; set; }
+        internal EmployeeScheduleItem()
+        {
+        }
     }
 }

@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace AirportApp.Data.Domain
 {
     public class Reservation
@@ -12,6 +6,10 @@ namespace AirportApp.Data.Domain
         public Cart ReservationCart { get; set; }
         public bool Active { get; set; }
         public DateTime ReservationDate { get; set; }
+
+        protected Reservation()
+        {
+        }
 
         public Reservation(int id, Cart reservationCart, bool active, DateTime reservationDate)
         {
