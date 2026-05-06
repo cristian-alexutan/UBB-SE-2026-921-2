@@ -100,5 +100,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<CartItem>().HasOne<Cart>().WithMany().HasForeignKey("CartId");
 
         modelBuilder.Entity<Reservation>().HasOne(reservation => reservation.ReservationCart).WithMany().HasForeignKey("CartId");
+
+        modelBuilder.Entity<Ticket>(ticket =>
+        {
+            ticket.ToTable("Ticket");
+            ticket.HasKey(ticketEntity => ticketEntity.Id);
+            ticket.Property(ticketEntity => ticketEntity.Id).HasColumnName("ticket_id");
+            ticket.Property(ticketEntity => ticketEntity.Category).HasColumnName("category").HasMaxLength(50);
+            ticket.Property(ticketEntity => ticketEntity.Subcategory).HasColumnName("subcategory").HasMaxLength(50);
+        });
     }
 }
