@@ -38,10 +38,15 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Flight>().Property(f => f.FlightNumber).HasColumnName("flight_number");
         modelBuilder.Entity<Flight>().HasOne(f => f.Route).WithMany().HasForeignKey("RouteId");
         modelBuilder.Entity<Flight>().Property<int>("RouteId").HasColumnName("route_id");
-        modelBuilder.Entity<Flight>().HasOne(f => f.Runway).WithMany().HasForeignKey("RunwayId");
+        modelBuilder.Entity<Flight>().HasOne(f => f.Runway).WithMany().HasForeignKey("RunwayId").OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<Flight>().Property<int>("RunwayId").HasColumnName("runway_id");
         modelBuilder.Entity<Flight>().HasOne(f => f.Gate).WithMany().HasForeignKey("GateId").OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<Flight>().Property<int>("GateId").HasColumnName("gate_id");
+
+        modelBuilder.Entity<Runway>().ToTable("Runways");
+        modelBuilder.Entity<Runway>().Property(r => r.Id).HasColumnName("id");
+        modelBuilder.Entity<Runway>().Property(r => r.Name).HasColumnName("name");
+        modelBuilder.Entity<Runway>().Property(r => r.HandleTime).HasColumnName("handle_time");
 
         modelBuilder.Entity<Route>().HasOne(route => route.Company).WithMany().HasForeignKey("CompanyId");
         modelBuilder.Entity<Route>().HasOne(route => route.Airport).WithMany().HasForeignKey("AirportId");
