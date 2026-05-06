@@ -8,6 +8,10 @@ namespace AirportApp.Data.Domain
 
         public string Subcategory { get; set; }
 
+        internal Ticket()
+        {
+        }
+
         public Ticket(int id, string category, string subcategory)
         {
             this.Id = id;

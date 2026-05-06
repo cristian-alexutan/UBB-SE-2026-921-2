@@ -17,5 +17,17 @@
         public DateOnly Birthday { get; set; }
         public DateOnly HiringDate { get; set; }
         public int Salary { get; set; }
+        internal Employee()
+        {
+        }
+
+        public Employee(string name, EmployeeRole role)
+        {
+            this.Name = name;
+            this.Role = role;
+            this.Birthday = DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
+            this.HiringDate = DateOnly.FromDateTime(DateTime.Now);
+            this.Salary = 0;
+        }
     }
 }

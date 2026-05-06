@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml;
@@ -444,9 +443,9 @@ namespace AirportApp.ViewModel
 
             currentActiveEntity = AirportDashboardEntity.Airport;
             EditingId = SelectedAirport.Id;
-            EditingName = SelectedAirport.AirportName;
+            EditingName = SelectedAirport.Name;
             EditingCity = SelectedAirport.City;
-            EditingCode = SelectedAirport.AirportCode;
+            EditingCode = SelectedAirport.Code;
 
             HandleTimeVisibility = Visibility.Collapsed;
             CityCodeVisibility = Visibility.Visible;

@@ -10,7 +10,7 @@ namespace AirportApp.Data.Domain
             this.Name = name;
         }
 
-        public Client()
+        internal Client()
         {
         }
     }
