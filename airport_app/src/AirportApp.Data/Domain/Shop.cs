@@ -10,7 +10,7 @@ namespace AirportApp.Data.Domain
 
         public Manager Manager { get; }
 
-        internal Shop()
+        protected Shop()
         {
         }
 
