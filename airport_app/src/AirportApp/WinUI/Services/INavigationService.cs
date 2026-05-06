@@ -5,7 +5,6 @@ namespace AirportApp.WinUI.Services
     public interface INavigationService
     {
         void Initialize(Frame frame);
-        void NavigateToModuleSelection();
         void NavigateToHome();
         void NavigateToSelectCompany();
         void NavigateToCompanyDashboard(int companyId);

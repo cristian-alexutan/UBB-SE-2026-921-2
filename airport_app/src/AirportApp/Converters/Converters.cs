@@ -1,9 +1,10 @@
 ﻿using System;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace AirportApp
+namespace AirportApp.Converters
 {
     public class PathToImageConverter : IValueConverter
     {
