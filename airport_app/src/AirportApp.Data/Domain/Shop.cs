@@ -8,7 +8,11 @@ namespace AirportApp.Data.Domain
 
         public string Type { get; set; }
 
-        public Manager Manager { get; }
+        public Manager Manager { get; set; }
+
+        protected Shop()
+        {
+        }
 
         public Shop(int id, string name, string type, Manager manager)
         {

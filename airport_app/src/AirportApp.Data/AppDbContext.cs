@@ -32,22 +32,86 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<EmployeeFlight>().HasOne(employeeFlight => employeeFlight.Employee).WithMany().HasForeignKey("EmployeeId");
         modelBuilder.Entity<EmployeeFlight>().HasOne(employeeFlight => employeeFlight.Flight).WithMany().HasForeignKey("FlightId");
 
-        modelBuilder.Entity<Flight>().HasOne(flight => flight.Route).WithMany().HasForeignKey("RouteId");
-        modelBuilder.Entity<Flight>().HasOne(flight => flight.Runway).WithMany().HasForeignKey("RunwayId");
-        modelBuilder.Entity<Flight>().HasOne(flight => flight.Gate).WithMany().HasForeignKey("GateId");
+        modelBuilder.Entity<Flight>().ToTable("Flights");
+        modelBuilder.Entity<Flight>().Property(f => f.Id).HasColumnName("id");
+        modelBuilder.Entity<Flight>().Property(f => f.Date).HasColumnName("date");
+        modelBuilder.Entity<Flight>().Property(f => f.FlightNumber).HasColumnName("flight_number");
+        modelBuilder.Entity<Flight>().HasOne(f => f.Route).WithMany().HasForeignKey("RouteId");
+        modelBuilder.Entity<Flight>().Property<int>("RouteId").HasColumnName("route_id");
+        modelBuilder.Entity<Flight>().HasOne(f => f.Runway).WithMany().HasForeignKey("RunwayId").OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Flight>().Property<int>("RunwayId").HasColumnName("runway_id");
+        modelBuilder.Entity<Flight>().HasOne(f => f.Gate).WithMany().HasForeignKey("GateId").OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<Flight>().Property<int>("GateId").HasColumnName("gate_id");
+
+        modelBuilder.Entity<Runway>().ToTable("Runways");
+        modelBuilder.Entity<Runway>().Property(r => r.Id).HasColumnName("id");
+        modelBuilder.Entity<Runway>().Property(r => r.Name).HasColumnName("name");
+        modelBuilder.Entity<Runway>().Property(r => r.HandleTime).HasColumnName("handle_time");
 
         modelBuilder.Entity<Route>().HasOne(route => route.Company).WithMany().HasForeignKey("CompanyId");
         modelBuilder.Entity<Route>().HasOne(route => route.Airport).WithMany().HasForeignKey("AirportId");
 
-        modelBuilder.Entity<Shop>().HasOne(shop => shop.Manager).WithMany().HasForeignKey("ManagerId");
+        modelBuilder.Entity<Route>(route =>
+        {
+            route.ToTable("Routes");
 
-        modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId");
+            route.Property(routeType => routeType.RouteType).HasColumnName("route_type");
+
+            route.Property(routeReccurenceInterval => routeReccurenceInterval.RecurrenceInterval).HasColumnName("reccurence_interval");
+
+            route.Property(routeInstance => routeInstance.DepartureTime)
+            .HasConversion(
+                timeOnlyValue => DateOnly.MinValue.ToDateTime(timeOnlyValue),
+                dateTimeValue => TimeOnly.FromDateTime(dateTimeValue))
+            .HasColumnName("departure_time");
+
+            route.Property(routeInstance => routeInstance.ArrivalTime)
+                .HasConversion(
+                    timeOnlyValue => DateOnly.MinValue.ToDateTime(timeOnlyValue),
+                    dateTimeValue => TimeOnly.FromDateTime(dateTimeValue))
+                .HasColumnName("arrival_time");
+
+            route.Property(routeStartDate => routeStartDate.StartDate).HasColumnName("start_date");
+            route.Property(routeEndDate => routeEndDate.EndDate).HasColumnName("end_date");
+            route.Property(routeDepartureTime => routeDepartureTime.DepartureTime).HasColumnName("departure_time");
+            route.Property(routeArrivalTime => routeArrivalTime.ArrivalTime).HasColumnName("arrival_time");
+            route.Property(routeCapacity => routeCapacity.Capacity).HasColumnName("capacity");
+
+            route.HasOne(routeCompanyId => routeCompanyId.Company)
+                 .WithMany()
+                 .HasForeignKey("CompanyId");
+
+            route.Property<int>("CompanyId").HasColumnName("company_id");
+
+            route.HasOne(routeAirportId => routeAirportId.Airport)
+                 .WithMany()
+                 .HasForeignKey("AirportId");
+
+            route.Property<int>("AirportId").HasColumnName("airport_id");
+        });
+
+        modelBuilder.Entity<Shop>(shop =>
+        {
+            shop.HasOne(shopEntity => shopEntity.Manager).WithMany().HasForeignKey("ManagerId");
+            shop.Property<int>("ManagerId").HasColumnName("manager_id");
+        });
+
+        modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId").OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Cart>().HasOne(cart => cart.Client).WithMany().HasForeignKey("ClientId");
 
-        modelBuilder.Entity<CartItem>().HasOne(cartItem => cartItem.ShopItem).WithMany().HasForeignKey("ShopItemId");
-        modelBuilder.Entity<CartItem>().HasOne<Cart>().WithMany().HasForeignKey("CartId");
+        modelBuilder.Entity<CartItem>().HasOne(cartItem => cartItem.ShopItem).WithMany().HasForeignKey("ShopItemId").OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<CartItem>().HasOne<Cart>().WithMany().HasForeignKey("CartId").OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Reservation>().HasOne(reservation => reservation.ReservationCart).WithMany().HasForeignKey("CartId");
+
+        modelBuilder.Entity<Ticket>(ticket =>
+        {
+            ticket.ToTable("Ticket");
+            ticket.HasKey(ticketEntity => ticketEntity.Id);
+            ticket.Property(ticketEntity => ticketEntity.Id).HasColumnName("ticket_id");
+            ticket.Property(ticketEntity => ticketEntity.Category).HasColumnName("category").HasMaxLength(50);
+            ticket.Property(ticketEntity => ticketEntity.Subcategory).HasColumnName("subcategory").HasMaxLength(50);
+        });
     }
 }

@@ -20,10 +20,10 @@ jobs:
         dotnet-version: 10.0.x
 
     - name: Restore Dependencies
-      run: dotnet restore AirportApp.slnx
+      run: dotnet restore airport_app/AirportApp.slnx
 
     - name: Build Solution
-      run: dotnet build AirportApp.slnx -c Debug --no-restore /p:Platform=x64 /p:PublishReadyToRun=false
+      run: dotnet build airport_app/AirportApp.slnx -c Debug --no-restore /p:Platform=x64 /p:PublishReadyToRun=false
 
     - name: Run Unit Tests
-      run: dotnet test AirportApp.slnx -c Debug --no-build --verbosity normal /p:Platform=x64
+      run: dotnet test airport_app/AirportApp.slnx -c Debug --no-build --verbosity normal /p:Platform=x64

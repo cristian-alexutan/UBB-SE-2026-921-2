@@ -1,16 +1,14 @@
 ﻿using Microsoft.UI.Xaml;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI;
 
 namespace AirportApp
 {
     public sealed partial class MainWindow : Window
     {
-        public MainWindow(INavigationService navigationService)
+        public MainWindow()
         {
             this.InitializeComponent();
-
-            navigationService.Initialize(RootFrame);
-            navigationService.NavigateToModuleSelection();
+            RootFrame.Navigate(typeof(ShellPage));
         }
     }
 }

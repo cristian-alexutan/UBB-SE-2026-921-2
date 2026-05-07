@@ -1,24 +1,13 @@
-using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-
-// Airport management data layer
-using AirportApp.Data.Repositories;
-using AirportApp.Data.Repositories.Interfaces;
-using AirportApp.Data.Services;
-using AirportApp.Data.Services.Interfaces;
+using AirportApp.Data;
 using AirportApp.Data.User;
-
-// ViewModels
 using AirportApp.ViewModel;
 using AirportApp.ViewModel.DutyFreeShops;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
 using AirportApp.WinUI.Services;
 
-// Domain (needed for factory lambdas)
-using AirportApp.Data.Domain;
-using AirportApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 
 namespace AirportApp
 {
@@ -28,6 +17,7 @@ namespace AirportApp
         public static Window MainWindow { get; private set; }
 
         private Window window;
+        private static string connectionString;
 
         public App()
         {
@@ -49,8 +39,10 @@ namespace AirportApp
 
         private static void ConfigureServices(ServiceCollection services)
         {
+            // string connectionString = @"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"
+            connectionString = @"Server=(localdb)\MSSQLLocalDB; Database = AirportDB; Trusted_Connection = True; TrustServerCertificate = True;";
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(@"Server=DESKTOP-1JCJMN6\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"));
+            options.UseSqlServer(connectionString));
 
             // ── Airport Management: Infrastructure ────────────────────────
             services.AddSingleton<DatabaseConnectionFactory>();
@@ -59,11 +51,14 @@ namespace AirportApp
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IAirportRepository, AirportRepository>();
             services.AddTransient<IRunwayRepository, RunwayRepository>();
-            services.AddTransient<IGateRepository, GateRepository>();
+            services.AddTransient<IGateRepository, EfGateRepository>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IFlightRepository, FlightRepository>();
             services.AddTransient<IRouteRepository, RouteRepository>();
             services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepository>();
+            services.AddTransient<IEmployeeRepository, EfEmployeeRepository>();
+            services.AddTransient<IFlightRepository, EfFlightRepository>();
+            services.AddTransient<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
 
             // ── Airport Management: Services ──────────────────────────────
             services.AddTransient<ICompanyService, CompanyService>();
@@ -94,8 +89,8 @@ namespace AirportApp
             services.AddSingleton<IManagerRepo, ManagerDbRepo>();
             services.AddSingleton<IShopRepo, ShopDbRepo>();
             services.AddSingleton<IShopItemRepo, ShopItemDbRepo>();
-            services.AddSingleton<ICartRepo, CartDbRepo>();
-            services.AddSingleton<IReservationRepo, ReservationDbRepo>();
+            services.AddSingleton<ICartRepo, EfCartDbRepo>();
+            services.AddScoped<IReservationRepo, ReservationDbRepo>();
 
             // ── Duty-Free Shops: Services ─────────────────────────────────
             services.AddSingleton<IShopItemService, ShopItemService>();
@@ -104,7 +99,7 @@ namespace AirportApp
             services.AddSingleton<ITicketService, TicketService>();
             services.AddSingleton<IClientService, ClientService>();
             services.AddSingleton<IManagerService, ManagerService>();
-            services.AddSingleton<IReservationService, ReservationService>();
+            services.AddScoped<IReservationService, ReservationService>();
 
             // ── Duty-Free Shops: Session + ViewModels ─────────────────────
             services.AddSingleton<UserSession>();

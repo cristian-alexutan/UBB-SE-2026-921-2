@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="AirportApp.WinUI.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:AirportApp.Converters"
+    mc:Ignorable="d"
+    Background="#0F172A">
+
+    <Page.Resources>
+        <local:BoolToActiveBrushConverter x:Key="BoolToActiveBrushConverter" />
+        <local:BoolToInactiveBrushConverter x:Key="BoolToInactiveBrushConverter" />
+        <local:BoolToActiveBorderBrushConverter x:Key="BoolToActiveBorderBrushConverter" />
+        <local:BoolToActiveBorderThicknessConverter x:Key="BoolToActiveBorderThicknessConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Navigation Bar -->
+        <Border Grid.Row="0" 
+                Background="#1E293B" 
+                BorderBrush="#3F3F46" 
+                BorderThickness="0,0,0,1"
+                Padding="30,15,30,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- App Title/Logo -->
+                <TextBlock Grid.Column="0"
+                           Text="Airport Management System"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="#2bb8c0"
+                           VerticalAlignment="Center"/>
+
+                <!-- Tab Buttons -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Spacing="15"
+                            VerticalAlignment="Center">
+
+                    <Button x:Name="AirportTabButton"
+                            Content="Airport Management"
+                            Command="{x:Bind ViewModel.NavigateToAirportCommand}"
+                            Background="{x:Bind ViewModel.IsAirportTabActive, Converter={StaticResource BoolToActiveBrushConverter}, Mode=OneWay}"
+                            BorderBrush="{x:Bind ViewModel.IsAirportTabActive, Converter={StaticResource BoolToActiveBorderBrushConverter}, Mode=OneWay}"
+                            BorderThickness="{x:Bind ViewModel.IsAirportTabActive, Converter={StaticResource BoolToActiveBorderThicknessConverter}, Mode=OneWay}"
+                            Foreground="White"
+                            Padding="15,8"
+                            CornerRadius="6"
+                            FontWeight="SemiBold"/>
+
+                    <Button x:Name="ShopTabButton"
+                            Content="Duty-Free Shops"
+                            Command="{x:Bind ViewModel.NavigateToShopCommand}"
+                            Background="{x:Bind ViewModel.IsAirportTabActive, Converter={StaticResource BoolToInactiveBrushConverter}, Mode=OneWay}"
+                            BorderBrush="{x:Bind ViewModel.IsAirportTabActive, Converter={StaticResource BoolToActiveBorderBrushConverter}, Mode=OneWay, ConverterParameter=Invert}"
+                            BorderThickness="{x:Bind ViewModel.IsAirportTabActive, Converter={StaticResource BoolToActiveBorderThicknessConverter}, Mode=OneWay, ConverterParameter=Invert}"
+                            Foreground="White"
+                            Padding="15,8"
+                            CornerRadius="6"
+                            FontWeight="SemiBold"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Content Frame -->
+        <Frame x:Name="ContentFrame"
+               Grid.Row="1"
+               Background="#0F172A"/>
+    </Grid>
+</Page>

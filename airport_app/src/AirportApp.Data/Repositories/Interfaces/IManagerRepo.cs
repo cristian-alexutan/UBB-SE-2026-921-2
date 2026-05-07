@@ -7,7 +7,7 @@ namespace AirportApp.Data.Repositories.Interfaces
     {
         IEnumerable<Manager> GetAll();
 
-        Manager GetById(int managerId);
+        Manager? GetById(int managerId);
 
         void Add(Manager manager);
 
