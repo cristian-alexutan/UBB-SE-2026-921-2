@@ -21,7 +21,7 @@ public class FlightServiceTests
     private const int NewGateId = 9;
 
     [Fact]
-    public void GetAll_Should_Return_All_Flights_Always()
+    public void GetAll_ShouldReturnAllFlights_Always()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flights = new List<Flight>
@@ -39,7 +39,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Null_For_Invalid_Id()
+    public void GetById_ShouldReturnNull_ForInvalidId()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -48,7 +48,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Flight_When_Found()
+    public void GetById_ShouldReturnFlight_WhenFound()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight { FlightNumber = FirstFlightNumber };
@@ -61,7 +61,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetByRoute_Should_Return_Empty_List_For_Invalid_RouteId()
+    public void GetByRoute_ShouldReturnEmptyList_ForInvalidRouteId()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);

@@ -60,7 +60,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Route_When_Route_Exists()
+    public void GetByRouteId_ShouldReturnRoute_WhenRouteExists()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -73,7 +73,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Null_When_Route_Not_Found()
+    public void GetByRouteId_ShouldReturnNull_WhenRouteNotFound()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -84,7 +84,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void GetAll_Should_Return_All_Routes_Always()
+    public void GetRouteAll_ShouldReturnAllRoutes_Always()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -97,7 +97,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void NormalizeFlightType_Should_Return_Dash_For_Null()
+    public void NormalizeFlightType_ShouldReturnDash_ForNull()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -105,7 +105,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void NormalizeFlightType_Should_Return_Dash_For_Empty_String()
+    public void NormalizeFlightType_ShouldReturnDash_ForEmptyString()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -113,7 +113,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void NormalizeFlightType_Should_Return_Dash_For_Whitespace()
+    public void NormalizeFlightType_ShouldReturnDash_ForWhitespace()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -121,7 +121,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void NormalizeFlightType_Should_Return_ARR_For_Arrival_Variants()
+    public void NormalizeFlightType_ShouldReturnARR_ForArrivalVariants()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -132,7 +132,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void NormalizeFlightType_Should_Return_DEP_For_Departure_Variants()
+    public void NormalizeFlightType_ShouldReturnDEP_ForDepartureVariants()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -143,7 +143,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void NormalizeFlightType_Should_Return_Uppercased_Value_For_Unknown_Type()
+    public void NormalizeFlightType_ShouldReturnUppercasedValue_ForUnknownType()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -151,7 +151,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void GetRelevantTime_Should_Return_Dash_For_Null_Route()
+    public void GetRelevantTime_ShouldReturnDash_ForNullRoute()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
 
@@ -159,7 +159,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void GetRelevantTime_Should_Return_ArrivalTime_For_ARR_Route()
+    public void GetRelevantTime_ShouldReturnArrivalTime_ForARRRoute()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
         var route = new Route
@@ -173,7 +173,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void GetRelevantTime_Should_Return_DepartureTime_For_DEP_Route()
+    public void GetRelevantTime_ShouldReturnDepartureTime_ForDEPRoute()
     {
         var routeService = BuildService(new Mock<IRouteRepository>(), new Mock<IFlightRepository>());
         var route = new Route
@@ -187,7 +187,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void AddWithInitialFlight_Should_Succeed_When_No_Conflicts()
+    public void AddWithInitialFlight_ShouldSucceed_WhenNoConflicts()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -211,7 +211,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void AddWithInitialFlight_Should_Not_Conflict_When_Times_Do_Not_Overlap()
+    public void AddWithInitialFlight_ShouldNotConflict_WhenTimesDoNotOverlap()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -246,7 +246,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void AddWithInitialFlight_Should_Handle_Midnight_Wrap_Overlaps_When_Exist()
+    public void AddWithInitialFlight_ShouldHandleMidnightWrapOverlaps_WhenExist()
     {
         var existingRoute = new Route { DepartureTime = DefaultWrap2DepartureTime, ArrivalTime = DefaultWrap2ArrivalTime };
         {
@@ -275,7 +275,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void AddWithInitialFlight_Should_Continue_If_Existing_Route_Is_Null()
+    public void AddWithInitialFlight_ShouldContinue_IfExistingRouteIsNull()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -294,7 +294,7 @@ public class RouteServiceTests
     }
 
     [Fact]
-    public void AddWithInitialFlight_Should_Skip_Flights_On_Different_Date()
+    public void AddWithInitialFlight_ShouldSkipFlights_OnDifferentDate()
     {
         var mockRouteRepo = new Mock<IRouteRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
