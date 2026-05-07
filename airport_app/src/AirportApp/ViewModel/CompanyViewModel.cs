@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.UI.Xaml;
 using CommunityToolkit.Mvvm.Input;
 using AirportApp.Data.Domain;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.ViewModel
 {

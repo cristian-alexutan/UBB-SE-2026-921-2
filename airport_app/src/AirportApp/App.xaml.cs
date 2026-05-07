@@ -1,9 +1,11 @@
+﻿using System.Text.Json;
+
 using AirportApp.Data;
 using AirportApp.Data.User;
 using AirportApp.ViewModel;
 using AirportApp.ViewModel.DutyFreeShops;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,9 @@ namespace AirportApp
     {
         public static IServiceProvider Services { get; private set; }
         public static Window MainWindow { get; private set; }
+        public static int ConfiguredUserId { get; private set; } = DefaultUserId;
 
+        private const int DefaultUserId = 1;
         private Window window;
         private static string connectionString;
 
@@ -39,14 +43,17 @@ namespace AirportApp
 
         private static void ConfigureServices(ServiceCollection services)
         {
+            ConfiguredUserId = ReadConfiguredUserId();
+
             connectionString = @"Server=(localdb)\MSSQLLocalDB; Database = AirportDB; Trusted_Connection = True; TrustServerCertificate = True;";
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // ── Airport Management: Infrastructure ────────────────────────
+            // Airport Management: Infrastructure
             services.AddSingleton<DatabaseConnectionFactory>();
+            services.AddSingleton<MockUserUtil>();
 
-            // ── Airport Management: Repositories ─────────────────────────
+            // Airport Management: Repositories
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IAirportRepository, AirportRepository>();
             services.AddTransient<IRunwayRepository, EfRunwayRepository>();
@@ -56,7 +63,7 @@ namespace AirportApp
             services.AddTransient<IRouteRepository, RouteRepository>();
             services.AddTransient<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
 
-            // ── Airport Management: Services ──────────────────────────────
+            // Airport Management: Services
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IAirportService, AirportService>();
             services.AddTransient<IRunwayService, RunwayService>();
@@ -66,7 +73,7 @@ namespace AirportApp
             services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
             services.AddTransient<IRouteService, RouteService>();
 
-            // ── Airport Management: ViewModels ────────────────────────────
+            // Airport Management: ViewModels
             services.AddTransient<SelectCompanyViewModel>();
             services.AddTransient<AirportAdminViewModel>();
             services.AddTransient<EmployeesDashboardViewModel>();
@@ -78,7 +85,7 @@ namespace AirportApp
             services.AddTransient<HomeViewModel>();
             services.AddTransient<StaffLoginViewModel>();
 
-            // ── Duty-Free Shops: Repositories ─────────────────────────────
+            // Duty-Free Shops: Repositories
             services.AddSingleton<IClientRepo, EfClientRepo>();
             services.AddSingleton<ITicketRepo, EfTicketRepo>();
             services.AddSingleton<IManagerRepo, EfManagerRepo>();
@@ -87,7 +94,7 @@ namespace AirportApp
             services.AddSingleton<ICartRepo, EfCartDbRepo>();
             services.AddScoped<IReservationRepo, ReservationDbRepo>();
 
-            // ── Duty-Free Shops: Services ─────────────────────────────────
+            // Duty-Free Shops: Services
             services.AddSingleton<IShopItemService, ShopItemService>();
             services.AddSingleton<IShopService, ShopService>();
             services.AddSingleton<ICartService, CartService>();
@@ -96,7 +103,7 @@ namespace AirportApp
             services.AddSingleton<IManagerService, ManagerService>();
             services.AddScoped<IReservationService, ReservationService>();
 
-            // ── Duty-Free Shops: Session + ViewModels ─────────────────────
+            // Duty-Free Shops: Session + ViewModels
             services.AddSingleton<UserSession>();
             services.AddTransient<ILandingViewModel, LandingViewModel>();
             services.AddTransient<IShopPageViewModel, ShopPageViewModel>();
@@ -117,9 +124,33 @@ namespace AirportApp
                     shopItem,
                     shop));
 
-            // ── Shell ──────────────────────────────────────────────────────
-            services.AddSingleton<INavigationService, NavigationService>();
+            // Shell
+            services.AddSingleton<INavigationUtil, NavigationUtil>();
             services.AddSingleton<MainWindow>();
+        }
+
+        private static int ReadConfiguredUserId()
+        {
+            string settingsPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+            if (!File.Exists(settingsPath))
+            {
+                return DefaultUserId;
+            }
+
+            try
+            {
+                using JsonDocument document = JsonDocument.Parse(File.ReadAllText(settingsPath));
+                if (document.RootElement.TryGetProperty("UserID", out JsonElement userIdElement) &&
+                    userIdElement.TryGetInt32(out int userId))
+                {
+                    return userId;
+                }
+            }
+            catch (JsonException)
+            {
+            }
+
+            return DefaultUserId;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
