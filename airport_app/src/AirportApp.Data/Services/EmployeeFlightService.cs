@@ -219,7 +219,6 @@ namespace AirportApp.Data.Services
                 }
                 catch
                 {
-                    //--intent: ignore existing assignments or minor conflicts during bulk operation.
                 }
             }
         }

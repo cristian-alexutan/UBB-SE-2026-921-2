@@ -39,10 +39,9 @@ namespace AirportApp
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            // string connectionString = @"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"
             connectionString = @"Server=(localdb)\MSSQLLocalDB; Database = AirportDB; Trusted_Connection = True; TrustServerCertificate = True;";
             services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString));
 
             // ── Airport Management: Infrastructure ────────────────────────
             services.AddSingleton<DatabaseConnectionFactory>();
@@ -50,14 +49,11 @@ namespace AirportApp
             // ── Airport Management: Repositories ─────────────────────────
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IAirportRepository, AirportRepository>();
-            services.AddTransient<IRunwayRepository, RunwayRepository>();
+            services.AddTransient<IRunwayRepository, EfRunwayRepository>();
             services.AddTransient<IGateRepository, EfGateRepository>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<IFlightRepository, FlightRepository>();
-            services.AddTransient<IRouteRepository, RouteRepository>();
-            services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepository>();
             services.AddTransient<IEmployeeRepository, EfEmployeeRepository>();
             services.AddTransient<IFlightRepository, EfFlightRepository>();
+            services.AddTransient<IRouteRepository, RouteRepository>();
             services.AddTransient<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
 
             // ── Airport Management: Services ──────────────────────────────
@@ -82,13 +78,12 @@ namespace AirportApp
             services.AddTransient<HomeViewModel>();
             services.AddTransient<StaffLoginViewModel>();
 
-            // ── Duty-Free Shops: Infrastructure ──────────────────────────
             // ── Duty-Free Shops: Repositories ─────────────────────────────
-            services.AddSingleton<IClientRepo, ClientDbRepo>();
-            services.AddSingleton<ITicketRepo, TicketDbRepo>();
-            services.AddSingleton<IManagerRepo, ManagerDbRepo>();
-            services.AddSingleton<IShopRepo, ShopDbRepo>();
-            services.AddSingleton<IShopItemRepo, ShopItemDbRepo>();
+            services.AddSingleton<IClientRepo, EfClientRepo>();
+            services.AddSingleton<ITicketRepo, EfTicketRepo>();
+            services.AddSingleton<IManagerRepo, EfManagerRepo>();
+            services.AddSingleton<IShopRepo, EfShopRepository>();
+            services.AddSingleton<IShopItemRepo, EfShopItemRepo>();
             services.AddSingleton<ICartRepo, EfCartDbRepo>();
             services.AddScoped<IReservationRepo, ReservationDbRepo>();
 
