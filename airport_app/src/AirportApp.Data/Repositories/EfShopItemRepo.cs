@@ -2,11 +2,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp.Data.Repositories
 {
-    public class EfShopItemDbRepo : IShopItemRepo
+    public class EfShopItemRepo : IShopItemRepo
     {
         private readonly AppDbContext dbContext;
 
-        public EfShopItemDbRepo(AppDbContext dbContext)
+        public EfShopItemRepo(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
