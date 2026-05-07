@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.ViewModel
 {
@@ -9,7 +9,7 @@ namespace AirportApp.ViewModel
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private readonly INavigationService navigationService;
+        private readonly INavigationUtil navigationUtil;
         private bool isAirportTabActive = true;
 
         public bool IsAirportTabActive
@@ -18,21 +18,22 @@ namespace AirportApp.ViewModel
             set => SetProperty(ref isAirportTabActive, value);
         }
 
-        public ShellViewModel(INavigationService navigationService)
+        public ShellViewModel(INavigationUtil navigationUtil)
         {
-            this.navigationService = navigationService;
+            this.navigationUtil = navigationUtil;
         }
 
         [RelayCommand]
         private void NavigateToAirport()
         {
-            navigationService.NavigateToHome();
+            navigationUtil.NavigateToConfiguredAirportRole();
             IsAirportTabActive = true;
         }
 
         [RelayCommand]
         private void NavigateToShop()
         {
+            navigationUtil.NavigateToConfiguredDutyFreeRole();
             IsAirportTabActive = false;
         }
 

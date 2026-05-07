@@ -1,18 +1,18 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using CommunityToolkit.Mvvm.Input;
 
 using AirportApp.Data.Domain;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.ViewModel
 {
     public partial class SelectCompanyViewModel : INotifyPropertyChanged
     {
         private readonly ICompanyService companyService;
-        private readonly INavigationService navigationService;
+        private readonly INavigationUtil navigationUtil;
 
         private ObservableCollection<Company> companies;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -30,10 +30,10 @@ namespace AirportApp.ViewModel
             }
         }
 
-        public SelectCompanyViewModel(ICompanyService companyService, INavigationService navigationService)
+        public SelectCompanyViewModel(ICompanyService companyService, INavigationUtil navigationUtil)
         {
             this.companyService = companyService;
-            this.navigationService = navigationService;
+            this.navigationUtil = navigationUtil;
 
             LoadCompanies();
         }
@@ -49,7 +49,7 @@ namespace AirportApp.ViewModel
         {
             if (company != null)
             {
-                navigationService.NavigateToCompanyDashboard(company.Id);
+                navigationUtil.NavigateToCompanyDashboard(company.Id);
             }
         }
 

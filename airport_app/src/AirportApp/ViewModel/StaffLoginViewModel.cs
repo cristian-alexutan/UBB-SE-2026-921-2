@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -6,13 +6,13 @@ using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.UI.Xaml;
 
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.ViewModel
 {
     public partial class StaffLoginViewModel(
         IEmployeeService employeeService,
-        INavigationService navigationService) : INotifyPropertyChanged
+        INavigationUtil navigationUtil) : INotifyPropertyChanged
     {
         private const string ErrorMessageFailedLogin = "Failed Login";
 
@@ -73,7 +73,7 @@ namespace AirportApp.ViewModel
                 ErrorVisibility = Visibility.Collapsed;
                 ErrorMessage = string.Empty;
 
-                navigationService.NavigateToStaffDashboard(employeeId);
+                navigationUtil.NavigateToStaffDashboard(employeeId);
             }
             catch (Exception exception)
             {
