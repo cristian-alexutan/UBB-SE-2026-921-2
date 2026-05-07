@@ -65,7 +65,14 @@
 
             existing.Name = shop.Name;
             existing.Type = shop.Type;
-            existing.ManagerId = shop.Manager.Id;
+            var manager = context.Managers.Local.FirstOrDefault(manager => manager.Id == shop.Manager.Id) ?? shop.Manager;
+            if (context.Entry(manager).State == EntityState.Detached)
+            {
+                context.Managers.Attach(manager);
+            }
+
+            existing.Manager = manager;
+            context.Entry(existing).Property("ManagerId").CurrentValue = shop.Manager.Id;
             context.SaveChanges();
             return existing;
         }
