@@ -1,74 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-using AirportAPI;
-using AirportAPI.Domain;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace AirportAPI.Repositories;
-
-public class EfGateRepository : IGateRepository
+namespace AirportAPI.Repositories
 {
-    private readonly AppDbContext context;
-
-    public EfGateRepository(AppDbContext context)
+    public class EfGateRepository(AppDbContext databaseContext) : IGateRepository
     {
-        this.context = context;
-    }
-
-    public List<Gate> GetAllGates()
-    {
-        return context.Gates.ToList();
-    }
-
-    public Gate? GetGateById(int gateId)
-    {
-        return context.Gates.Find(gateId);
-    }
-
-    public int AddGate(Gate newGate)
-    {
-        context.Gates.Add(newGate);
-        context.SaveChanges();
-        return newGate.Id;
-    }
-
-    public void UpdateGate(Gate updatedGate)
-    {
-        context.Gates.Update(updatedGate);
-        context.SaveChanges();
-    }
-
-    public void DeleteGateUsingId(int gateId)
-    {
-        var relatedFlights = context.Flights.Where(f => f.Gate.Id == gateId).ToList();
-
-        if (relatedFlights.Any())
+        public List<Gate> GetAllGates()
         {
-            context.Flights.RemoveRange(relatedFlights);
+            return databaseContext.Gates.ToList();
         }
 
-        var gate = context.Gates.SingleOrDefault(g => g.Id == gateId);
-
-        if (gate != null)
+        public Gate? GetGateById(int gateId)
         {
-            context.Gates.Remove(gate);
+            return databaseContext.Gates.Find(gateId);
+        }
+
+        public int AddGate(Gate newGate)
+        {
+            databaseContext.Gates.Add(newGate);
+            databaseContext.SaveChanges();
+
+            return newGate.Id;
+        }
+
+        public void UpdateGate(Gate updatedGate)
+        {
+            databaseContext.Gates.Update(updatedGate);
+            databaseContext.SaveChanges();
+        }
+
+        public void DeleteGateUsingId(int gateId)
+        {
+            List<Flight> associatedFlights = databaseContext.Flights
+                .Where(flight => flight.Gate.Id == gateId)
+                .ToList();
+
+            if (associatedFlights.Count > 0)
+            {
+                databaseContext.Flights.RemoveRange(associatedFlights);
+            }
+
+            Gate? gateToRemove = databaseContext.Gates.Find(gateId);
+
+            if (gateToRemove == null)
+            {
+                return;
+            }
+
+            databaseContext.Gates.Remove(gateToRemove);
+
             try
             {
-                context.SaveChanges();
+                databaseContext.SaveChanges();
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException exception)
             {
-                System.Diagnostics.Debug.WriteLine($"Update Exception: {ex.InnerException?.Message}");
+                System.Diagnostics.Debug.WriteLine($"Database Update Exception: {exception.InnerException?.Message}");
                 throw;
             }
         }
     }
 }
-
-
-

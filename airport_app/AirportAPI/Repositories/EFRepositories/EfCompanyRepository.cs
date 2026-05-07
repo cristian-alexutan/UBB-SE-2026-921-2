@@ -1,5 +1,4 @@
 ﻿using AirportAPI.Repositories.Interfaces;
-using AirportAPI;
 namespace AirportAPI.Repositories
 {
     public class EfCompanyRepository(AppDbContext databaseContext) : ICompanyRepository

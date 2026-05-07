@@ -2,45 +2,46 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace AirportAPI.Repositories;
-
-public class EfTicketRepository : ITicketRepository
+namespace AirportAPI.Repositories
 {
-    private readonly AppDbContext dbContext;
-
-    public EfTicketRepository(AppDbContext dbContext)
+    public class EfTicketRepository(AppDbContext databaseContext) : ITicketRepository
     {
-        this.dbContext = dbContext;
-    }
-
-    public IEnumerable<Ticket> GetAll()
-    {
-        return this.dbContext.Tickets.AsNoTracking().ToList();
-    }
-
-    public Ticket GetById(int ticketId)
-    {
-        return this.dbContext.Tickets.Find(ticketId)!;
-    }
-
-    public void Add(Ticket ticket)
-    {
-        this.dbContext.Tickets.Add(ticket);
-        this.dbContext.SaveChanges();
-    }
-
-    public void Delete(int ticketId)
-    {
-        Ticket? ticket = this.dbContext.Tickets.Find(ticketId);
-        if (ticket == null)
+        public IEnumerable<Ticket> GetAll()
         {
-            return;
+            return databaseContext.Tickets
+                .AsNoTracking()
+                .ToList();
         }
 
-        this.dbContext.Tickets.Remove(ticket);
-        this.dbContext.SaveChanges();
+        public Ticket GetById(int ticketId)
+        {
+            Ticket? foundTicket = databaseContext.Tickets.Find(ticketId);
+
+            if (foundTicket == null)
+            {
+                throw new KeyNotFoundException($"The ticket with Id {ticketId} was not found.");
+            }
+
+            return foundTicket;
+        }
+
+        public void Add(Ticket newTicket)
+        {
+            databaseContext.Tickets.Add(newTicket);
+            databaseContext.SaveChanges();
+        }
+
+        public void Delete(int ticketId)
+        {
+            Ticket? ticketToRemove = databaseContext.Tickets.Find(ticketId);
+
+            if (ticketToRemove == null)
+            {
+                return;
+            }
+
+            databaseContext.Tickets.Remove(ticketToRemove);
+            databaseContext.SaveChanges();
+        }
     }
 }
-
-
-

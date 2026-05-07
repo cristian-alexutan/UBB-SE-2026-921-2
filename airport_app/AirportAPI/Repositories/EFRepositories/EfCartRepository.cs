@@ -2,113 +2,117 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace AirportAPI.Repositories;
-
-public class EfCartRepository : ICartRepository
+namespace AirportAPI.Repositories
 {
-    private readonly AppDbContext dbContext;
-
-    public EfCartRepository(AppDbContext dbContext)
+    public class EfCartRepository(AppDbContext databaseContext) : ICartRepository
     {
-        this.dbContext = dbContext;
-    }
-
-    public IEnumerable<Cart> GetAll()
-    {
-        return dbContext.Carts
-            .Include(cart => cart.Client)
-            .Include(cart => cart.CartItems)
-                .ThenInclude(cartItem => cartItem.ShopItem)
-                    .ThenInclude(shopItem => shopItem.Shop)
-            .ToList();
-    }
-
-    public Cart GetById(int cartId)
-    {
-        return dbContext.Carts
-            .Include(cart => cart.Client)
-            .Include(cart => cart.CartItems)
-                .ThenInclude(cartItem => cartItem.ShopItem)
-                    .ThenInclude(shopItem => shopItem.Shop)
-            .FirstOrDefault(cart => cart.Id == cartId);
-    }
-
-    public void Add(Cart cart)
-    {
-        dbContext.Carts.Add(cart);
-        dbContext.SaveChanges();
-    }
-
-    public void Delete(int cartId)
-    {
-        var relatedItems = dbContext.CartItems
-            .Where(ci => EF.Property<int>(ci, "CartId") == cartId)
-            .ToList();
-
-        if (relatedItems.Any())
+        public IEnumerable<Cart> GetAll()
         {
-            dbContext.CartItems.RemoveRange(relatedItems);
+            return databaseContext.Carts
+                .Include(cart => cart.Client)
+                .Include(cart => cart.CartItems)
+                    .ThenInclude(cartItem => cartItem.ShopItem)
+                        .ThenInclude(shopItem => shopItem.Shop)
+                .ToList();
         }
 
-        var cartToDelete = dbContext.Carts.Find(cartId);
-        if (cartToDelete != null)
+        public Cart? GetById(int cartId)
         {
-            dbContext.Carts.Remove(cartToDelete);
-            dbContext.SaveChanges();
-        }
-    }
-
-    public void AddItemToCart(int cartId, CartItem item)
-    {
-        var cart = dbContext.Carts
-            .Include(c => c.CartItems)
-            .FirstOrDefault(c => c.Id == cartId);
-
-        if (cart == null)
-        {
-            return;
+            return databaseContext.Carts
+                .Include(cart => cart.Client)
+                .Include(cart => cart.CartItems)
+                    .ThenInclude(cartItem => cartItem.ShopItem)
+                        .ThenInclude(shopItem => shopItem.Shop)
+                .FirstOrDefault(cart => cart.Id == cartId);
         }
 
-        if (item.ShopItem != null)
+        public void Add(Cart newCart)
         {
-            dbContext.Entry(item.ShopItem).State = EntityState.Unchanged;
+            databaseContext.Carts.Add(newCart);
+            databaseContext.SaveChanges();
         }
 
-        cart.CartItems.Add(item);
-        dbContext.SaveChanges();
-    }
-
-    public void RemoveItemFromCart(int cartId, int cartItemId)
-    {
-        var item = dbContext.CartItems.Find(cartItemId);
-        if (item != null)
+        public void Delete(int cartId)
         {
-            dbContext.CartItems.Remove(item);
-            dbContext.SaveChanges();
+            List<CartItem> relatedItems = databaseContext.CartItems
+                .Where(cartItem => EF.Property<int>(cartItem, "CartId") == cartId)
+                .ToList();
+
+            if (relatedItems.Count > 0)
+            {
+                databaseContext.CartItems.RemoveRange(relatedItems);
+            }
+
+            Cart? cartToDelete = databaseContext.Carts.Find(cartId);
+
+            if (cartToDelete == null)
+            {
+                return;
+            }
+
+            databaseContext.Carts.Remove(cartToDelete);
+            databaseContext.SaveChanges();
         }
-    }
 
-    public void UpdateItemQuantity(int cartId, int cartItemId, int quantity)
-    {
-        var item = dbContext.CartItems.Find(cartItemId);
-        if (item != null)
+        public void AddItemToCart(int cartId, CartItem itemToAdd)
         {
-            item.Quantity = quantity;
-            dbContext.SaveChanges();
+            Cart? cart = databaseContext.Carts
+                .Include(cartInstance => cartInstance.CartItems)
+                .FirstOrDefault(cartInstance => cartInstance.Id == cartId);
+
+            if (cart == null)
+            {
+                return;
+            }
+
+            if (itemToAdd.ShopItem != null)
+            {
+                databaseContext.Entry(itemToAdd.ShopItem).State = EntityState.Unchanged;
+            }
+
+            cart.CartItems.Add(itemToAdd);
+            databaseContext.SaveChanges();
         }
-    }
 
-    public void ClearCart(int cartId)
-    {
-        var items = dbContext.CartItems
-            .Where(ci => EF.Property<int>(ci, "CartId") == cartId)
-            .ToList();
-
-        if (items.Any())
+        public void RemoveItemFromCart(int cartId, int cartItemId)
         {
-            dbContext.CartItems.RemoveRange(items);
-            dbContext.SaveChanges();
+            CartItem? itemToRemove = databaseContext.CartItems.Find(cartItemId);
+
+            if (itemToRemove == null)
+            {
+                return;
+            }
+
+            databaseContext.CartItems.Remove(itemToRemove);
+            databaseContext.SaveChanges();
+        }
+
+        public void UpdateItemQuantity(int cartId, int cartItemId, int newQuantity)
+        {
+            CartItem? itemToUpdate = databaseContext.CartItems.Find(cartItemId);
+
+            if (itemToUpdate == null)
+            {
+                return;
+            }
+
+            itemToUpdate.Quantity = newQuantity;
+            databaseContext.SaveChanges();
+        }
+
+        public void ClearCart(int cartId)
+        {
+            List<CartItem> itemsToClear = databaseContext.CartItems
+                .Where(cartItem => EF.Property<int>(cartItem, "CartId") == cartId)
+                .ToList();
+
+            if (itemsToClear.Count == 0)
+            {
+                return;
+            }
+
+            databaseContext.CartItems.RemoveRange(itemsToClear);
+            databaseContext.SaveChanges();
         }
     }
 }
-

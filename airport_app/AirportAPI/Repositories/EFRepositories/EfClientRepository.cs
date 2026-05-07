@@ -1,52 +1,46 @@
 ﻿using AirportAPI.Repositories.Interfaces;
 
-namespace AirportAPI.Repositories;
-
-public class EfClientRepository : IClientRepository
+namespace AirportAPI.Repositories
 {
-    private readonly AppDbContext dbContext;
-    public EfClientRepository(AppDbContext dbContext)
+    public class EfClientRepository(AppDbContext databaseContext) : IClientRepository
     {
-        this.dbContext = dbContext;
-    }
-
-    public IEnumerable<Client> GetAll()
-    {
-        return this.dbContext.Clients.ToList();
-    }
-
-    public Client? GetById(int clientId)
-    {
-        return this.dbContext.Clients.Find(clientId);
-    }
-
-    public void Add(Client client)
-    {
-        this.dbContext.Clients.Add(client);
-        this.dbContext.SaveChanges();
-    }
-
-    public Client? Delete(int clientId)
-    {
-        var client = this.dbContext.Clients.Find(clientId);
-
-        if (client == null)
+        public IEnumerable<Client> GetAll()
         {
-            return null;
+            return databaseContext.Clients.ToList();
         }
 
-        this.dbContext.Clients.Remove(client);
-        this.dbContext.SaveChanges();
-        return client;
-    }
+        public Client? GetById(int clientId)
+        {
+            return databaseContext.Clients.Find(clientId);
+        }
 
-    public Client? Update(Client client)
-    {
-        this.dbContext.Clients.Update(client);
-        this.dbContext.SaveChanges();
-        return client;
+        public void Add(Client newClient)
+        {
+            databaseContext.Clients.Add(newClient);
+            databaseContext.SaveChanges();
+        }
+
+        public Client? Update(Client clientToUpdate)
+        {
+            databaseContext.Clients.Update(clientToUpdate);
+            databaseContext.SaveChanges();
+
+            return clientToUpdate;
+        }
+
+        public Client? Delete(int clientId)
+        {
+            Client? clientToRemove = databaseContext.Clients.Find(clientId);
+
+            if (clientToRemove == null)
+            {
+                return null;
+            }
+
+            databaseContext.Clients.Remove(clientToRemove);
+            databaseContext.SaveChanges();
+
+            return clientToRemove;
+        }
     }
 }
-
-
-

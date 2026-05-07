@@ -9,12 +9,12 @@ namespace AirportAPI.Repositories
         public IEnumerable<Reservation> GetAll()
         {
             return databaseContext.Reservations
-                .Include(r => r.ReservationCart)
-                    .ThenInclude(c => c.Client)
-                .Include(r => r.ReservationCart)
-                    .ThenInclude(c => c.CartItems)
-                        .ThenInclude(ci => ci.ShopItem)
-                            .ThenInclude(si => si.Shop)
+                .Include(reservation => reservation.ReservationCart)
+                    .ThenInclude(cart => cart.Client)
+                .Include(reservation => reservation.ReservationCart)
+                    .ThenInclude(cart => cart.CartItems)
+                        .ThenInclude(cartItem => cartItem.ShopItem)
+                            .ThenInclude(shopItem => shopItem.Shop)
                 .ToList();
         }
 

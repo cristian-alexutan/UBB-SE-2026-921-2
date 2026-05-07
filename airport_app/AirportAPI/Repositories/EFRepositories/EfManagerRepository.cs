@@ -1,54 +1,46 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
-
-namespace AirportAPI.Repositories;
-
-public class EfManagerRepository : IManagerRepository
+namespace AirportAPI.Repositories
 {
-    private readonly AppDbContext dbContext;
-    public EfManagerRepository(AppDbContext dbContext)
+    public class EfManagerRepository(AppDbContext databaseContext) : IManagerRepository
     {
-        this.dbContext = dbContext;
-    }
-
-    public IEnumerable<Manager> GetAll()
-    {
-        return this.dbContext.Managers.ToList();
-    }
-
-    public Manager? GetById(int managerId)
-    {
-        return this.dbContext.Managers.Find(managerId);
-    }
-
-    public void Add(Manager manager)
-    {
-        this.dbContext.Managers.Add(manager);
-        this.dbContext.SaveChanges();
-    }
-
-    public Manager? Delete(int managerId)
-    {
-        var manager = this.dbContext.Managers.Find(managerId);
-        if (manager == null)
+        public IEnumerable<Manager> GetAll()
         {
-            return null;
+            return databaseContext.Managers.ToList();
         }
-        this.dbContext.Managers.Remove(manager);
-        this.dbContext.SaveChanges();
-        return manager;
-    }
 
-    public Manager? Update(Manager manager)
-    {
-        this.dbContext.Managers.Update(manager);
-        this.dbContext.SaveChanges();
-        return manager;
+        public Manager? GetById(int managerId)
+        {
+            return databaseContext.Managers.Find(managerId);
+        }
+
+        public void Add(Manager newManager)
+        {
+            databaseContext.Managers.Add(newManager);
+            databaseContext.SaveChanges();
+        }
+
+        public Manager? Update(Manager managerToUpdate)
+        {
+            databaseContext.Managers.Update(managerToUpdate);
+            databaseContext.SaveChanges();
+
+            return managerToUpdate;
+        }
+
+        public Manager? Delete(int managerId)
+        {
+            Manager? managerToRemove = databaseContext.Managers.Find(managerId);
+
+            if (managerToRemove == null)
+            {
+                return null;
+            }
+
+            databaseContext.Managers.Remove(managerToRemove);
+            databaseContext.SaveChanges();
+
+            return managerToRemove;
+        }
     }
 }
-
-
-
-
