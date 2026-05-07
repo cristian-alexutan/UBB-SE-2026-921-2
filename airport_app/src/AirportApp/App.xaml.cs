@@ -1,13 +1,12 @@
 ﻿using System.Text.Json;
 
-using AirportApp.Data;
+using AirportApp.Data.Repositories.Proxies;
 using AirportApp.Data.User;
 using AirportApp.ViewModel;
 using AirportApp.ViewModel.DutyFreeShops;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
 using AirportApp.WinUI.Utils;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 
@@ -20,8 +19,8 @@ namespace AirportApp
         public static int ConfiguredUserId { get; private set; } = DefaultUserId;
 
         private const int DefaultUserId = 1;
+        private const string DefaultApiBaseUrl = "http://localhost:5171/";
         private Window window;
-        private static string connectionString;
 
         public App()
         {
@@ -44,24 +43,23 @@ namespace AirportApp
         private static void ConfigureServices(ServiceCollection services)
         {
             ConfiguredUserId = ReadConfiguredUserId();
-
-            connectionString = @"Server=(localdb)\MSSQLLocalDB; Database = AirportDB; Trusted_Connection = True; TrustServerCertificate = True;";
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            services.AddSingleton(new HttpClient
+            {
+                BaseAddress = new Uri(ReadConfiguredApiBaseUrl())
+            });
 
             // Airport Management: Infrastructure
-            services.AddSingleton<DatabaseConnectionFactory>();
             services.AddSingleton<MockUserUtil>();
 
             // Airport Management: Repositories
-            services.AddTransient<ICompanyRepository, CompanyRepository>();
-            services.AddTransient<IAirportRepository, AirportRepository>();
-            services.AddTransient<IRunwayRepository, EfRunwayRepository>();
-            services.AddTransient<IGateRepository, EfGateRepository>();
-            services.AddTransient<IEmployeeRepository, EfEmployeeRepository>();
-            services.AddTransient<IFlightRepository, EfFlightRepository>();
-            services.AddTransient<IRouteRepository, RouteRepository>();
-            services.AddTransient<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
+            services.AddTransient<ICompanyRepository, CompanyRepositoryProxy>();
+            services.AddTransient<IAirportRepository, AirportRepositoryProxy>();
+            services.AddTransient<IRunwayRepository, RunwayRepositoryProxy>();
+            services.AddTransient<IGateRepository, GateRepositoryProxy>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepositoryProxy>();
+            services.AddTransient<IFlightRepository, FlightRepositoryProxy>();
+            services.AddTransient<IRouteRepository, RouteRepositoryProxy>();
+            services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepositoryProxy>();
 
             // Airport Management: Services
             services.AddTransient<ICompanyService, CompanyService>();
@@ -86,13 +84,13 @@ namespace AirportApp
             services.AddTransient<StaffLoginViewModel>();
 
             // Duty-Free Shops: Repositories
-            services.AddSingleton<IClientRepo, EfClientRepo>();
-            services.AddSingleton<ITicketRepo, EfTicketRepo>();
-            services.AddSingleton<IManagerRepo, EfManagerRepo>();
-            services.AddSingleton<IShopRepo, EfShopRepository>();
-            services.AddSingleton<IShopItemRepo, EfShopItemRepo>();
-            services.AddSingleton<ICartRepo, EfCartDbRepo>();
-            services.AddScoped<IReservationRepo, ReservationDbRepo>();
+            services.AddSingleton<IClientRepo, ClientRepoProxy>();
+            services.AddSingleton<ITicketRepo, TicketRepoProxy>();
+            services.AddSingleton<IManagerRepo, ManagerRepoProxy>();
+            services.AddSingleton<IShopRepo, ShopRepoProxy>();
+            services.AddSingleton<IShopItemRepo, ShopItemRepoProxy>();
+            services.AddSingleton<ICartRepo, CartRepoProxy>();
+            services.AddTransient<IReservationRepo, ReservationRepoProxy>();
 
             // Duty-Free Shops: Services
             services.AddSingleton<IShopItemService, ShopItemService>();
@@ -151,6 +149,33 @@ namespace AirportApp
             }
 
             return DefaultUserId;
+        }
+
+        private static string ReadConfiguredApiBaseUrl()
+        {
+            string settingsPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+            if (!File.Exists(settingsPath))
+            {
+                return DefaultApiBaseUrl;
+            }
+
+            try
+            {
+                using JsonDocument document = JsonDocument.Parse(File.ReadAllText(settingsPath));
+                if (document.RootElement.TryGetProperty("ApiBaseUrl", out JsonElement apiBaseUrlElement))
+                {
+                    string? apiBaseUrl = apiBaseUrlElement.GetString();
+                    if (!string.IsNullOrWhiteSpace(apiBaseUrl))
+                    {
+                        return apiBaseUrl;
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+            }
+
+            return DefaultApiBaseUrl;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)

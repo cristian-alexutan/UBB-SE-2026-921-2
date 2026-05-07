@@ -41,12 +41,6 @@
                 Margin="0 5 0 0"
                 BorderBrush="LightGray" />
 
-            <SymbolIcon Grid.Column="2" 
-                Symbol="Contact" 
-                Foreground="Gray" 
-                Margin="15,8" 
-                VerticalAlignment="Center"/>
-
             <Button Grid.Column="3"
                     Background="#2bb8c0"
                     Foreground="White"
