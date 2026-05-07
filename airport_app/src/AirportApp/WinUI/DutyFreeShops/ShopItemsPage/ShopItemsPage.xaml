@@ -59,11 +59,10 @@
                                     Foreground="Gray"/>
                     </Grid>
 
-                    <Button Click="BackToLandingPage_Click"
-                            Background="Transparent" BorderThickness="0"
-                            Padding="0" MinWidth="0" MinHeight="0">
-                        <SymbolIcon Symbol="Contact" Foreground="#2bb8c0"/>
-                    </Button>
+                    <SymbolIcon Symbol="Contact" 
+                        Foreground="Gray" 
+                        Margin="10,0" 
+                        VerticalAlignment="Center"/>
 
                     <Button x:Name="CartButton"
                             Width="100" Height="45" CornerRadius="13"

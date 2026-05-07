@@ -41,13 +41,11 @@
                 Margin="0 5 0 0"
                 BorderBrush="LightGray" />
 
-            <Button Grid.Column="2"
-                    CornerRadius="4"
-                    Padding="15,8"
-                    BorderThickness="0"
-                    x:Name="ProfileButton">
-                <SymbolIcon Symbol="Contact" Foreground="Gray" />
-            </Button>
+            <SymbolIcon Grid.Column="2" 
+                Symbol="Contact" 
+                Foreground="Gray" 
+                Margin="15,8" 
+                VerticalAlignment="Center"/>
 
             <Button Grid.Column="3"
                     Background="#2bb8c0"

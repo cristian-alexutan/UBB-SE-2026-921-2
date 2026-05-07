@@ -34,9 +34,10 @@
                 <TextBox Grid.Column="1" PlaceholderText="Search..." Width="500" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False"/>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Background="Transparent" BorderBrush="Transparent" Padding="10" Click="ProfileButton_Click">
-                        <FontIcon Glyph="&#xE77B;" FontSize="18"/>
-                    </Button>
+                    <FontIcon Glyph="&#xE77B;" 
+                              FontSize="18" 
+                              Foreground="Gray" 
+                              Margin="10"/>
                     <FontIcon Glyph="&#xE7BF;" FontSize="18" Foreground="Gray" Margin="20,0,10,0"/>
                 </StackPanel>
             </Grid>
