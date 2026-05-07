@@ -15,19 +15,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0"
-                Background="Transparent"
-                BorderThickness="0"
-                Padding="0"
-                Width="48"
-                Height="48"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                ToolTipService.ToolTip="Home"
-                Click="HomeButton_Click">
-            <FontIcon Glyph="&#xE80F;" FontSize="28" Foreground="White"/>
-        </Button>
-
         <StackPanel Grid.Column="1"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"

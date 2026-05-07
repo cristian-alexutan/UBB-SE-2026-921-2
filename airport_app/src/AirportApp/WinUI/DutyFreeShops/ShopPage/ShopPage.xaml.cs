@@ -1,7 +1,5 @@
-using System;
-using AirportApp.Data.Domain;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
-using AirportApp.WinUI.Utils;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -27,8 +25,7 @@ namespace AirportApp
             CartButton.Click += CartButton_Click;
 
             ShopsGridView.ItemClick += ShopsGridView_ItemClick;
-            ProfileButton.Click += ProfileButton_Click;
-
+            // ProfileButton.Click += ProfileButton_Click;
             SortComboBox.SelectedIndex = 0;
         }
 
