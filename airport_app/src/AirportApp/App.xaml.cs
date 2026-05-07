@@ -50,7 +50,7 @@ namespace AirportApp
         private static void ConfigureServices(ServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(@"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"));
+                options.UseSqlServer(@"Server=DESKTOP-1JCJMN6\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"));
 
             // ── Airport Management: Infrastructure ────────────────────────
             services.AddSingleton<DatabaseConnectionFactory>();
