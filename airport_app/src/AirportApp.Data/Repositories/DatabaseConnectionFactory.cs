@@ -6,7 +6,7 @@
 
         public DatabaseConnectionFactory()
         {
-            connectionString = @"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True";
+            connectionString = @"Server=DESKTOP-1JCJMN6\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True";
         }
 
         public SqlConnection GetConnection()
