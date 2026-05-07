@@ -90,7 +90,11 @@ public class AppDbContext : DbContext
             route.Property<int>("AirportId").HasColumnName("airport_id");
         });
 
-        modelBuilder.Entity<Shop>().HasOne(shop => shop.Manager).WithMany().HasForeignKey("ManagerId");
+        modelBuilder.Entity<Shop>(shop =>
+        {
+            shop.HasOne(shopEntity => shopEntity.Manager).WithMany().HasForeignKey("ManagerId");
+            shop.Property<int>("ManagerId").HasColumnName("manager_id");
+        });
 
         modelBuilder.Entity<ShopItem>().HasOne(shopItem => shopItem.Shop).WithMany().HasForeignKey("ShopId").OnDelete(DeleteBehavior.Cascade);
 
