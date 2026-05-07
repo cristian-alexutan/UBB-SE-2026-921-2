@@ -5,8 +5,6 @@
         public Employee Employee { get; set; }
         public Flight Flight { get; set; }
 
-        public int EmployeeId { get; set; }
-        public int FlightId { get; set; }
         internal EmployeeFlight()
         {
         }
