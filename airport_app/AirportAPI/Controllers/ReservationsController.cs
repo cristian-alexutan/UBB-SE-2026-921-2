@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers
 {
     [ApiController]
-    [Route("api/reservation")]
+    [Route("api/reservations")]
     public class ReservationController(IReservationRepo reservationRepository) : ControllerBase
     {
         [HttpGet]

@@ -7,8 +7,8 @@ using Route = AirportAPI.Domain.Route;
 namespace AirportAPI.Controllers
 {
     [ApiController]
-    [Route("api/route")]
-    public class RouteController(IRouteRepository routeRepository) : ControllerBase
+    [Route("api/routes")]
+    public class RoutesController(IRouteRepository routeRepository) : ControllerBase
     {
         [HttpGet]
         public ActionResult<List<Route>> GetAll()
