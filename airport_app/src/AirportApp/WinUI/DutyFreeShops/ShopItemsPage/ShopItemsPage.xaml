@@ -59,11 +59,6 @@
                                     Foreground="Gray"/>
                     </Grid>
 
-                    <SymbolIcon Symbol="Contact" 
-                        Foreground="Gray" 
-                        Margin="10,0" 
-                        VerticalAlignment="Center"/>
-
                     <Button x:Name="CartButton"
                             Width="100" Height="45" CornerRadius="13"
                             Click="CartButton_Click"
