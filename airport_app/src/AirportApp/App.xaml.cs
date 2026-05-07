@@ -56,6 +56,9 @@ namespace AirportApp
             services.AddTransient<IFlightRepository, FlightRepository>();
             services.AddTransient<IRouteRepository, RouteRepository>();
             services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepository>();
+            services.AddTransient<IEmployeeRepository, EfEmployeeRepository>();
+            services.AddTransient<IFlightRepository, EfFlightRepository>();
+            services.AddTransient<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
 
             // ── Airport Management: Services ──────────────────────────────
             services.AddTransient<ICompanyService, CompanyService>();
