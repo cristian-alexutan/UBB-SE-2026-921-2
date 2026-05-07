@@ -24,6 +24,11 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICartRepo, EfCartDbRepo>();
 builder.Services.AddScoped<IClientRepo, EfClientRepo>();
 builder.Services.AddScoped<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EfEmployeeRepository>();
+builder.Services.AddScoped<IFlightRepository, EfFlightRepository>();
+builder.Services.AddScoped<IGateRepository, EfGateRepository>();
+builder.Services.AddScoped<IManagerRepo, EfManagerRepo>();
+builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
 
 var app = builder.Build();
 
