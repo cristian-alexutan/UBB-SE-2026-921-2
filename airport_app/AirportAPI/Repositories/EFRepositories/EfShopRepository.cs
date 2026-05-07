@@ -1,5 +1,4 @@
-﻿using AirportAPI;
-namespace AirportAPI.Repositories
+﻿namespace AirportAPI.Repositories
 {
     using System.Collections.Generic;
     using System.Linq;

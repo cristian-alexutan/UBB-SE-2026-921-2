@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;

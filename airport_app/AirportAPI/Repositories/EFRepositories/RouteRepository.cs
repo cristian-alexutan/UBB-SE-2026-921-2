@@ -1,6 +1,7 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
+
 using Route = AirportAPI.Domain.Route;
 
 namespace AirportAPI.Repositories
