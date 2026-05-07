@@ -1,0 +1,18 @@
+﻿namespace AirportAPI.Domain
+{
+    public class Client
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public Client(int id, string name)
+        {
+            this.Id = id;
+            this.Name = name;
+        }
+
+        internal Client()
+        {
+        }
+    }
+}
+
