@@ -1,25 +1,14 @@
-﻿namespace AirportAPI.Repositories
+﻿using AirportAPI.Repositories.Interfaces;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace AirportAPI.Repositories
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using AirportAPI.Domain;
-    using AirportAPI.Repositories.Interfaces;
-
-    using Microsoft.EntityFrameworkCore;
-
-    public class EfShopRepository : IShopRepo
+    public class EfShopRepository(AppDbContext databaseContext) : IShopRepository
     {
-        private readonly AppDbContext context;
-
-        public EfShopRepository(AppDbContext context)
-        {
-            this.context = context;
-        }
-
         public IEnumerable<Shop> GetAll()
         {
-            return context.Shops
+            return databaseContext.Shops
                 .Include(shop => shop.Manager)
                 .AsNoTracking()
                 .ToList();
@@ -27,56 +16,63 @@
 
         public Shop? GetById(int shopId)
         {
-            return context.Shops
+            return databaseContext.Shops
                 .Include(shop => shop.Manager)
                 .AsNoTracking()
                 .FirstOrDefault(shop => shop.Id == shopId);
         }
 
-        public void Add(Shop shop)
+        public void Add(Shop newShop)
         {
-            context.Managers.Attach(shop.Manager);
-            context.Shops.Add(shop);
-            context.SaveChanges();
+            databaseContext.Managers.Attach(newShop.Manager);
+
+            databaseContext.Shops.Add(newShop);
+            databaseContext.SaveChanges();
+        }
+
+        public Shop? Update(Shop shopToUpdate)
+        {
+            Shop? existingShop = databaseContext.Shops
+                .FirstOrDefault(shop => shop.Id == shopToUpdate.Id);
+
+            if (existingShop == null)
+            {
+                return null;
+            }
+
+            existingShop.Name = shopToUpdate.Name;
+            existingShop.Type = shopToUpdate.Type;
+
+            Manager managerInstance = databaseContext.Managers.Local
+                .FirstOrDefault(manager => manager.Id == shopToUpdate.Manager.Id)
+                ?? shopToUpdate.Manager;
+
+            if (databaseContext.Entry(managerInstance).State == EntityState.Detached)
+            {
+                databaseContext.Managers.Attach(managerInstance);
+            }
+
+            existingShop.Manager = managerInstance;
+
+            databaseContext.SaveChanges();
+
+            return existingShop;
         }
 
         public Shop? Delete(int shopId)
         {
-            var shop = context.Shops
+            Shop? shopToRemove = databaseContext.Shops
                 .FirstOrDefault(shop => shop.Id == shopId);
-            if (shop == null)
+
+            if (shopToRemove == null)
             {
                 return null;
             }
 
-            context.Shops.Remove(shop);
-            context.SaveChanges();
-            return shop;
-        }
+            databaseContext.Shops.Remove(shopToRemove);
+            databaseContext.SaveChanges();
 
-        public Shop? Update(Shop shop)
-        {
-            var existing = context.Shops
-                .FirstOrDefault(existingShop => existingShop.Id == shop.Id);
-            if (existing == null)
-            {
-                return null;
-            }
-
-            existing.Name = shop.Name;
-            existing.Type = shop.Type;
-            var manager = context.Managers.Local.FirstOrDefault(manager => manager.Id == shop.Manager.Id) ?? shop.Manager;
-            if (context.Entry(manager).State == EntityState.Detached)
-            {
-                context.Managers.Attach(manager);
-            }
-
-            existing.Manager = manager;
-            context.Entry(existing).Property("ManagerId").CurrentValue = shop.Manager.Id;
-            context.SaveChanges();
-            return existing;
+            return shopToRemove;
         }
     }
 }
-
-

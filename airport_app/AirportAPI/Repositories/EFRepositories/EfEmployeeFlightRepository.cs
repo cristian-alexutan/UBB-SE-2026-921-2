@@ -1,80 +1,87 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using AirportAPI.Repositories.Interfaces;
 
 namespace AirportAPI.Repositories
 {
-    public class EfEmployeeFlightRepository : IEmployeeFlightRepository
+    public class EfEmployeeFlightRepository(AppDbContext databaseContext) : IEmployeeFlightRepository
     {
-        private readonly AppDbContext context;
-
-        public EfEmployeeFlightRepository(AppDbContext context)
-        {
-            this.context = context;
-        }
-
         public void AssignFlightToEmployeeUsingIds(int employeeId, int flightId)
         {
-            EmployeeFlight employeeFlight = new EmployeeFlight
+            Employee employee = databaseContext.Employees.Find(employeeId)
+                ?? throw new InvalidOperationException($"The employee with Id {employeeId} was not found.");
+
+            Flight flight = databaseContext.Flights.Find(flightId)
+                ?? throw new InvalidOperationException($"The flight with Id {flightId} was not found.");
+
+            EmployeeFlight employeeFlightAssignment = new EmployeeFlight
             {
-                Employee = context.Employees.Find(employeeId) ?? throw new InvalidOperationException("Employee not found"),
-                Flight = context.Flights.Find(flightId) ?? throw new InvalidOperationException("Flight not found")
+                Employee = employee,
+                Flight = flight
             };
 
-            context.EmployeeFlights.Add(employeeFlight);
-            context.SaveChanges();
+            databaseContext.EmployeeFlights.Add(employeeFlightAssignment);
+            databaseContext.SaveChanges();
         }
 
         public void RemoveFlightFromEmployeeUsingIds(int employeeId, int flightId)
         {
-            EmployeeFlight? employeeFlight = context.EmployeeFlights
-                .FirstOrDefault(employeeFlight =>
-                    employeeFlight.Employee.Id == employeeId &&
-                    employeeFlight.Flight.Id == flightId);
+            EmployeeFlight? assignmentToRemove = databaseContext.EmployeeFlights
+                .FirstOrDefault(assignment =>
+                    assignment.Employee.Id == employeeId &&
+                    assignment.Flight.Id == flightId);
 
-            if (employeeFlight != null)
+            if (assignmentToRemove == null)
             {
-                context.EmployeeFlights.Remove(employeeFlight);
-                context.SaveChanges();
+                return;
             }
+
+            databaseContext.EmployeeFlights.Remove(assignmentToRemove);
+            databaseContext.SaveChanges();
         }
 
         public List<int> GetFlightsByEmployeeId(int employeeId)
         {
-            return context.EmployeeFlights
-                .Where(employeeFlight => employeeFlight.Employee.Id == employeeId)
-                .Select(employeeFlight => employeeFlight.Flight.Id)
+            return databaseContext.EmployeeFlights
+                .Where(assignment => assignment.Employee.Id == employeeId)
+                .Select(assignment => assignment.Flight.Id)
                 .ToList();
         }
 
         public List<int> GetEmployeesByFlightId(int flightId)
         {
-            return context.EmployeeFlights
-                .Where(employeeFlight => employeeFlight.Flight.Id == flightId)
-                .Select(employeeFlight => employeeFlight.Employee.Id)
+            return databaseContext.EmployeeFlights
+                .Where(assignment => assignment.Flight.Id == flightId)
+                .Select(assignment => assignment.Employee.Id)
                 .ToList();
         }
 
         public void RemoveAllByFlightId(int flightId)
         {
-            List<EmployeeFlight> employeeFlights = context.EmployeeFlights
-                .Where(employeeFlight => employeeFlight.Flight.Id == flightId)
+            List<EmployeeFlight> assignmentsForFlight = databaseContext.EmployeeFlights
+                .Where(assignment => assignment.Flight.Id == flightId)
                 .ToList();
 
-            context.EmployeeFlights.RemoveRange(employeeFlights);
-            context.SaveChanges();
+            if (assignmentsForFlight.Count == 0)
+            {
+                return;
+            }
+
+            databaseContext.EmployeeFlights.RemoveRange(assignmentsForFlight);
+            databaseContext.SaveChanges();
         }
 
         public void RemoveAllByEmployeeId(int employeeId)
         {
-            List<EmployeeFlight> employeeFlights = context.EmployeeFlights
-                .Where(employeeFlight => employeeFlight.Employee.Id == employeeId)
+            List<EmployeeFlight> assignmentsForEmployee = databaseContext.EmployeeFlights
+                .Where(assignment => assignment.Employee.Id == employeeId)
                 .ToList();
 
-            context.EmployeeFlights.RemoveRange(employeeFlights);
-            context.SaveChanges();
+            if (assignmentsForEmployee.Count == 0)
+            {
+                return;
+            }
+
+            databaseContext.EmployeeFlights.RemoveRange(assignmentsForEmployee);
+            databaseContext.SaveChanges();
         }
     }
 }
-
-

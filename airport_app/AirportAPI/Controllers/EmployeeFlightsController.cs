@@ -5,39 +5,44 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
+// explicit string to force hyphen
 [Route("api/employee-flights")]
-public class EmployeeFlightsController : ControllerBase
+public class EmployeeFlightsController(IEmployeeFlightRepository employeeFlightRepository) : ControllerBase
 {
-    private readonly IEmployeeFlightRepository employeeFlightRepository;
-
-    public EmployeeFlightsController(IEmployeeFlightRepository employeeFlightRepository)
+    [HttpGet]
+    public ActionResult<string> GetInfo()
     {
-        this.employeeFlightRepository = employeeFlightRepository;
+        return this.Ok("Employee-Flights Assignment API is active.");
     }
 
     [HttpGet("employees/{employeeId:int}/flights")]
     public ActionResult<IEnumerable<int>> GetFlightsByEmployeeId(int employeeId)
     {
-        return Ok(employeeFlightRepository.GetFlightsByEmployeeId(employeeId));
+        return this.Ok(employeeFlightRepository.GetFlightsByEmployeeId(employeeId));
     }
 
     [HttpGet("flights/{flightId:int}/employees")]
     public ActionResult<IEnumerable<int>> GetEmployeesByFlightId(int flightId)
     {
-        return Ok(employeeFlightRepository.GetEmployeesByFlightId(flightId));
+        return this.Ok(employeeFlightRepository.GetEmployeesByFlightId(flightId));
     }
 
     [HttpPost]
-    public IActionResult AssignFlightToEmployee(EmployeeFlightAssignmentRequest request)
+    public IActionResult AssignFlightToEmployee([FromBody] EmployeeFlightAssignmentRequest request)
     {
+        if (request == null)
+        {
+            return this.BadRequest("Assignment request data cannot be null.");
+        }
+
         try
         {
             employeeFlightRepository.AssignFlightToEmployeeUsingIds(request.EmployeeId, request.FlightId);
-            return NoContent();
+            return this.NoContent();
         }
         catch (InvalidOperationException exception)
         {
-            return NotFound(exception.Message);
+            return this.NotFound(exception.Message);
         }
     }
 
@@ -45,21 +50,21 @@ public class EmployeeFlightsController : ControllerBase
     public IActionResult RemoveFlightFromEmployee(int employeeId, int flightId)
     {
         employeeFlightRepository.RemoveFlightFromEmployeeUsingIds(employeeId, flightId);
-        return NoContent();
+        return this.NoContent();
     }
 
     [HttpDelete("flights/{flightId:int}")]
     public IActionResult RemoveAllByFlightId(int flightId)
     {
         employeeFlightRepository.RemoveAllByFlightId(flightId);
-        return NoContent();
+        return this.NoContent();
     }
 
     [HttpDelete("employees/{employeeId:int}")]
     public IActionResult RemoveAllByEmployeeId(int employeeId)
     {
         employeeFlightRepository.RemoveAllByEmployeeId(employeeId);
-        return NoContent();
+        return this.NoContent();
     }
 }
 

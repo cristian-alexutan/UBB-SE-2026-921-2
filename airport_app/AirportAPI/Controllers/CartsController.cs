@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,97 +5,118 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/carts")]
-public class CartsController : ControllerBase
+[Route("api/[controller]")]
+public class CartsController(ICartRepository cartRepository) : ControllerBase
 {
-    private readonly ICartRepo cartRepo;
-
-    public CartsController(ICartRepo cartRepo)
-    {
-        this.cartRepo = cartRepo;
-    }
-
-    [HttpGet]
+    private const string MissingCartDataErrorMessage = "Cart data cannot be null.";
+    private const string MissingItemDataErrorMessage = "Cart item data cannot be null.";
+    private const string MissingRequestDataErrorMessage = "Update request data cannot be null."; [HttpGet]
     public ActionResult<IEnumerable<Cart>> GetAll()
     {
-        return Ok(cartRepo.GetAll());
+        return this.Ok(cartRepository.GetAll());
     }
 
     [HttpGet("{cartId:int}")]
     public ActionResult<Cart> GetById(int cartId)
     {
-        Cart? cart = cartRepo.GetById(cartId);
-        return cart == null ? NotFound() : Ok(cart);
+        Cart? cart = cartRepository.GetById(cartId);
+
+        if (cart == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(cart);
     }
 
     [HttpPost]
-    public ActionResult<Cart> Add(Cart cart)
+    public ActionResult<Cart> Add([FromBody] Cart cart)
     {
-        cartRepo.Add(cart);
-        return CreatedAtAction(nameof(GetById), new { cartId = cart.Id }, cart);
+        if (cart == null)
+        {
+            return this.BadRequest(MissingCartDataErrorMessage);
+        }
+
+        cartRepository.Add(cart);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { cartId = cart.Id }, cart);
     }
 
     [HttpDelete("{cartId:int}")]
     public IActionResult Delete(int cartId)
     {
-        if (cartRepo.GetById(cartId) == null)
+        if (cartRepository.GetById(cartId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
-        cartRepo.Delete(cartId);
-        return NoContent();
+        cartRepository.Delete(cartId);
+
+        return this.NoContent();
     }
 
     [HttpPost("{cartId:int}/items")]
-    public IActionResult AddItemToCart(int cartId, CartItem cartItem)
+    public IActionResult AddItemToCart(int cartId, [FromBody] CartItem cartItem)
     {
-        if (cartRepo.GetById(cartId) == null)
+        if (cartItem == null)
         {
-            return NotFound();
+            return this.BadRequest(MissingItemDataErrorMessage);
         }
 
-        cartRepo.AddItemToCart(cartId, cartItem);
-        return NoContent();
+        if (cartRepository.GetById(cartId) == null)
+        {
+            return this.NotFound();
+        }
+
+        cartRepository.AddItemToCart(cartId, cartItem);
+
+        return this.NoContent();
     }
 
     [HttpDelete("{cartId:int}/items/{cartItemId:int}")]
     public IActionResult RemoveItemFromCart(int cartId, int cartItemId)
     {
-        if (cartRepo.GetById(cartId) == null)
+        if (cartRepository.GetById(cartId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
-        cartRepo.RemoveItemFromCart(cartId, cartItemId);
-        return NoContent();
+        cartRepository.RemoveItemFromCart(cartId, cartItemId);
+
+        return this.NoContent();
     }
 
     [HttpPut("{cartId:int}/items/{cartItemId:int}/quantity")]
     public IActionResult UpdateItemQuantity(
         int cartId,
         int cartItemId,
-        UpdateCartItemQuantityRequest request)
+        [FromBody] UpdateCartItemQuantityRequest request)
     {
-        if (cartRepo.GetById(cartId) == null)
+        if (request == null)
         {
-            return NotFound();
+            return this.BadRequest(MissingRequestDataErrorMessage);
         }
 
-        cartRepo.UpdateItemQuantity(cartId, cartItemId, request.Quantity);
-        return NoContent();
-    }
+        if (cartRepository.GetById(cartId) == null)
+        {
+            return this.NotFound();
+        }
 
+        cartRepository.UpdateItemQuantity(cartId, cartItemId, request.Quantity);
+
+        return this.NoContent();
+    }
     [HttpDelete("{cartId:int}/items")]
     public IActionResult ClearCart(int cartId)
     {
-        if (cartRepo.GetById(cartId) == null)
+        if (cartRepository.GetById(cartId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
-        cartRepo.ClearCart(cartId);
-        return NoContent();
+        cartRepository.ClearCart(cartId);
+
+        return this.NoContent();
     }
 }
 

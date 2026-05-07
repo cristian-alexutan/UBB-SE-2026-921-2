@@ -1,74 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-using AirportAPI;
-using AirportAPI.Domain;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace AirportAPI.Repositories;
-
-public class EfRunwayRepository : IRunwayRepository
+namespace AirportAPI.Repositories
 {
-    private readonly AppDbContext dbContext;
-    public EfRunwayRepository(AppDbContext dbContext)
+    public class EfRunwayRepository(AppDbContext databaseContext) : IRunwayRepository
     {
-        this.dbContext = dbContext;
-    }
-    public List<Runway> GetAllRunways()
-    {
-        return dbContext.Runways.ToList();
-    }
+        private const string RunwayIdShadowPropertyName = "RunwayId";
 
-    public Runway? GetRunwayById(int runwayId)
-    {
-        return dbContext.Runways.Find(runwayId);
-    }
-
-    public int AddRunway(Runway newRunway)
-    {
-        dbContext.Runways.Add(newRunway);
-        dbContext.SaveChanges();
-        return newRunway.Id;
-    }
-
-    public void UpdateRunway(Runway updatedRunway)
-    {
-        dbContext.Runways.Update(updatedRunway);
-        dbContext.SaveChanges();
-    }
-
-    public void DeleteRunwayUsingId(int runwayId)
-    {
-        var relatedFlights = dbContext.Flights.Where(f => EF.Property<int>(f, "RunwayId") == runwayId).ToList();
-
-        if (relatedFlights.Any())
+        public List<Runway> GetAllRunways()
         {
-            dbContext.Flights.RemoveRange(relatedFlights);
+            return databaseContext.Runways.ToList();
         }
 
-        var runwayToDelete = dbContext.Runways.Find(runwayId);
-        if (runwayToDelete != null)
+        public Runway? GetRunwayById(int runwayId)
         {
+            return databaseContext.Runways.Find(runwayId);
+        }
+
+        public int AddRunway(Runway newRunway)
+        {
+            databaseContext.Runways.Add(newRunway);
+            databaseContext.SaveChanges();
+            return newRunway.Id;
+        }
+
+        public void UpdateRunway(Runway updatedRunway)
+        {
+            databaseContext.Runways.Update(updatedRunway);
+            databaseContext.SaveChanges();
+        }
+
+        public void DeleteRunwayUsingId(int runwayId)
+        {
+            List<Flight> associatedFlights = databaseContext.Flights
+                .Where(flight => EF.Property<int>(flight, RunwayIdShadowPropertyName) == runwayId)
+                .ToList();
+
+            if (associatedFlights.Count > 0)
+            {
+                databaseContext.Flights.RemoveRange(associatedFlights);
+            }
+
+            Runway? runwayToDelete = databaseContext.Runways.Find(runwayId);
+
+            if (runwayToDelete == null)
+            {
+                return;
+            }
+
             try
             {
-                dbContext.Runways.Remove(runwayToDelete);
-                dbContext.SaveChanges();
+                databaseContext.Runways.Remove(runwayToDelete);
+                databaseContext.SaveChanges();
             }
             catch (Exception)
             {
-                foreach (var flight in relatedFlights)
+                foreach (Flight flightInstance in associatedFlights)
                 {
-                    dbContext.Entry(flight).State = EntityState.Unchanged;
+                    databaseContext.Entry(flightInstance).State = EntityState.Unchanged;
                 }
-                dbContext.Entry(runwayToDelete).State = EntityState.Unchanged;
+
+                databaseContext.Entry(runwayToDelete).State = EntityState.Unchanged;
+
                 throw;
             }
         }
     }
 }
-
-

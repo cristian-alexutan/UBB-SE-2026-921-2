@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using AirportAPI.Domain;
-
-namespace AirportAPI.Repositories.Interfaces
+﻿namespace AirportAPI.Repositories.Interfaces
 {
-    public interface IClientRepo
+    public interface IClientRepository
     {
         IEnumerable<Client> GetAll();
 

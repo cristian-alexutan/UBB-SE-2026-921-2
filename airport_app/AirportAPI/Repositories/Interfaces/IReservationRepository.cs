@@ -1,6 +1,6 @@
 ﻿namespace AirportAPI.Repositories.Interfaces
 {
-    public interface IReservationRepo
+    public interface IReservationRepository
     {
         IEnumerable<Reservation> GetAll();
         Reservation GetById(int reservationId);

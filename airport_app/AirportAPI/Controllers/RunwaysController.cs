@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,47 +5,61 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/runways")]
-public class RunwaysController : ControllerBase
+[Route("api/[controller]")]
+public class RunwaysController(IRunwayRepository runwayRepository) : ControllerBase
 {
-    private readonly IRunwayRepository runwayRepository;
-
-    public RunwaysController(IRunwayRepository runwayRepository)
-    {
-        this.runwayRepository = runwayRepository;
-    }
+    private const string NullRunwayDataErrorMessage = "Runway data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Runway>> GetAll()
     {
-        return Ok(runwayRepository.GetAllRunways());
+        return this.Ok(runwayRepository.GetAllRunways());
     }
 
     [HttpGet("{runwayId:int}")]
     public ActionResult<Runway> GetById(int runwayId)
     {
         Runway? runway = runwayRepository.GetRunwayById(runwayId);
-        return runway == null ? NotFound() : Ok(runway);
+
+        if (runway == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(runway);
     }
 
     [HttpPost]
-    public ActionResult<Runway> Add(Runway runway)
+    public ActionResult<Runway> Add([FromBody] Runway runway)
     {
+        if (runway == null)
+        {
+            return this.BadRequest(NullRunwayDataErrorMessage);
+        }
+
         int runwayId = runwayRepository.AddRunway(runway);
-        return CreatedAtAction(nameof(GetById), new { runwayId }, runway);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { runwayId }, runway);
     }
 
     [HttpPut("{runwayId:int}")]
-    public IActionResult Update(int runwayId, Runway runway)
+    public IActionResult Update(int runwayId, [FromBody] Runway runway)
     {
+        if (runway == null)
+        {
+            return this.BadRequest(NullRunwayDataErrorMessage);
+        }
+
         if (runwayRepository.GetRunwayById(runwayId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         runway.Id = runwayId;
+
         runwayRepository.UpdateRunway(runway);
-        return NoContent();
+
+        return this.NoContent();
     }
 
     [HttpDelete("{runwayId:int}")]
@@ -54,10 +67,11 @@ public class RunwaysController : ControllerBase
     {
         if (runwayRepository.GetRunwayById(runwayId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         runwayRepository.DeleteRunwayUsingId(runwayId);
-        return NoContent();
+
+        return this.NoContent();
     }
 }

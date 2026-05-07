@@ -1,21 +1,14 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace AirportAPI.Repositories
 {
-    public class EfFlightRepository : IFlightRepository
+    public class EfFlightRepository(AppDbContext databaseContext) : IFlightRepository
     {
-        private readonly AppDbContext context;
-
-        public EfFlightRepository(AppDbContext context)
-        {
-            this.context = context;
-        }
-
         public List<Flight> GetAllFlights()
         {
-            return context.Flights
+            return databaseContext.Flights
                 .Include(flight => flight.Route)
                 .Include(flight => flight.Runway)
                 .Include(flight => flight.Gate)
@@ -24,7 +17,7 @@ namespace AirportAPI.Repositories
 
         public Flight? GetFlightById(int flightId)
         {
-            return context.Flights
+            return databaseContext.Flights
                 .Include(flight => flight.Route)
                 .Include(flight => flight.Runway)
                 .Include(flight => flight.Gate)
@@ -33,7 +26,7 @@ namespace AirportAPI.Repositories
 
         public List<Flight> GetFlightsByRouteId(int routeId)
         {
-            return context.Flights
+            return databaseContext.Flights
                 .Include(flight => flight.Route)
                 .Include(flight => flight.Runway)
                 .Include(flight => flight.Gate)
@@ -43,7 +36,7 @@ namespace AirportAPI.Repositories
 
         public List<Flight> GetFlightsByRunwayId(int runwayId)
         {
-            return context.Flights
+            return databaseContext.Flights
                 .Include(flight => flight.Route)
                 .Include(flight => flight.Runway)
                 .Include(flight => flight.Gate)
@@ -53,14 +46,14 @@ namespace AirportAPI.Repositories
 
         public List<Flight> GetFlightsByGateId(int gateId)
         {
-            return context.Flights
+            return databaseContext.Flights
                 .Where(flight => flight.Gate.Id == gateId)
                 .ToList();
         }
 
         public List<Flight> GetFlightsByAirportId(int airportId)
         {
-            return context.Flights
+            return databaseContext.Flights
                 .Include(flight => flight.Route)
                 .Where(flight => flight.Route.Airport.Id == airportId)
                 .ToList();
@@ -68,30 +61,30 @@ namespace AirportAPI.Repositories
 
         public int AddFlight(Flight flight)
         {
-            context.Flights.Add(flight);
-            context.SaveChanges();
+            databaseContext.Flights.Add(flight);
+            databaseContext.SaveChanges();
 
             return flight.Id;
         }
 
         public void UpdateFlight(Flight flight)
         {
-            context.Flights.Update(flight);
-            context.SaveChanges();
+            databaseContext.Flights.Update(flight);
+            databaseContext.SaveChanges();
         }
 
         public void DeleteFlightUsingId(int flightId)
         {
-            Flight? flightToDelete = context.Flights
+            Flight? flightToRemove = databaseContext.Flights
                 .FirstOrDefault(flight => flight.Id == flightId);
 
-            if (flightToDelete != null)
+            if (flightToRemove == null)
             {
-                context.Flights.Remove(flightToDelete);
-                context.SaveChanges();
+                return;
             }
+
+            databaseContext.Flights.Remove(flightToRemove);
+            databaseContext.SaveChanges();
         }
     }
 }
-
-

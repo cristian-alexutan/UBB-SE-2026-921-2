@@ -1,8 +1,7 @@
 ﻿using AirportAPI.Repositories.Interfaces;
-using AirportAPI;
 namespace AirportAPI.Repositories
 {
-    public class CompanyRepository(AppDbContext databaseContext) : ICompanyRepository
+    public class EfCompanyRepository(AppDbContext databaseContext) : ICompanyRepository
     {
         public List<Company> GetAllCompanies()
         {

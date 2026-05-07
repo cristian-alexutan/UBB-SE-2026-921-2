@@ -19,20 +19,20 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IAirportRepository, AirportRepository>();
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<ICartRepo, EfCartDbRepo>();
-builder.Services.AddScoped<IClientRepo, EfClientRepo>();
+builder.Services.AddScoped<IAirportRepository, EfAirportRepository>();
+builder.Services.AddScoped<ICompanyRepository, EfCompanyRepository>();
+builder.Services.AddScoped<ICartRepository, EfCartRepository>();
+builder.Services.AddScoped<IClientRepository, EfClientRepository>();
 builder.Services.AddScoped<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
-builder.Services.AddScoped<IRouteRepository, RouteRepository>();
-builder.Services.AddScoped<IShopItemRepo, EfShopItemRepo>();
-builder.Services.AddScoped<IShopRepo, EfShopRepository>();
-builder.Services.AddScoped<IReservationRepo, ReservationRepository>();
-builder.Services.AddScoped<ITicketRepo, EfTicketRepo>();
+builder.Services.AddScoped<IRouteRepository, EfRouteRepository>();
+builder.Services.AddScoped<IShopItemRepository, EfShopItemRepository>();
+builder.Services.AddScoped<IShopRepository, EfShopRepository>();
+builder.Services.AddScoped<IReservationRepository, EfReservationRepository>();
+builder.Services.AddScoped<ITicketRepository, EfTicketRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EfEmployeeRepository>();
 builder.Services.AddScoped<IFlightRepository, EfFlightRepository>();
 builder.Services.AddScoped<IGateRepository, EfGateRepository>();
-builder.Services.AddScoped<IManagerRepo, EfManagerRepo>();
+builder.Services.AddScoped<IManagerRepository, EfManagerRepository>();
 builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
 
 var app = builder.Build();

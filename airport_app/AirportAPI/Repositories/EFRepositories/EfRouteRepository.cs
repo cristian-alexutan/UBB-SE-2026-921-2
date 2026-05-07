@@ -6,7 +6,7 @@ using Route = AirportAPI.Domain.Route;
 
 namespace AirportAPI.Repositories
 {
-    public class RouteRepository(AppDbContext databaseContext) : IRouteRepository
+    public class EfRouteRepository(AppDbContext databaseContext) : IRouteRepository
     {
         public List<Route> GetAllRoutes()
         {
@@ -28,6 +28,7 @@ namespace AirportAPI.Repositories
         {
             databaseContext.Routes.Add(newRoute);
             databaseContext.SaveChanges();
+
             return newRoute.Id;
         }
 
@@ -41,13 +42,13 @@ namespace AirportAPI.Repositories
         {
             Route? routeToRemove = this.GetRouteById(routeId);
 
-            if (routeToRemove != null)
+            if (routeToRemove == null)
             {
-                databaseContext.Routes.Remove(routeToRemove);
-                databaseContext.SaveChanges();
+                return;
             }
+
+            databaseContext.Routes.Remove(routeToRemove);
+            databaseContext.SaveChanges();
         }
     }
 }
-
-

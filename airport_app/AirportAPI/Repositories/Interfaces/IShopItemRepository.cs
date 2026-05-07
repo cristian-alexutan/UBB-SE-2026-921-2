@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using AirportAPI.Domain;
-
-namespace AirportAPI.Repositories.Interfaces
+﻿namespace AirportAPI.Repositories.Interfaces
 {
-    public interface IShopItemRepo
+    public interface IShopItemRepository
     {
         IEnumerable<ShopItem> GetAll();
 

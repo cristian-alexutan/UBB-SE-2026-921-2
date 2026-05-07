@@ -5,16 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers
 {
     [ApiController]
-    [Route("api/shop")]
-    public class ShopController(IShopRepo shopRepository) : ControllerBase
+    [Route("api/[controller]")]
+    public class ShopController(IShopRepository shopRepository) : ControllerBase
     {
+        private const string NullShopDataErrorMessage = "Shop data cannot be null.";
+        private const string UpdateNotFoundErrorMessage = "The shop to update was not found.";
+
         [HttpGet]
         public ActionResult<IEnumerable<Shop>> GetAll()
         {
             return this.Ok(shopRepository.GetAll());
         }
 
-        [HttpGet("{shopId}")]
+        [HttpGet("{shopId:int}")]
         public ActionResult<Shop> GetById(int shopId)
         {
             Shop? shop = shopRepository.GetById(shopId);
@@ -32,27 +35,33 @@ namespace AirportAPI.Controllers
         {
             if (newShop == null)
             {
-                return this.BadRequest("Shop data is required.");
+                return this.BadRequest(NullShopDataErrorMessage);
             }
 
             shopRepository.Add(newShop);
-            return this.Ok();
+
+            return this.CreatedAtAction(nameof(this.GetById), new { shopId = newShop.Id }, newShop);
         }
 
         [HttpPut]
         public ActionResult<Shop> Update([FromBody] Shop shopToUpdate)
         {
+            if (shopToUpdate == null)
+            {
+                return this.BadRequest(NullShopDataErrorMessage);
+            }
+
             Shop? updatedShop = shopRepository.Update(shopToUpdate);
 
             if (updatedShop == null)
             {
-                return this.NotFound("The shop to update was not found.");
+                return this.NotFound(UpdateNotFoundErrorMessage);
             }
 
             return this.Ok(updatedShop);
         }
 
-        [HttpDelete("{shopId}")]
+        [HttpDelete("{shopId:int}")]
         public ActionResult<Shop> Delete(int shopId)
         {
             Shop? deletedShop = shopRepository.Delete(shopId);

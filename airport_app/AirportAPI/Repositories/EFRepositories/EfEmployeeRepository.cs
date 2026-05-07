@@ -1,54 +1,44 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using AirportAPI.Repositories.Interfaces;
 
 namespace AirportAPI.Repositories
 {
-    public class EfEmployeeRepository : IEmployeeRepository
+    public class EfEmployeeRepository(AppDbContext databaseContext) : IEmployeeRepository
     {
-        private readonly AppDbContext context;
-
-        public EfEmployeeRepository(AppDbContext context)
-        {
-            this.context = context;
-        }
         public List<Employee> GetAllEmployees()
         {
-            return context.Employees.ToList();
+            return databaseContext.Employees.ToList();
         }
 
         public Employee? GetEmployeeById(int employeeId)
         {
-            return context.Employees
-                .FirstOrDefault(employee => employee.Id == employeeId);
+            return databaseContext.Employees.Find(employeeId);
         }
 
         public int AddEmployee(Employee newEmployee)
         {
-            context.Employees.Add(newEmployee);
-            context.SaveChanges();
+            databaseContext.Employees.Add(newEmployee);
+            databaseContext.SaveChanges();
 
             return newEmployee.Id;
         }
 
         public void UpdateEmployee(Employee updatedEmployee)
         {
-            context.Employees.Update(updatedEmployee);
-            context.SaveChanges();
+            databaseContext.Employees.Update(updatedEmployee);
+            databaseContext.SaveChanges();
         }
 
         public void DeleteEmployee(int employeeId)
         {
-            Employee? employeeToDelete = context.Employees
-                .FirstOrDefault(employee => employee.Id == employeeId);
+            Employee? employeeToRemove = this.GetEmployeeById(employeeId);
 
-            if (employeeToDelete != null)
+            if (employeeToRemove == null)
             {
-                context.Employees.Remove(employeeToDelete);
-                context.SaveChanges();
+                return;
             }
+
+            databaseContext.Employees.Remove(employeeToRemove);
+            databaseContext.SaveChanges();
         }
     }
 }
-
-

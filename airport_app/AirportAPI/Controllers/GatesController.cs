@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,47 +5,61 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/gates")]
-public class GatesController : ControllerBase
+[Route("api/[controller]")]
+public class GatesController(IGateRepository gateRepository) : ControllerBase
 {
-    private readonly IGateRepository gateRepository;
-
-    public GatesController(IGateRepository gateRepository)
-    {
-        this.gateRepository = gateRepository;
-    }
+    private const string NullGateDataErrorMessage = "Gate data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Gate>> GetAll()
     {
-        return Ok(gateRepository.GetAllGates());
+        return this.Ok(gateRepository.GetAllGates());
     }
 
     [HttpGet("{gateId:int}")]
     public ActionResult<Gate> GetById(int gateId)
     {
         Gate? gate = gateRepository.GetGateById(gateId);
-        return gate == null ? NotFound() : Ok(gate);
+
+        if (gate == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(gate);
     }
 
     [HttpPost]
-    public ActionResult<Gate> Add(Gate gate)
+    public ActionResult<Gate> Add([FromBody] Gate gate)
     {
+        if (gate == null)
+        {
+            return this.BadRequest(NullGateDataErrorMessage);
+        }
+
         int gateId = gateRepository.AddGate(gate);
-        return CreatedAtAction(nameof(GetById), new { gateId }, gate);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { gateId }, gate);
     }
 
     [HttpPut("{gateId:int}")]
-    public IActionResult Update(int gateId, Gate gate)
+    public IActionResult Update(int gateId, [FromBody] Gate gate)
     {
+        if (gate == null)
+        {
+            return this.BadRequest(NullGateDataErrorMessage);
+        }
+
         if (gateRepository.GetGateById(gateId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         gate.Id = gateId;
+
         gateRepository.UpdateGate(gate);
-        return NoContent();
+
+        return this.NoContent();
     }
 
     [HttpDelete("{gateId:int}")]
@@ -54,10 +67,11 @@ public class GatesController : ControllerBase
     {
         if (gateRepository.GetGateById(gateId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         gateRepository.DeleteGateUsingId(gateId);
-        return NoContent();
+
+        return this.NoContent();
     }
 }
