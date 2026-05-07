@@ -1,9 +1,10 @@
 ﻿namespace AirportAPI.Repositories.Interfaces
 {
     using System.Collections.Generic;
+
     using AirportAPI.Domain;
 
-    public interface IShopRepo
+    public interface IShopRepository
     {
         IEnumerable<Shop> GetAll();
 

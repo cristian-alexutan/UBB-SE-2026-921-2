@@ -5,16 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers
 {
     [ApiController]
+    // explicit string to force hyphen
     [Route("api/shop-items")]
-    public class ShopItemsController(IShopItemRepo shopItemRepository) : ControllerBase
+    public class ShopItemsController(IShopItemRepository shopItemRepository) : ControllerBase
     {
+        private const string NullShopItemDataErrorMessage = "Shop item data cannot be null.";
+
         [HttpGet]
         public ActionResult<IEnumerable<ShopItem>> GetAll()
         {
             return this.Ok(shopItemRepository.GetAll());
         }
 
-        [HttpGet("{shopItemId}")]
+        [HttpGet("{shopItemId:int}")]
         public ActionResult<ShopItem> GetById(int shopItemId)
         {
             ShopItem? shopItem = shopItemRepository.GetById(shopItemId);
@@ -32,24 +35,44 @@ namespace AirportAPI.Controllers
         {
             if (newShopItem == null)
             {
-                return this.BadRequest("Shop item data is required.");
+                return this.BadRequest(NullShopItemDataErrorMessage);
             }
 
             shopItemRepository.Add(newShopItem);
-            return this.Ok();
+
+            return this.CreatedAtAction(nameof(this.GetById), new { shopItemId = newShopItem.Id }, newShopItem);
         }
 
-        [HttpPut]
-        public ActionResult Update([FromBody] ShopItem shopItemToUpdate)
+        [HttpPut("{shopItemId:int}")]
+        public IActionResult Update(int shopItemId, [FromBody] ShopItem shopItemToUpdate)
         {
+            if (shopItemToUpdate == null)
+            {
+                return this.BadRequest(NullShopItemDataErrorMessage);
+            }
+
+            if (shopItemRepository.GetById(shopItemId) == null)
+            {
+                return this.NotFound();
+            }
+
+            shopItemToUpdate.Id = shopItemId;
+
             shopItemRepository.Update(shopItemToUpdate);
+
             return this.NoContent();
         }
 
-        [HttpDelete("{shopItemId}")]
-        public ActionResult Delete(int shopItemId)
+        [HttpDelete("{shopItemId:int}")]
+        public IActionResult Delete(int shopItemId)
         {
+            if (shopItemRepository.GetById(shopItemId) == null)
+            {
+                return this.NotFound();
+            }
+
             shopItemRepository.Delete(shopItemId);
+
             return this.NoContent();
         }
     }

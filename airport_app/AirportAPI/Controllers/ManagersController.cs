@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,53 +5,78 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/managers")]
-public class ManagersController : ControllerBase
+[Route("api/[controller]")]
+public class ManagersController(IManagerRepository managerRepository) : ControllerBase
 {
-    private readonly IManagerRepo managerRepo;
-
-    public ManagersController(IManagerRepo managerRepo)
-    {
-        this.managerRepo = managerRepo;
-    }
+    private const string NullManagerDataErrorMessage = "Manager data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Manager>> GetAll()
     {
-        return Ok(managerRepo.GetAll());
+        return this.Ok(managerRepository.GetAll());
     }
 
     [HttpGet("{managerId:int}")]
     public ActionResult<Manager> GetById(int managerId)
     {
-        Manager? manager = managerRepo.GetById(managerId);
-        return manager == null ? NotFound() : Ok(manager);
+        Manager? manager = managerRepository.GetById(managerId);
+
+        if (manager == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(manager);
     }
 
     [HttpPost]
-    public ActionResult<Manager> Add(Manager manager)
+    public ActionResult<Manager> Add([FromBody] Manager manager)
     {
-        managerRepo.Add(manager);
-        return CreatedAtAction(nameof(GetById), new { managerId = manager.Id }, manager);
+        if (manager == null)
+        {
+            return this.BadRequest(NullManagerDataErrorMessage);
+        }
+
+        managerRepository.Add(manager);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { managerId = manager.Id }, manager);
     }
 
     [HttpPut("{managerId:int}")]
-    public ActionResult<Manager> Update(int managerId, Manager manager)
+    public ActionResult<Manager> Update(int managerId, [FromBody] Manager manager)
     {
-        if (managerRepo.GetById(managerId) == null)
+        if (manager == null)
         {
-            return NotFound();
+            return this.BadRequest(NullManagerDataErrorMessage);
+        }
+
+        if (managerRepository.GetById(managerId) == null)
+        {
+            return this.NotFound();
         }
 
         manager.Id = managerId;
-        Manager? updatedManager = managerRepo.Update(manager);
-        return updatedManager == null ? NotFound() : Ok(updatedManager);
+
+        Manager? updatedManager = managerRepository.Update(manager);
+
+        if (updatedManager == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(updatedManager);
     }
 
     [HttpDelete("{managerId:int}")]
     public ActionResult<Manager> Delete(int managerId)
     {
-        Manager? deletedManager = managerRepo.Delete(managerId);
-        return deletedManager == null ? NotFound() : Ok(deletedManager);
+        Manager? deletedManager = managerRepository.Delete(managerId);
+
+        if (deletedManager == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(deletedManager);
     }
 }

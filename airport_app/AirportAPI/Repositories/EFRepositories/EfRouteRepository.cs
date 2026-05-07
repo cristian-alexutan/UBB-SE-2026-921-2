@@ -6,7 +6,7 @@ using Route = AirportAPI.Domain.Route;
 
 namespace AirportAPI.Repositories
 {
-    public class RouteRepository(AppDbContext databaseContext) : IRouteRepository
+    public class EfRouteRepository(AppDbContext databaseContext) : IRouteRepository
     {
         public List<Route> GetAllRoutes()
         {

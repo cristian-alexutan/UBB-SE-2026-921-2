@@ -5,53 +5,76 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/clients")]
-public class ClientsController : ControllerBase
+[Route("api/[controller]")]
+public class ClientsController(IClientRepository clientRepository) : ControllerBase
 {
-    private readonly IClientRepo clientRepo;
-
-    public ClientsController(IClientRepo clientRepo)
-    {
-        this.clientRepo = clientRepo;
-    }
+    private const string MissingClientDataErrorMessage = "Client data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Client>> GetAll()
     {
-        return Ok(clientRepo.GetAll());
+        return this.Ok(clientRepository.GetAll());
     }
 
     [HttpGet("{clientId:int}")]
     public ActionResult<Client> GetById(int clientId)
     {
-        Client? client = clientRepo.GetById(clientId);
-        return client == null ? NotFound() : Ok(client);
+        Client? client = clientRepository.GetById(clientId);
+
+        if (client == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(client);
     }
 
     [HttpPost]
-    public ActionResult<Client> Add(Client client)
+    public ActionResult<Client> Add([FromBody] Client client)
     {
-        clientRepo.Add(client);
-        return CreatedAtAction(nameof(GetById), new { clientId = client.Id }, client);
-    }
-
-    [HttpPut("{clientId:int}")]
-    public ActionResult<Client> Update(int clientId, Client client)
-    {
-        if (clientRepo.GetById(clientId) == null)
+        if (client == null)
         {
-            return NotFound();
+            return this.BadRequest(MissingClientDataErrorMessage);
+        }
+
+        clientRepository.Add(client);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { clientId = client.Id }, client);
+    }
+    [HttpPut("{clientId:int}")]
+    public ActionResult<Client> Update(int clientId, [FromBody] Client client)
+    {
+        if (client == null)
+        {
+            return this.BadRequest(MissingClientDataErrorMessage);
+        }
+
+        if (clientRepository.GetById(clientId) == null)
+        {
+            return this.NotFound();
         }
 
         client.Id = clientId;
-        Client? updatedClient = clientRepo.Update(client);
-        return updatedClient == null ? NotFound() : Ok(updatedClient);
+        Client? updatedClient = clientRepository.Update(client);
+
+        if (updatedClient == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(updatedClient);
     }
 
     [HttpDelete("{clientId:int}")]
     public ActionResult<Client> Delete(int clientId)
     {
-        Client? deletedClient = clientRepo.Delete(clientId);
-        return deletedClient == null ? NotFound() : Ok(deletedClient);
+        Client? deletedClient = clientRepository.Delete(clientId);
+
+        if (deletedClient == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(deletedClient);
     }
 }

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportAPI.Repositories;
 
-public class EfTicketRepo : ITicketRepo
+public class EfTicketRepository : ITicketRepository
 {
     private readonly AppDbContext dbContext;
 
-    public EfTicketRepo(AppDbContext dbContext)
+    public EfTicketRepository(AppDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

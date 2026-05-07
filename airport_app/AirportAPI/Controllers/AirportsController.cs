@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,47 +5,59 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/airports")]
-public class AirportsController : ControllerBase
+[Route("api/[controller]")]
+public class AirportsController(IAirportRepository airportRepository) : ControllerBase
 {
-    private readonly IAirportRepository airportRepository;
-
-    public AirportsController(IAirportRepository airportRepository)
-    {
-        this.airportRepository = airportRepository;
-    }
+    private const string MissingDataErrorMessage = "Airport data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Airport>> GetAll()
     {
-        return Ok(airportRepository.GetAllAirports());
+        return this.Ok(airportRepository.GetAllAirports());
     }
 
     [HttpGet("{airportId:int}")]
     public ActionResult<Airport> GetById(int airportId)
     {
         Airport? airport = airportRepository.GetAirportById(airportId);
-        return airport == null ? NotFound() : Ok(airport);
+
+        if (airport == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(airport);
     }
 
     [HttpPost]
-    public ActionResult<Airport> Add(Airport airport)
+    public ActionResult<Airport> Add([FromBody] Airport airport)
     {
-        int airportId = airportRepository.AddAirport(airport);
-        return CreatedAtAction(nameof(GetById), new { airportId }, airport);
-    }
+        if (airport == null)
+        {
+            return this.BadRequest(MissingDataErrorMessage);
+        }
 
+        int airportId = airportRepository.AddAirport(airport);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { airportId }, airport);
+    }
     [HttpPut("{airportId:int}")]
-    public IActionResult Update(int airportId, Airport airport)
+    public IActionResult Update(int airportId, [FromBody] Airport airport)
     {
         if (airportRepository.GetAirportById(airportId) == null)
         {
-            return NotFound();
+            return this.NotFound();
+        }
+
+        if (airport == null)
+        {
+            return this.BadRequest(MissingDataErrorMessage);
         }
 
         airport.Id = airportId;
         airportRepository.UpdateAirport(airport);
-        return NoContent();
+
+        return this.NoContent();
     }
 
     [HttpDelete("{airportId:int}")]
@@ -54,10 +65,11 @@ public class AirportsController : ControllerBase
     {
         if (airportRepository.GetAirportById(airportId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         airportRepository.DeleteAirportUsingId(airportId);
-        return NoContent();
+
+        return this.NoContent();
     }
 }

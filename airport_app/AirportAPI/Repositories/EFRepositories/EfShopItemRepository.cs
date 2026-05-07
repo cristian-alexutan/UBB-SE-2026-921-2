@@ -1,14 +1,14 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace AirportAPI.Repositories
 {
-    public class EfShopItemRepo : IShopItemRepo
+    public class EfShopItemRepository : IShopItemRepository
     {
         private readonly AppDbContext dbContext;
 
-        public EfShopItemRepo(AppDbContext dbContext)
+        public EfShopItemRepository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

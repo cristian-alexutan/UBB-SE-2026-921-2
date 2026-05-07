@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportAPI.Repositories;
 
-public class EfManagerRepo : IManagerRepo
+public class EfManagerRepository : IManagerRepository
 {
     private readonly AppDbContext dbContext;
-    public EfManagerRepo(AppDbContext dbContext)
+    public EfManagerRepository(AppDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

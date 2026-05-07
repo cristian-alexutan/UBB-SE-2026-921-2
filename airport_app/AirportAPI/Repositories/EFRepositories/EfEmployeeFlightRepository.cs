@@ -1,6 +1,4 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using AirportAPI.Repositories.Interfaces;
 
 namespace AirportAPI.Repositories
 {

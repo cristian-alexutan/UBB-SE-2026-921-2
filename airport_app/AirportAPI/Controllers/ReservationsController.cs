@@ -6,7 +6,7 @@ namespace AirportAPI.Controllers
 {
     [ApiController]
     [Route("api/reservations")]
-    public class ReservationController(IReservationRepo reservationRepository) : ControllerBase
+    public class ReservationsController(IReservationRepository reservationRepository) : ControllerBase
     {
         [HttpGet]
         public ActionResult<IEnumerable<Reservation>> GetAll()

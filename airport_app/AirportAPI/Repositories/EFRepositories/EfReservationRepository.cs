@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportAPI.Repositories
 {
-    public class ReservationRepository(AppDbContext databaseContext) : IReservationRepo
+    public class EfReservationRepository(AppDbContext databaseContext) : IReservationRepository
     {
         public IEnumerable<Reservation> GetAll()
         {

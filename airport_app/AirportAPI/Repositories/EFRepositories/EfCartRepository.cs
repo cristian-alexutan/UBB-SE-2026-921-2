@@ -1,19 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using AirportAPI;
-using AirportAPI.Domain;
-using AirportAPI.Repositories.Interfaces;
+﻿using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace AirportAPI.Repositories;
 
-public class EfCartDbRepo : ICartRepo
+public class EfCartRepository : ICartRepository
 {
     private readonly AppDbContext dbContext;
 
-    public EfCartDbRepo(AppDbContext dbContext)
+    public EfCartRepository(AppDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AirportAPI.Domain;
-
-namespace AirportAPI.Repositories.Interfaces
+﻿namespace AirportAPI.Repositories.Interfaces
 {
-    public interface ICartRepo
+    public interface ICartRepository
     {
         IEnumerable<Cart> GetAll();
         Cart GetById(int cartId);

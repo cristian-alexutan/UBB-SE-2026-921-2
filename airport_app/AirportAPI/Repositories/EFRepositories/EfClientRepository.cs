@@ -1,14 +1,11 @@
-﻿using AirportAPI;
-using AirportAPI.Repositories.Interfaces;
-
-using Microsoft.EntityFrameworkCore;
+﻿using AirportAPI.Repositories.Interfaces;
 
 namespace AirportAPI.Repositories;
 
-public class EfClientRepo : IClientRepo
+public class EfClientRepository : IClientRepository
 {
     private readonly AppDbContext dbContext;
-    public EfClientRepo(AppDbContext dbContext)
+    public EfClientRepository(AppDbContext dbContext)
     {
         this.dbContext = dbContext;
     }

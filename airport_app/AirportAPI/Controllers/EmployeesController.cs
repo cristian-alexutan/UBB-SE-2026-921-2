@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,47 +5,60 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/employees")]
-public class EmployeesController : ControllerBase
+[Route("api/[controller]")]
+public class EmployeesController(IEmployeeRepository employeeRepository) : ControllerBase
 {
-    private readonly IEmployeeRepository employeeRepository;
-
-    public EmployeesController(IEmployeeRepository employeeRepository)
-    {
-        this.employeeRepository = employeeRepository;
-    }
+    private const string NullEmployeeDataErrorMessage = "Employee data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Employee>> GetAll()
     {
-        return Ok(employeeRepository.GetAllEmployees());
+        return this.Ok(employeeRepository.GetAllEmployees());
     }
 
     [HttpGet("{employeeId:int}")]
     public ActionResult<Employee> GetById(int employeeId)
     {
         Employee? employee = employeeRepository.GetEmployeeById(employeeId);
-        return employee == null ? NotFound() : Ok(employee);
+
+        if (employee == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(employee);
     }
 
     [HttpPost]
-    public ActionResult<Employee> Add(Employee employee)
+    public ActionResult<Employee> Add([FromBody] Employee employee)
     {
+        if (employee == null)
+        {
+            return this.BadRequest(NullEmployeeDataErrorMessage);
+        }
+
         int employeeId = employeeRepository.AddEmployee(employee);
-        return CreatedAtAction(nameof(GetById), new { employeeId }, employee);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { employeeId }, employee);
     }
 
     [HttpPut("{employeeId:int}")]
-    public IActionResult Update(int employeeId, Employee employee)
+    public IActionResult Update(int employeeId, [FromBody] Employee employee)
     {
+        if (employee == null)
+        {
+            return this.BadRequest(NullEmployeeDataErrorMessage);
+        }
+
         if (employeeRepository.GetEmployeeById(employeeId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         employee.Id = employeeId;
         employeeRepository.UpdateEmployee(employee);
-        return NoContent();
+
+        return this.NoContent();
     }
 
     [HttpDelete("{employeeId:int}")]
@@ -54,10 +66,11 @@ public class EmployeesController : ControllerBase
     {
         if (employeeRepository.GetEmployeeById(employeeId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         employeeRepository.DeleteEmployee(employeeId);
-        return NoContent();
+
+        return this.NoContent();
     }
 }

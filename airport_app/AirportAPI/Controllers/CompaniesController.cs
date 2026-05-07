@@ -1,4 +1,3 @@
-using AirportAPI.Domain;
 using AirportAPI.Repositories.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,47 +5,59 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirportAPI.Controllers;
 
 [ApiController]
-[Route("api/companies")]
-public class CompaniesController : ControllerBase
+[Route("api/[controller]")]
+public class CompaniesController(ICompanyRepository companyRepository) : ControllerBase
 {
-    private readonly ICompanyRepository companyRepository;
-
-    public CompaniesController(ICompanyRepository companyRepository)
-    {
-        this.companyRepository = companyRepository;
-    }
+    private const string MissingCompanyDataErrorMessage = "Company data cannot be null.";
 
     [HttpGet]
     public ActionResult<IEnumerable<Company>> GetAll()
     {
-        return Ok(companyRepository.GetAllCompanies());
+        return this.Ok(companyRepository.GetAllCompanies());
     }
-
     [HttpGet("{companyId:int}")]
     public ActionResult<Company> GetById(int companyId)
     {
         Company? company = companyRepository.GetCompanyById(companyId);
-        return company == null ? NotFound() : Ok(company);
+
+        if (company == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(company);
     }
 
     [HttpPost]
-    public ActionResult<Company> Add(Company company)
+    public ActionResult<Company> Add([FromBody] Company company)
     {
+        if (company == null)
+        {
+            return this.BadRequest(MissingCompanyDataErrorMessage);
+        }
+
         int companyId = companyRepository.AddCompany(company);
-        return CreatedAtAction(nameof(GetById), new { companyId }, company);
+
+        return this.CreatedAtAction(nameof(this.GetById), new { companyId }, company);
     }
 
     [HttpPut("{companyId:int}")]
-    public IActionResult Update(int companyId, Company company)
+    public IActionResult Update(int companyId, [FromBody] Company company)
     {
+        if (company == null)
+        {
+            return this.BadRequest(MissingCompanyDataErrorMessage);
+        }
+
         if (companyRepository.GetCompanyById(companyId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         company.Id = companyId;
         companyRepository.UpdateCompany(company);
-        return NoContent();
+
+        return this.NoContent();
     }
 
     [HttpDelete("{companyId:int}")]
@@ -54,10 +65,11 @@ public class CompaniesController : ControllerBase
     {
         if (companyRepository.GetCompanyById(companyId) == null)
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         companyRepository.DeleteCompanyUsingId(companyId);
-        return NoContent();
+
+        return this.NoContent();
     }
 }
