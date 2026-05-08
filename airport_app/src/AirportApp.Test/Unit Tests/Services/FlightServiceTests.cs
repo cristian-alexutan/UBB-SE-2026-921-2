@@ -21,7 +21,7 @@ public class FlightServiceTests
     private const int NewGateId = 9;
 
     [Fact]
-    public void GetAll_Should_Return_All_Flights_Always()
+    public void GetAll_ShouldReturnAllFlights_Always()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flights = new List<Flight>
@@ -39,7 +39,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Null_For_Invalid_Id()
+    public void GetById_ShouldReturnNull_ForInvalidId()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -48,7 +48,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Flight_When_Found()
+    public void GetById_ShouldReturnFlight_WhenFound()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight { FlightNumber = FirstFlightNumber };
@@ -61,7 +61,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetByRoute_Should_Return_Empty_List_For_Invalid_RouteId()
+    public void GetByRoute_ShouldReturnEmptyList_ForInvalidRouteId()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -73,7 +73,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void GetByRoute_Should_Return_Flights_When_Found()
+    public void GetByRoute_ShouldReturnFlights_WhenFound()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flights = new List<Flight> { new Flight { FlightNumber = FirstFlightNumber } };
@@ -86,7 +86,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Null_FlightNumber()
+    public void AddFlight_ShouldThrow_ForNullFlightNumber()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -95,7 +95,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Empty_FlightNumber()
+    public void AddFlight_ShouldThrow_ForEmptyFlightNumber()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -104,7 +104,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Whitespace_FlightNumber()
+    public void AddFlight_ShouldThrow_ForWhitespaceFlightNumber()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -113,7 +113,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Invalid_RouteId()
+    public void AddFlight_ShouldThrow_ForInvalidRouteId()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -122,7 +122,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Add_Should_Work_For_Valid_Data()
+    public void AddFlight_ShouldWork_ForValidData()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         mockFlightRepo.Setup(addFlight => addFlight.AddFlight(It.IsAny<Flight>())).Returns(ValidFlightId);
@@ -135,7 +135,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Update_Should_Throw_When_Flight_Not_Found()
+    public void UpdateFlight_ShouldThrow_WhenFlightNotFound()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         mockFlightRepo.Setup(getFlight => getFlight.GetFlightById(InvalidFlightId)).Returns((Flight)null);
@@ -146,7 +146,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_Only_Date_When_FlightNumber_Is_Not_Provided()
+    public void UpdateFlight_ShouldUpdateOnlyDate_WhenFlightNumberIsNotProvided()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight { FlightNumber = FirstFlightNumber, Date = FlightDate };
@@ -160,7 +160,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_Only_FlightNumber_When_Date_Is_Not_Provided()
+    public void UpdateFlight_ShouldUpdateOnlyFlightNumber_WhenDateIsNotProvided()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight { FlightNumber = FirstFlightNumber, Date = FlightDate };
@@ -174,7 +174,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_Only_RunwayId_When_Other_Fields_Are_Not_Provided()
+    public void UpdateFlight_ShouldUpdateOnlyRunwayId_WhenOtherFieldsAreNotProvided()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight { FlightNumber = FirstFlightNumber, Runway = new Runway { Id = ValidRunwayId } };
@@ -188,7 +188,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_Only_GateId_When_Other_Fields_Are_Not_Provided()
+    public void UpdateFlight_ShouldUpdateOnlyGateId_WhenOtherFieldsAreNotProvided()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight { FlightNumber = FirstFlightNumber, Gate = new Gate { Id = ValidGateId } };
@@ -202,7 +202,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_All_Fields_When_All_Fields_Are_Provided()
+    public void UpdateFlight_ShouldUpdateAllFields_WhenAllFieldsAreProvided()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flight = new Flight
@@ -225,7 +225,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Delete_Should_Throw_For_Invalid_Id()
+    public void DeleteFlight_Should_Throw_For_Invalid_Id()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         var flightService = new FlightService(mockFlightRepo.Object);
@@ -234,7 +234,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Delete_Should_Throw_When_Flight_Not_Found()
+    public void DeleteFlight_ShouldThrow_WhenFlightNotFound()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         mockFlightRepo.Setup(getNoFlight => getNoFlight.GetFlightById(InvalidFlightId)).Returns((Flight)null);
@@ -245,7 +245,7 @@ public class FlightServiceTests
     }
 
     [Fact]
-    public void Delete_Should_Call_Repo_For_Valid_Id()
+    public void DeleteFlight_ShouldCall_RepoForValidId()
     {
         var mockFlightRepo = new Mock<IFlightRepository>();
         mockFlightRepo.Setup(getFlight => getFlight.GetFlightById(ValidFlightId)).Returns(new Flight());

@@ -13,7 +13,7 @@ public class GateServiceTests
     private const int InexistentGateId = 0;
 
     [Fact]
-    public void GetAll_Should_Return_All_Gates_Always()
+    public void GetAllGates_ShouldReturnAllGates_Always()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -33,7 +33,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Null_For_Invalid_Id()
+    public void GetGateById_ShouldReturnNull_ForInvalidId()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -43,7 +43,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Gate_When_Found()
+    public void GetGateById_ShouldReturnGate_WhenFound()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -56,7 +56,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Null_Name()
+    public void AddGate_ShouldThrow_ForNullName()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -66,7 +66,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Empty_Name()
+    public void AddGate_ShouldThrow_ForEmptyName()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -76,7 +76,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Whitespace_Name()
+    public void AddGate_ShouldThrow_ForWhitespaceName()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -86,7 +86,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Add_Should_Work_For_Valid_Data()
+    public void AddGate_ShouldWork_ForValidData()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -100,7 +100,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Update_Should_Do_Nothing_If_Gate_Not_Found()
+    public void UpdateGate_ShouldDoNothing_IfGateNotFound()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -113,7 +113,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Update_Should_Throw_For_Whitespace_New_Name()
+    public void UpdateGate_ShouldThrow_ForWhitespaceNewName()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -125,7 +125,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Update_Should_Throw_For_Empty_New_Name()
+    public void UpdateGate_ShouldThrow_ForEmptyNewName()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -137,7 +137,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_Name_For_Valid_Data()
+    public void UpdateGate_ShouldUpdateName_ForValidData()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -151,7 +151,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Update_Should_Call_Repo_Even_When_No_Changes()
+    public void UpdateGate_ShouldCallRepo_EvenWhenNoChanges()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -165,7 +165,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Delete_Should_Not_Call_Repo_For_Invalid_Id()
+    public void DeleteShould_NotCallRepo_ForInvalidId()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -177,7 +177,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void Delete_Should_Call_Repo_For_Valid_Id()
+    public void Delete_ShouldCallRepo_ForValidId()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -189,7 +189,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void SaveGate_Should_Call_Add_When_Id_Is_Zero()
+    public void SaveGate_ShouldCallAdd_WhenIdIsZero()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -203,7 +203,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void SaveGate_Should_Call_Update_When_Id_Is_NonZero()
+    public void SaveGate_ShouldCallUpdate_WhenIdIsNonZero()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -217,7 +217,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void HasFlights_Should_Return_True_When_Flights_Exist()
+    public void HasFlights_ShouldReturnTrue_WhenFlightsExist()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -229,7 +229,7 @@ public class GateServiceTests
     }
 
     [Fact]
-    public void HasFlights_Should_Return_False_When_No_Flights_Exist()
+    public void HasFlights_ShouldReturnFalse_WhenNoFlightsExist()
     {
         var mockGateRepo = new Mock<IGateRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
