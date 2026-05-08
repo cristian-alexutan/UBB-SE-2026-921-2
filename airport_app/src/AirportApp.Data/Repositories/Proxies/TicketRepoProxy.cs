@@ -1,6 +1,6 @@
 namespace AirportApp.Data.Repositories.Proxies;
 
-public class TicketRepoProxy : RepositoryProxyBase, ITicketRepo
+public class TicketRepoProxy : RepositoryProxyBase, ITicketRepository
 {
     public TicketRepoProxy(HttpClient httpClient)
         : base(httpClient)

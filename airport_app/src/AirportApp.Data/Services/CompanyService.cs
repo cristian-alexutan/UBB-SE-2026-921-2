@@ -1,7 +1,4 @@
-﻿using AirportApp.Data.Repositories.Interfaces;
-using AirportApp.Data.Services.Interfaces;
-
-namespace AirportApp.Data.Services
+﻿namespace AirportApp.Data.Services
 {
     public class CompanyService(
         ICompanyRepository companyRepository,

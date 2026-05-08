@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 namespace AirportApp.Data.Repositories.Proxies;
 
-public class ShopRepoProxy : RepositoryProxyBase, IShopRepo
+public class ShopRepoProxy : RepositoryProxyBase, IShopRepository
 {
     public ShopRepoProxy(HttpClient httpClient)
         : base(httpClient)

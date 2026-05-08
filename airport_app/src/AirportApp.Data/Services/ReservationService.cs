@@ -1,58 +1,68 @@
-using System;
-using System.Collections.Generic;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-
 namespace AirportApp.Data.Services
 {
-    public class ReservationService : IReservationService
+    public class ReservationService(
+        IReservationRepository reservationRepository,
+        IShopItemService shopItemService,
+        ICartService cartService) : IReservationService
     {
-        private readonly IReservationRepo reservationRepo;
-        private readonly IShopItemService shopItemService;
-        private readonly ICartService cartService;
+        private const string OutOfStockErrorMessageTemplate = "Not enough stock for '{0}'. Requested: {1}, Available: {2}";
+        private const string MissingShopItemErrorMessage = "A product included in the reservation could not be found in the inventory.";
 
-        public ReservationService(IReservationRepo reservationRepo, IShopItemService shopItemService, ICartService cartService)
-        {
-            this.reservationRepo = reservationRepo;
-            this.shopItemService = shopItemService;
-            this.cartService = cartService;
-        }
         public IEnumerable<Reservation> GetAllReservations()
         {
-            return reservationRepo.GetAll();
+            return reservationRepository.GetAll();
         }
-        public Reservation GetReservationById(int reservationId)
+
+        public Reservation? GetReservationById(int reservationId)
         {
-            return reservationRepo.GetById(reservationId);
+            return reservationRepository.GetById(reservationId);
         }
+
         public void ReserveCart(Reservation reservation)
         {
+            if (reservation == null)
+            {
+                throw new ArgumentNullException(nameof(reservation));
+            }
+
             var reservationCartItems = reservation.ReservationCart.CartItems;
 
-            foreach (var cartItem in reservationCartItems)
+            foreach (CartItem cartItem in reservationCartItems)
             {
-                var shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
+                ShopItem? shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
+
+                if (shopItem == null)
+                {
+                    throw new InvalidOperationException(MissingShopItemErrorMessage);
+                }
+
                 if (shopItem.Quantity < cartItem.Quantity)
                 {
-                    throw new Exception($"Not enough stock for '{shopItem.Name}'. " +
-                        $"Requested: {cartItem.Quantity}, Available: {shopItem.Quantity}");
+                    string errorMessage = string.Format(
+                        OutOfStockErrorMessageTemplate,
+                        shopItem.Name,
+                        cartItem.Quantity,
+                        shopItem.Quantity);
+
+                    throw new InvalidOperationException(errorMessage);
                 }
             }
 
-            foreach (var cartItem in reservationCartItems)
+            foreach (CartItem cartItem in reservationCartItems)
             {
-                var shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
+                ShopItem shopItem = shopItemService.GetById(cartItem.ShopItem.Id)!;
                 shopItem.Quantity -= cartItem.Quantity;
                 shopItemService.UpdateShopItem(shopItem);
             }
 
-            reservationRepo.Add(reservation);
+            reservationRepository.Add(reservation);
         }
 
-        public Reservation GetActiveReservationForCart(int cartId)
+        public Reservation? GetActiveReservationForCart(int cartId)
         {
-            foreach (var reservation in this.reservationRepo.GetAll())
+            IEnumerable<Reservation> allReservations = reservationRepository.GetAll();
+
+            foreach (Reservation reservation in allReservations)
             {
                 if (reservation.ReservationCart.Id == cartId && reservation.Active)
                 {
@@ -65,32 +75,40 @@ namespace AirportApp.Data.Services
 
         public void DeleteReservation(int reservationId)
         {
-            reservationRepo.Delete(reservationId);
+            reservationRepository.Delete(reservationId);
         }
 
         public void CancelReservation(int reservationId)
         {
-            Reservation reservation = reservationRepo.GetById(reservationId);
+            Reservation? reservation = reservationRepository.GetById(reservationId);
+
+            if (reservation == null)
+            {
+                return;
+            }
 
             if (!reservation.Active)
             {
                 return;
             }
 
-            if (reservation.ReservationCart?.CartItems != null)
+            if (reservation.ReservationCart != null && reservation.ReservationCart.CartItems != null)
             {
-                foreach (var cartItem in reservation.ReservationCart.CartItems)
+                foreach (CartItem cartItem in reservation.ReservationCart.CartItems)
                 {
-                    var shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
-                    shopItem.Quantity += cartItem.Quantity;
-                    shopItemService.UpdateShopItem(shopItem);
+                    ShopItem? shopItem = shopItemService.GetById(cartItem.ShopItem.Id);
+                    if (shopItem != null)
+                    {
+                        shopItem.Quantity += cartItem.Quantity;
+                        shopItemService.UpdateShopItem(shopItem);
+                    }
                 }
             }
 
-            cartService.ClearCart(reservation.ReservationCart.Id);
+            cartService.ClearCart(reservation.ReservationCart!.Id);
             reservation.Active = false;
 
-            reservationRepo.Update(reservation);
+            reservationRepository.Update(reservation);
         }
     }
 }

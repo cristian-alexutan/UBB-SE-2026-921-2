@@ -1,32 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-using AirportApp.Data.Services.Interfaces;
-
 namespace AirportApp.Data.Services
 {
-    public class ShopItemService : IShopItemService
+    public class ShopItemService(IShopItemRepository shopItemRepository) : IShopItemService
     {
-        private readonly IShopItemRepo shopItemRepository;
-
-        public ShopItemService(IShopItemRepo shopItemRepository)
-        {
-            this.shopItemRepository = shopItemRepository;
-        }
+        private const string ItemNotFoundErrorMessage = "Shop item with Id {0} does not exist.";
+        private const string NegativeQuantityErrorMessage = "Quantity cannot be negative.";
+        private const string InvalidPriceErrorMessage = "Price must be greater than zero.";
+        private const string EmptyNameErrorMessage = "Shop item name cannot be empty.";
+        private const string InvalidShopErrorMessage = "Shop item must have a valid shop Id.";
 
         public IEnumerable<ShopItem> GetAll()
         {
-            return this.shopItemRepository.GetAll();
+            return shopItemRepository.GetAll();
         }
 
         public ShopItem GetById(int shopItemId)
         {
-            ShopItem? shopItem = this.shopItemRepository.GetById(shopItemId);
+            ShopItem? shopItem = shopItemRepository.GetById(shopItemId);
+
             if (shopItem == null)
             {
-                throw new InvalidOperationException($"Shop item with id {shopItemId} does not exist.");
+                throw new InvalidOperationException(string.Format(ItemNotFoundErrorMessage, shopItemId));
             }
 
             return shopItem;
@@ -34,33 +27,52 @@ namespace AirportApp.Data.Services
 
         public IEnumerable<ShopItem> GetItemsByShopId(int shopId)
         {
-            return this.shopItemRepository.GetAll()
-                .Where(shopItem => shopItem.Shop != null && shopItem.Shop.Id == shopId);
+            IEnumerable<ShopItem> allItems = shopItemRepository.GetAll();
+            List<ShopItem> filteredItems = [];
+
+            foreach (ShopItem item in allItems)
+            {
+                if (item.Shop != null && item.Shop.Id == shopId)
+                {
+                    filteredItems.Add(item);
+                }
+            }
+
+            return filteredItems;
         }
 
         public IEnumerable<ShopItem> SearchItemsByName(int shopId, string searchText)
         {
-            searchText ??= string.Empty;
+            string query = searchText ?? string.Empty;
+            IEnumerable<ShopItem> shopItems = this.GetItemsByShopId(shopId);
+            List<ShopItem> matchingItems = [];
 
-            return this.GetItemsByShopId(shopId)
-                .Where(shopItem => shopItem.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase));
+            foreach (ShopItem item in shopItems)
+            {
+                if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                {
+                    matchingItems.Add(item);
+                }
+            }
+
+            return matchingItems;
         }
 
         public void RemoveShopItem(int shopItemId)
         {
-            this.shopItemRepository.Delete(shopItemId);
+            shopItemRepository.Delete(shopItemId);
         }
 
         public void AddShopItem(ShopItem shopItem)
         {
-            ValidateShopItem(shopItem);
-            this.shopItemRepository.Add(shopItem);
+            this.ValidateShopItem(shopItem);
+            shopItemRepository.Add(shopItem);
         }
 
         public void UpdateShopItem(ShopItem shopItem)
         {
-            ValidateShopItem(shopItem);
-            this.shopItemRepository.Update(shopItem);
+            this.ValidateShopItem(shopItem);
+            shopItemRepository.Update(shopItem);
         }
 
         public IEnumerable<ShopItem> GetItemsSortedByPrice(Shop currentShop)
@@ -70,8 +82,11 @@ namespace AirportApp.Data.Services
                 throw new ArgumentNullException(nameof(currentShop));
             }
 
-            return this.GetItemsByShopId(currentShop.Id)
-                .OrderBy(shopItem => shopItem.Price);
+            List<ShopItem> items = (List<ShopItem>)this.GetItemsByShopId(currentShop.Id);
+
+            items.Sort(new ShopItemPriceComparer());
+
+            return items;
         }
 
         public IEnumerable<ShopItem> GetItemsSortedAlphabetically(Shop currentShop)
@@ -81,30 +96,59 @@ namespace AirportApp.Data.Services
                 throw new ArgumentNullException(nameof(currentShop));
             }
 
-            return this.GetItemsByShopId(currentShop.Id)
-                .OrderBy(shopItem => shopItem.Name);
+            List<ShopItem> items = (List<ShopItem>)this.GetItemsByShopId(currentShop.Id);
+
+            items.Sort(new ShopItemNameComparer());
+
+            return items;
         }
 
-        private static void ValidateShopItem(ShopItem shopItem)
+        private void ValidateShopItem(ShopItem shopItem)
         {
             if (shopItem.Shop == null || shopItem.Shop.Id <= 0)
             {
-                throw new ArgumentException("Shop item must have a valid shop id.", nameof(shopItem));
+                throw new ArgumentException(InvalidShopErrorMessage, nameof(shopItem));
             }
 
             if (shopItem.Quantity < 0)
             {
-                throw new ArgumentException("Quantity cannot be negative.", nameof(shopItem));
+                throw new ArgumentException(NegativeQuantityErrorMessage, nameof(shopItem));
             }
 
             if (shopItem.Price <= 0)
             {
-                throw new ArgumentException("Price must be greater than zero.", nameof(shopItem));
+                throw new ArgumentException(InvalidPriceErrorMessage, nameof(shopItem));
             }
 
             if (string.IsNullOrWhiteSpace(shopItem.Name))
             {
-                throw new ArgumentException("Shop item name cannot be empty.", nameof(shopItem));
+                throw new ArgumentException(EmptyNameErrorMessage, nameof(shopItem));
+            }
+        }
+
+        private class ShopItemPriceComparer : IComparer<ShopItem>
+        {
+            public int Compare(ShopItem? firstItem, ShopItem? secondItem)
+            {
+                if (firstItem == null || secondItem == null)
+                {
+                    return 0;
+                }
+
+                return firstItem.Price.CompareTo(secondItem.Price);
+            }
+        }
+
+        private class ShopItemNameComparer : IComparer<ShopItem>
+        {
+            public int Compare(ShopItem? firstItem, ShopItem? secondItem)
+            {
+                if (firstItem == null || secondItem == null)
+                {
+                    return 0;
+                }
+
+                return string.Compare(firstItem.Name, secondItem.Name, StringComparison.OrdinalIgnoreCase);
             }
         }
     }

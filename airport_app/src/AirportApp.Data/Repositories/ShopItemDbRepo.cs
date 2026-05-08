@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 namespace AirportApp.Data.Repositories;
 
-public class ShopItemDbRepo : IShopItemRepo
+public class ShopItemDbRepo : IShopItemRepository
 {
     private readonly DatabaseConnectionFactory connectionFactory;
 

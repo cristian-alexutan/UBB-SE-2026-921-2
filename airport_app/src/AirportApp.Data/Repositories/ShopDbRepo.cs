@@ -7,7 +7,7 @@ namespace AirportApp.Data.Repositories
     using Microsoft.Data.SqlClient;
     using AirportApp.Data.Repositories;
 
-    public class ShopDbRepo : IShopRepo
+    public class ShopDbRepo : IShopRepository
     {
         private readonly DatabaseConnectionFactory databaseConnectionFactory;
 

@@ -9,13 +9,13 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops;
 
 public class ClientServiceTests
 {
-    private IClientRepo clientRepo = null!;
+    private IClientRepository clientRepo = null!;
     private ClientService clientService = null!;
 
     [SetUp]
     public void Setup()
     {
-        this.clientRepo = Substitute.For<IClientRepo>();
+        this.clientRepo = Substitute.For<IClientRepository>();
         this.clientService = new ClientService(this.clientRepo);
     }
 

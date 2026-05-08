@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp.Data.Repositories;
 
-public class EfClientRepo : IClientRepo
+public class EfClientRepo : IClientRepository
 {
     private readonly AppDbContext dbContext;
     public EfClientRepo(AppDbContext dbContext)

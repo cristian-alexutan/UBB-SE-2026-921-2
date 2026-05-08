@@ -3,7 +3,7 @@ namespace AirportApp.Data.Repositories.Interfaces
     using System.Collections.Generic;
     using AirportApp.Data.Domain;
 
-    public interface IShopRepo
+    public interface IShopRepository
     {
         IEnumerable<Shop> GetAll();
 

@@ -1,6 +1,6 @@
 namespace AirportApp.Data.Repositories.Proxies;
 
-public class ReservationRepoProxy : RepositoryProxyBase, IReservationRepo
+public class ReservationRepoProxy : RepositoryProxyBase, IReservationRepository
 {
     public ReservationRepoProxy(HttpClient httpClient)
         : base(httpClient)

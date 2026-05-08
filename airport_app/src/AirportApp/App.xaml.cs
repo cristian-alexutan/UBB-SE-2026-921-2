@@ -84,13 +84,13 @@ namespace AirportApp
             services.AddTransient<StaffLoginViewModel>();
 
             // Duty-Free Shops: Repositories
-            services.AddSingleton<IClientRepo, ClientRepoProxy>();
-            services.AddSingleton<ITicketRepo, TicketRepoProxy>();
-            services.AddSingleton<IManagerRepo, ManagerRepoProxy>();
-            services.AddSingleton<IShopRepo, ShopRepoProxy>();
-            services.AddSingleton<IShopItemRepo, ShopItemRepoProxy>();
-            services.AddSingleton<ICartRepo, CartRepoProxy>();
-            services.AddTransient<IReservationRepo, ReservationRepoProxy>();
+            services.AddSingleton<IClientRepository, ClientRepoProxy>();
+            services.AddSingleton<ITicketRepository, TicketRepoProxy>();
+            services.AddSingleton<IManagerRepository, ManagerRepoProxy>();
+            services.AddSingleton<IShopRepository, ShopRepoProxy>();
+            services.AddSingleton<IShopItemRepository, ShopItemRepoProxy>();
+            services.AddSingleton<ICartRepository, CartRepoProxy>();
+            services.AddTransient<IReservationRepository, ReservationRepoProxy>();
 
             // Duty-Free Shops: Services
             services.AddSingleton<IShopItemService, ShopItemService>();

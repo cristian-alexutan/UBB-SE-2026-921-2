@@ -1,6 +1,6 @@
 namespace AirportApp.Data.Repositories.Proxies;
 
-public class CartRepoProxy : RepositoryProxyBase, ICartRepo
+public class CartRepoProxy : RepositoryProxyBase, ICartRepository
 {
     public CartRepoProxy(HttpClient httpClient)
         : base(httpClient)

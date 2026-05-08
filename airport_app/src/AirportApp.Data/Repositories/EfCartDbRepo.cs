@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp.Data.Repositories;
 
-public class EfCartDbRepo : ICartRepo
+public class EfCartDbRepo : ICartRepository
 {
     private readonly AppDbContext dbContext;
 

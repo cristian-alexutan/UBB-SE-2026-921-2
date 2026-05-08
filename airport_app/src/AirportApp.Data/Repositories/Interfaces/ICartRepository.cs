@@ -7,7 +7,7 @@ using AirportApp.Data.Domain;
 
 namespace AirportApp.Data.Repositories.Interfaces
 {
-    public interface ICartRepo
+    public interface ICartRepository
     {
         IEnumerable<Cart> GetAll();
         Cart GetById(int cartId);

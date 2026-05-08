@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp.Data.Repositories;
 
-public class EfManagerRepo : IManagerRepo
+public class EfManagerRepo : IManagerRepository
 {
     private readonly AppDbContext dbContext;
     public EfManagerRepo(AppDbContext dbContext)

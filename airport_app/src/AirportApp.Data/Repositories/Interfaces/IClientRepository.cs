@@ -3,7 +3,7 @@ using AirportApp.Data.Domain;
 
 namespace AirportApp.Data.Repositories.Interfaces
 {
-    public interface IClientRepo
+    public interface IClientRepository
     {
         IEnumerable<Client> GetAll();
 

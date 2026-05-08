@@ -4,6 +4,12 @@
         IRunwayRepository runwayRepository,
         IFlightRepository flightRepository) : IRunwayService
     {
+        private const string EmptyRunwayNameErrorMessage = "The runway name cannot be empty.";
+        private const string RunwayNotFoundErrorMessage = "Runway with Id {0} does not exist in the system.";
+
+        private const string CriticalDeleteWarningTemplate = "CRITICAL: Runway '{0}' has flights assigned. Deleting it will remove ALL associated flights. Proceed?";
+        private const string StandardDeleteWarningTemplate = "Are you sure you want to delete runway '{0}'?";
+
         public List<Runway> GetAllRunways()
         {
             return runwayRepository.GetAllRunways();
@@ -15,6 +21,7 @@
             {
                 return null;
             }
+
             return runwayRepository.GetRunwayById(runwayId);
         }
 
@@ -22,12 +29,12 @@
         {
             if (string.IsNullOrWhiteSpace(runwayName))
             {
-                throw new ArgumentException("The runway name cannot be empty.");
+                throw new ArgumentException(EmptyRunwayNameErrorMessage, nameof(runwayName));
             }
 
             if (handleTime <= 0)
             {
-                throw new ArgumentException("The handle time must be a positive number greater than zero.");
+                throw new ArgumentException("The handle time must be a positive number greater than zero.", nameof(handleTime));
             }
 
             Runway newRunway = new Runway
@@ -45,14 +52,14 @@
 
             if (existingRunway == null)
             {
-                throw new InvalidOperationException($"Runway with Id {runwayId} does not exist.");
+                throw new InvalidOperationException(string.Format(RunwayNotFoundErrorMessage, runwayId));
             }
 
             if (newName != null)
             {
                 if (string.IsNullOrWhiteSpace(newName))
                 {
-                    throw new ArgumentException("The new runway name cannot be empty.");
+                    throw new ArgumentException(EmptyRunwayNameErrorMessage, nameof(newName));
                 }
 
                 existingRunway.Name = newName;
@@ -62,7 +69,7 @@
             {
                 if (newHandleTime <= 0)
                 {
-                    throw new ArgumentException("The handle time must be a positive number greater than zero.");
+                    throw new ArgumentException("The handle time must be a positive number greater than zero.", nameof(newHandleTime));
                 }
 
                 existingRunway.HandleTime = newHandleTime.Value;
@@ -73,11 +80,9 @@
 
         public void DeleteRunwayUsingId(int runwayId)
         {
-            Runway? runway = runwayRepository.GetRunwayById(runwayId);
-
-            if (runway == null)
+            if (runwayRepository.GetRunwayById(runwayId) == null)
             {
-                throw new InvalidOperationException($"Runway with Id {runwayId} does not exist.");
+                throw new InvalidOperationException(string.Format(RunwayNotFoundErrorMessage, runwayId));
             }
 
             runwayRepository.DeleteRunwayUsingId(runwayId);
@@ -107,14 +112,23 @@
             return associatedFlights.Count > 0;
         }
 
-        public string GetDeleteWarningMessage(int id)
+        public string GetDeleteWarningMessage(int runwayId)
         {
-            bool hasFlights = HasFlights(id);
-            if (hasFlights)
+            Runway? runway = this.GetRunwayById(runwayId);
+
+            if (runway == null)
             {
-                return $"CRITICAL: Runway '{GetRunwayById(id).Name}' has flights assigned. Deleting it will remove ALL associated flights. Proceed?";
+                return string.Empty;
             }
-            return $"Are you sure you want to delete runway '{GetRunwayById(id).Name}'?";
+
+            bool runwayHasAssignedFlights = this.HasFlights(runwayId);
+
+            if (runwayHasAssignedFlights)
+            {
+                return string.Format(CriticalDeleteWarningTemplate, runway.Name);
+            }
+
+            return string.Format(StandardDeleteWarningTemplate, runway.Name);
         }
     }
 }

@@ -4,6 +4,11 @@
         IGateRepository gateRepository,
         IFlightRepository flightRepository) : IGateService
     {
+        private const string EmptyGateNameErrorMessage = "The gate name cannot be empty.";
+
+        private const string CriticalDeleteWarningTemplate = "CRITICAL: Gate '{0}' has flights assigned. Deleting it will remove ALL associated flights. Proceed?";
+        private const string StandardDeleteWarningTemplate = "Are you sure you want to delete gate '{0}'?";
+
         public List<Gate> GetAllGates()
         {
             return gateRepository.GetAllGates();
@@ -23,7 +28,7 @@
         {
             if (string.IsNullOrWhiteSpace(gateName))
             {
-                throw new ArgumentException("The gate name cannot be empty.");
+                throw new ArgumentException(EmptyGateNameErrorMessage, nameof(gateName));
             }
 
             Gate newGate = new Gate
@@ -47,7 +52,7 @@
             {
                 if (string.IsNullOrWhiteSpace(updatedGateName))
                 {
-                    throw new ArgumentException("The new gate name cannot be empty.");
+                    throw new ArgumentException(EmptyGateNameErrorMessage, nameof(updatedGateName));
                 }
 
                 existingGate.Name = updatedGateName;
@@ -83,14 +88,23 @@
             return associatedFlights.Count > 0;
         }
 
-        public string GetDeleteWarningMessage(int id)
+        public string GetDeleteWarningMessage(int gateId)
         {
-            bool hasFlights = HasFlights(id);
-            if (hasFlights)
+            Gate? gate = this.GetGateById(gateId);
+
+            if (gate == null)
             {
-                return $"CRITICAL: Gate '{GetGateById(id).Name}' has flights assigned. Deleting it will remove ALL associated flights. Proceed?";
+                return string.Empty;
             }
-            return $"Are you sure you want to delete gate '{GetGateById(id).Name}'?";
+
+            bool gateHasAssignedFlights = this.HasFlights(gateId);
+
+            if (gateHasAssignedFlights)
+            {
+                return string.Format(CriticalDeleteWarningTemplate, gate.Name);
+            }
+
+            return string.Format(StandardDeleteWarningTemplate, gate.Name);
         }
     }
 }

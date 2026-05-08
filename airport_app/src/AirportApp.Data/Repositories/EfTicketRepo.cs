@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp.Data.Repositories;
 
-public class EfTicketRepo : ITicketRepo
+public class EfTicketRepo : ITicketRepository
 {
     private readonly AppDbContext dbContext;
 

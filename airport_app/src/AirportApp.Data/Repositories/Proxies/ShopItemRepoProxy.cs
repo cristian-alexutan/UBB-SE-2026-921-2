@@ -1,6 +1,6 @@
 namespace AirportApp.Data.Repositories.Proxies;
 
-public class ShopItemRepoProxy : RepositoryProxyBase, IShopItemRepo
+public class ShopItemRepoProxy : RepositoryProxyBase, IShopItemRepository
 {
     public ShopItemRepoProxy(HttpClient httpClient)
         : base(httpClient)

@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 namespace AirportApp.Data.Repositories.Proxies;
 
-public class ClientRepoProxy : RepositoryProxyBase, IClientRepo
+public class ClientRepoProxy : RepositoryProxyBase, IClientRepository
 {
     public ClientRepoProxy(HttpClient httpClient)
         : base(httpClient)

@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 namespace AirportApp.Data.Repositories
 {
-    public class TicketDbRepo : ITicketRepo
+    public class TicketDbRepo : ITicketRepository
     {
         private readonly DatabaseConnectionFactory connectionFactory;
 

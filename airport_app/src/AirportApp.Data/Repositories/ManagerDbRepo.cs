@@ -7,7 +7,7 @@ using AirportApp.Data.Repositories;
 
 namespace AirportApp.Data.Repositories
 {
-    public class ManagerDbRepo : IManagerRepo
+    public class ManagerDbRepo : IManagerRepository
     {
         private readonly DatabaseConnectionFactory databaseConnectionFactory;
 

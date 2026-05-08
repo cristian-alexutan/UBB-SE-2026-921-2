@@ -8,7 +8,7 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    public class EfShopRepository : IShopRepo
+    public class EfShopRepository : IShopRepository
     {
         private readonly AppDbContext context;
 

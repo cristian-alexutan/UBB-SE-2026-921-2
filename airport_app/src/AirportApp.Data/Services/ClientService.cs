@@ -1,72 +1,73 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-
 namespace AirportApp.Data.Services
 {
-    public class ClientService : IClientService
+    public class ClientService(IClientRepository clientRepository) : IClientService
     {
-        private readonly IClientRepo clientRepo;
-
-        public ClientService(IClientRepo clientRepo)
-        {
-            this.clientRepo = clientRepo;
-        }
+        private const string NullClientErrorMessage = "The client entity cannot be null.";
+        private const string EmptyNameErrorMessage = "The client name field must not be empty.";
+        private const string NoClientsFoundErrorMessage = "No clients are currently registered in the system.";
 
         public IEnumerable<Client> GetAllClients()
         {
-            return clientRepo.GetAll();
+            return clientRepository.GetAll();
         }
 
-        public Client GetClientById(int clientId)
+        public Client? GetClientById(int clientId)
         {
-            return clientRepo.GetById(clientId);
+            return clientRepository.GetById(clientId);
         }
 
-        public void AddClient(Client client)
+        public void AddClient(Client clientToAdd)
         {
-            if (client == null)
+            if (clientToAdd == null)
             {
-                throw new Exception("Client must not be null");
+                throw new ArgumentNullException(nameof(clientToAdd), NullClientErrorMessage);
             }
 
-            if (string.IsNullOrWhiteSpace(client.Name))
+            if (string.IsNullOrWhiteSpace(clientToAdd.Name))
             {
-                throw new Exception("Name field must not be empty");
+                throw new ArgumentException(EmptyNameErrorMessage, nameof(clientToAdd));
             }
 
-            clientRepo.Add(client);
+            clientRepository.Add(clientToAdd);
         }
 
         public Client? DeleteClient(int clientId)
         {
-            return clientRepo.Delete(clientId);
+            return clientRepository.Delete(clientId);
         }
 
-        public Client? UpdateClient(Client client)
+        public Client? UpdateClient(Client clientToUpdate)
         {
-            if (client == null)
+            if (clientToUpdate == null)
             {
-                throw new Exception("Client must not be null");
+                throw new ArgumentNullException(nameof(clientToUpdate), NullClientErrorMessage);
             }
-            if (string.IsNullOrWhiteSpace(client.Name))
+
+            if (string.IsNullOrWhiteSpace(clientToUpdate.Name))
             {
-                throw new Exception("Name field must not be empty");
+                throw new ArgumentException(EmptyNameErrorMessage, nameof(clientToUpdate));
             }
-            return clientRepo.Update(client);
+
+            return clientRepository.Update(clientToUpdate);
         }
 
-        public Client? GetAnyClient()
+        public Client GetAnyClient()
         {
-            Client? client = clientRepo.GetAll().FirstOrDefault();
-            if (client == null)
+            IEnumerable<Client> allClientsList = clientRepository.GetAll();
+            Client? firstAvailableClient = null;
+
+            foreach (Client client in allClientsList)
             {
-                throw new Exception();
+                firstAvailableClient = client;
+                break;
             }
-            return client;
+
+            if (firstAvailableClient == null)
+            {
+                throw new InvalidOperationException(NoClientsFoundErrorMessage);
+            }
+
+            return firstAvailableClient;
         }
     }
 }

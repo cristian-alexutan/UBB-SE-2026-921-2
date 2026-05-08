@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AirportApp.Data.Repositories
 {
-    public class ReservationDbRepo : IReservationRepo
+    public class ReservationDbRepo : IReservationRepository
     {
         private readonly AppDbContext context;
 

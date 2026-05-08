@@ -6,7 +6,7 @@ namespace AirportApp.Data.Repositories
     using AirportApp.Data.Repositories.Interfaces;
     using Microsoft.Data.SqlClient;
 
-    public class CartDbRepo : ICartRepo
+    public class CartDbRepo : ICartRepository
     {
         private readonly DatabaseConnectionFactory connectionFactory;
 

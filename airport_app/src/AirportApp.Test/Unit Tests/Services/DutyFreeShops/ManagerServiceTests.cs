@@ -9,12 +9,12 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops;
 
 public class ManagerServiceTests
 {
-    private IManagerRepo managerRepo = null!;
+    private IManagerRepository managerRepo = null!;
     private ManagerService managerService = null!;
     [SetUp]
     public void Setup()
     {
-        this.managerRepo = Substitute.For<IManagerRepo>();
+        this.managerRepo = Substitute.For<IManagerRepository>();
         this.managerService = new ManagerService(this.managerRepo);
     }
 

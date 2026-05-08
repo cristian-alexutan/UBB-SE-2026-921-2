@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-
 namespace AirportApp.Data.Services
 {
     public class ManagerService : IManagerService
     {
-        private readonly IManagerRepo managerRepo;
+        private readonly IManagerRepository managerRepo;
 
-        public ManagerService(IManagerRepo managerRepo)
+        public ManagerService(IManagerRepository managerRepo)
         {
             this.managerRepo = managerRepo;
         }

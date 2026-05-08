@@ -10,7 +10,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
     [TestFixture]
     public class ShopItemServiceTests
     {
-        private IShopItemRepo shopItemRepository;
+        private IShopItemRepository shopItemRepository;
         private ShopItemService shopItemService;
 
         private static readonly Manager TestManager = new Manager(1, "Manager", "manager@test.com", "0700000000");
@@ -21,7 +21,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
         [SetUp]
         public void SetUp()
         {
-            shopItemRepository = Substitute.For<IShopItemRepo>();
+            shopItemRepository = Substitute.For<IShopItemRepository>();
             shopItemService = new ShopItemService(shopItemRepository);
         }
 

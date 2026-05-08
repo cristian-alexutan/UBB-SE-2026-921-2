@@ -3,7 +3,7 @@ using AirportApp.Data.Domain;
 
 namespace AirportApp.Data.Repositories.Interfaces
 {
-    public interface IShopItemRepo
+    public interface IShopItemRepository
     {
         IEnumerable<ShopItem> GetAll();
 
