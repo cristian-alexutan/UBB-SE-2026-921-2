@@ -32,20 +32,20 @@ namespace AirportAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody] Route newRoute)
+        public ActionResult Add([FromBody] RouteRequest newRoute)
         {
             if (newRoute == null)
             {
                 return this.BadRequest(NullRouteDataErrorMessage);
             }
 
-            int generatedId = routeRepository.AddRoute(newRoute);
+            int generatedId = routeRepository.AddRoute(ToRoute(newRoute));
 
             return this.CreatedAtAction(nameof(this.GetById), new { routeId = generatedId }, generatedId);
         }
 
         [HttpPut("{routeId:int}")]
-        public IActionResult Update(int routeId, [FromBody] Route routeToUpdate)
+        public IActionResult Update(int routeId, [FromBody] RouteRequest routeToUpdate)
         {
             if (routeToUpdate == null)
             {
@@ -57,9 +57,10 @@ namespace AirportAPI.Controllers
                 return this.NotFound();
             }
 
-            routeToUpdate.Id = routeId;
+            Route route = ToRoute(routeToUpdate);
+            route.Id = routeId;
 
-            routeRepository.UpdateRoute(routeToUpdate);
+            routeRepository.UpdateRoute(route);
 
             return this.NoContent();
         }
@@ -76,5 +77,34 @@ namespace AirportAPI.Controllers
 
             return this.NoContent();
         }
+
+        private static Route ToRoute(RouteRequest request)
+        {
+            return new Route
+            {
+                Id = request.Id,
+                RouteType = request.RouteType,
+                RecurrenceInterval = request.RecurrenceInterval,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                DepartureTime = request.DepartureTime,
+                ArrivalTime = request.ArrivalTime,
+                Capacity = request.Capacity,
+                Company = new Company { Id = request.CompanyId },
+                Airport = new Airport { Id = request.AirportId }
+            };
+        }
     }
+
+    public sealed record RouteRequest(
+        int Id,
+        string RouteType,
+        int RecurrenceInterval,
+        DateOnly StartDate,
+        DateOnly EndDate,
+        TimeOnly DepartureTime,
+        TimeOnly ArrivalTime,
+        int Capacity,
+        int CompanyId,
+        int AirportId);
 }

@@ -32,13 +32,41 @@ namespace AirportAPI.Repositories
 
         public void Add(Reservation newReservation)
         {
+            if (newReservation.ReservationCart != null)
+            {
+                Cart? existingCart = databaseContext.Carts.Find(newReservation.ReservationCart.Id);
+                if (existingCart == null)
+                {
+                    return;
+                }
+
+                newReservation.ReservationCart = existingCart;
+            }
+
             databaseContext.Reservations.Add(newReservation);
             databaseContext.SaveChanges();
         }
 
         public void Update(Reservation reservationToUpdate)
         {
-            databaseContext.Reservations.Update(reservationToUpdate);
+            Reservation? existingReservation = databaseContext.Reservations.Find(reservationToUpdate.Id);
+            if (existingReservation == null)
+            {
+                return;
+            }
+
+            existingReservation.Active = reservationToUpdate.Active;
+            existingReservation.ReservationDate = reservationToUpdate.ReservationDate;
+
+            if (reservationToUpdate.ReservationCart != null)
+            {
+                Cart? existingCart = databaseContext.Carts.Find(reservationToUpdate.ReservationCart.Id);
+                if (existingCart != null)
+                {
+                    existingReservation.ReservationCart = existingCart;
+                }
+            }
+
             databaseContext.SaveChanges();
         }
 

@@ -50,7 +50,7 @@
                     </ComboBox>
 
                     <ComboBox x:Name="AirportComboBox" Header="AIRPORT" PlaceholderText="Select Airport" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
-                              DisplayMemberPath="AirportName"
+                                      DisplayMemberPath="Name"
                               ItemsSource="{Binding AirportsList}"
                               SelectedItem="{Binding SelectedAirport, Mode=TwoWay}"/>
 

@@ -16,16 +16,25 @@ namespace AirportAPI.Repositories
 
         public void Add(Manager newManager)
         {
+            newManager.Id = 0;
             databaseContext.Managers.Add(newManager);
             databaseContext.SaveChanges();
         }
 
         public Manager? Update(Manager managerToUpdate)
         {
-            databaseContext.Managers.Update(managerToUpdate);
+            Manager? existingManager = databaseContext.Managers.Find(managerToUpdate.Id);
+            if (existingManager == null)
+            {
+                return null;
+            }
+
+            existingManager.Name = managerToUpdate.Name;
+            existingManager.Email = managerToUpdate.Email;
+            existingManager.Phone = managerToUpdate.Phone;
             databaseContext.SaveChanges();
 
-            return managerToUpdate;
+            return existingManager;
         }
 
         public Manager? Delete(int managerId)

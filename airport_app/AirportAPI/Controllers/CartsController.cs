@@ -56,9 +56,9 @@ public class CartsController(ICartRepository cartRepository) : ControllerBase
     }
 
     [HttpPost("{cartId:int}/items")]
-    public IActionResult AddItemToCart(int cartId, [FromBody] CartItem cartItem)
+    public IActionResult AddItemToCart(int cartId, [FromBody] CartItemRequest request)
     {
-        if (cartItem == null)
+        if (request == null)
         {
             return this.BadRequest(MissingItemDataErrorMessage);
         }
@@ -67,6 +67,12 @@ public class CartsController(ICartRepository cartRepository) : ControllerBase
         {
             return this.NotFound();
         }
+
+        CartItem cartItem = new()
+        {
+            ShopItem = new ShopItem { Id = request.ShopItemId },
+            Quantity = request.Quantity
+        };
 
         cartRepository.AddItemToCart(cartId, cartItem);
 
@@ -121,3 +127,5 @@ public class CartsController(ICartRepository cartRepository) : ControllerBase
 }
 
 public sealed record UpdateCartItemQuantityRequest(int Quantity);
+
+public sealed record CartItemRequest(int Id, int ShopItemId, int Quantity);

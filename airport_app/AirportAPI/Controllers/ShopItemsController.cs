@@ -31,22 +31,23 @@ namespace AirportAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody] ShopItem newShopItem)
+        public ActionResult Add([FromBody] ShopItemRequest request)
         {
-            if (newShopItem == null)
+            if (request == null)
             {
                 return this.BadRequest(NullShopItemDataErrorMessage);
             }
 
+            ShopItem newShopItem = MapShopItem(request);
             shopItemRepository.Add(newShopItem);
 
             return this.CreatedAtAction(nameof(this.GetById), new { shopItemId = newShopItem.Id }, newShopItem);
         }
 
         [HttpPut("{shopItemId:int}")]
-        public IActionResult Update(int shopItemId, [FromBody] ShopItem shopItemToUpdate)
+        public IActionResult Update(int shopItemId, [FromBody] ShopItemRequest request)
         {
-            if (shopItemToUpdate == null)
+            if (request == null)
             {
                 return this.BadRequest(NullShopItemDataErrorMessage);
             }
@@ -56,6 +57,7 @@ namespace AirportAPI.Controllers
                 return this.NotFound();
             }
 
+            ShopItem shopItemToUpdate = MapShopItem(request);
             shopItemToUpdate.Id = shopItemId;
 
             shopItemRepository.Update(shopItemToUpdate);
@@ -75,5 +77,28 @@ namespace AirportAPI.Controllers
 
             return this.NoContent();
         }
+
+        private static ShopItem MapShopItem(ShopItemRequest request)
+        {
+            return new ShopItem
+            {
+                Id = request.Id,
+                Quantity = request.Quantity,
+                Price = request.Price,
+                Shop = new Shop { Id = request.ShopId },
+                Photo = request.Photo,
+                Name = request.Name,
+                Description = request.Description
+            };
+        }
     }
+
+    public sealed record ShopItemRequest(
+        int Id,
+        int Quantity,
+        float Price,
+        int ShopId,
+        string Photo,
+        string Name,
+        string Description);
 }

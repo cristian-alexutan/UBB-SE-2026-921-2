@@ -18,6 +18,7 @@ namespace AirportAPI.Repositories
 
         public int AddGate(Gate newGate)
         {
+            newGate.Id = 0;
             databaseContext.Gates.Add(newGate);
             databaseContext.SaveChanges();
 
@@ -26,7 +27,13 @@ namespace AirportAPI.Repositories
 
         public void UpdateGate(Gate updatedGate)
         {
-            databaseContext.Gates.Update(updatedGate);
+            Gate? existingGate = databaseContext.Gates.Find(updatedGate.Id);
+            if (existingGate == null)
+            {
+                return;
+            }
+
+            existingGate.Name = updatedGate.Name;
             databaseContext.SaveChanges();
         }
 

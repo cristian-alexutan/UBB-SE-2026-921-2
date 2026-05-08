@@ -16,6 +16,7 @@ namespace AirportAPI.Repositories
 
         public int AddEmployee(Employee newEmployee)
         {
+            newEmployee.Id = 0;
             databaseContext.Employees.Add(newEmployee);
             databaseContext.SaveChanges();
 
@@ -24,7 +25,17 @@ namespace AirportAPI.Repositories
 
         public void UpdateEmployee(Employee updatedEmployee)
         {
-            databaseContext.Employees.Update(updatedEmployee);
+            Employee? existingEmployee = databaseContext.Employees.Find(updatedEmployee.Id);
+            if (existingEmployee == null)
+            {
+                return;
+            }
+
+            existingEmployee.Name = updatedEmployee.Name;
+            existingEmployee.Role = updatedEmployee.Role;
+            existingEmployee.Birthday = updatedEmployee.Birthday;
+            existingEmployee.Salary = updatedEmployee.Salary;
+            existingEmployee.HiringDate = updatedEmployee.HiringDate;
             databaseContext.SaveChanges();
         }
 

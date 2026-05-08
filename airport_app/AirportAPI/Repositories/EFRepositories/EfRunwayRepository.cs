@@ -20,6 +20,7 @@ namespace AirportAPI.Repositories
 
         public int AddRunway(Runway newRunway)
         {
+            newRunway.Id = 0;
             databaseContext.Runways.Add(newRunway);
             databaseContext.SaveChanges();
             return newRunway.Id;
@@ -27,7 +28,14 @@ namespace AirportAPI.Repositories
 
         public void UpdateRunway(Runway updatedRunway)
         {
-            databaseContext.Runways.Update(updatedRunway);
+            Runway? existingRunway = databaseContext.Runways.Find(updatedRunway.Id);
+            if (existingRunway == null)
+            {
+                return;
+            }
+
+            existingRunway.Name = updatedRunway.Name;
+            existingRunway.HandleTime = updatedRunway.HandleTime;
             databaseContext.SaveChanges();
         }
 

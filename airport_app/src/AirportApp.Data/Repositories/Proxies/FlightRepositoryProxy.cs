@@ -50,13 +50,24 @@ public class FlightRepositoryProxy : RepositoryProxyBase, IFlightRepository
 
     public int AddFlight(Flight newFlight)
     {
-        FlightDto result = this.PostForResult<Flight, FlightDto>("api/flights", newFlight);
+        FlightDto result = this.PostForResult<FlightRequest, FlightDto>("api/flights", ToRequest(newFlight));
         return result.Id;
     }
 
     public void UpdateFlight(Flight updatedFlight)
     {
-        this.Put($"api/flights/{updatedFlight.Id}", updatedFlight);
+        this.Put($"api/flights/{updatedFlight.Id}", ToRequest(updatedFlight));
+    }
+
+    private static FlightRequest ToRequest(Flight flight)
+    {
+        return new FlightRequest(
+            flight.Id,
+            flight.Date,
+            flight.FlightNumber,
+            flight.Route?.Id ?? 0,
+            flight.Runway?.Id ?? 0,
+            flight.Gate?.Id ?? 0);
     }
 
     public void DeleteFlightUsingId(int flightId)
@@ -190,4 +201,12 @@ public class FlightRepositoryProxy : RepositoryProxyBase, IFlightRepository
 
         public string? City { get; set; }
     }
+
+    private sealed record FlightRequest(
+        int Id,
+        DateTime Date,
+        string FlightNumber,
+        int RouteId,
+        int RunwayId,
+        int GateId);
 }

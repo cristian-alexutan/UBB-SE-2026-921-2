@@ -28,6 +28,19 @@ namespace AirportAPI.Repositories
 
         public void Add(Cart newCart)
         {
+            if (newCart.Client != null)
+            {
+                Client? existingClient = databaseContext.Clients.Find(newCart.Client.Id);
+                if (existingClient == null)
+                {
+                    databaseContext.Clients.Add(newCart.Client);
+                }
+                else
+                {
+                    newCart.Client = existingClient;
+                }
+            }
+
             databaseContext.Carts.Add(newCart);
             databaseContext.SaveChanges();
         }
@@ -56,6 +69,8 @@ namespace AirportAPI.Repositories
 
         public void AddItemToCart(int cartId, CartItem itemToAdd)
         {
+            itemToAdd.Id = 0;
+
             Cart? cart = databaseContext.Carts
                 .Include(cartInstance => cartInstance.CartItems)
                 .FirstOrDefault(cartInstance => cartInstance.Id == cartId);
@@ -67,7 +82,13 @@ namespace AirportAPI.Repositories
 
             if (itemToAdd.ShopItem != null)
             {
-                databaseContext.Entry(itemToAdd.ShopItem).State = EntityState.Unchanged;
+                ShopItem? existingShopItem = databaseContext.ShopItems.Find(itemToAdd.ShopItem.Id);
+                if (existingShopItem == null)
+                {
+                    return;
+                }
+
+                itemToAdd.ShopItem = existingShopItem;
             }
 
             cart.CartItems.Add(itemToAdd);

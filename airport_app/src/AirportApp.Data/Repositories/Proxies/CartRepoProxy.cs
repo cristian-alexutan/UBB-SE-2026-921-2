@@ -22,7 +22,10 @@ public class CartRepoProxy : RepositoryProxyBase, ICartRepo
 
     public void Add(Cart cart)
     {
-        this.Post("api/carts", cart);
+        this.Post("api/carts", new CartRequest(
+            cart.Id,
+            new ClientRequest(cart.Client.Id, cart.Client.Name),
+            cart.CartItems?.Select(MapCartItemRequest).ToList() ?? []));
     }
 
     public void Delete(int cartId)
@@ -32,7 +35,7 @@ public class CartRepoProxy : RepositoryProxyBase, ICartRepo
 
     public void AddItemToCart(int cartId, CartItem item)
     {
-        this.Post($"api/carts/{cartId}/items", item);
+        this.Post($"api/carts/{cartId}/items", MapCartItemRequest(item));
     }
 
     public void RemoveItemFromCart(int cartId, int cartItemId)
@@ -63,6 +66,14 @@ public class CartRepoProxy : RepositoryProxyBase, ICartRepo
         return new CartItem(
             cartItem.Id,
             MapShopItem(cartItem.ShopItem),
+            cartItem.Quantity);
+    }
+
+    private static CartItemRequest MapCartItemRequest(CartItem cartItem)
+    {
+        return new CartItemRequest(
+            0,
+            cartItem.ShopItem.Id,
             cartItem.Quantity);
     }
 
@@ -184,4 +195,10 @@ public class CartRepoProxy : RepositoryProxyBase, ICartRepo
 
         public string? Name { get; set; }
     }
+
+    private sealed record CartRequest(int Id, ClientRequest Client, List<CartItemRequest> CartItems);
+
+    private sealed record CartItemRequest(int Id, int ShopItemId, int Quantity);
+
+    private sealed record ClientRequest(int Id, string Name);
 }

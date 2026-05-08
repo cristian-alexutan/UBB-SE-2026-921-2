@@ -31,27 +31,28 @@ namespace AirportAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody] Shop newShop)
+        public ActionResult Add([FromBody] ShopRequest newShop)
         {
             if (newShop == null)
             {
                 return this.BadRequest(NullShopDataErrorMessage);
             }
 
-            shopRepository.Add(newShop);
+            Shop shop = ToShop(newShop);
+            shopRepository.Add(shop);
 
-            return this.CreatedAtAction(nameof(this.GetById), new { shopId = newShop.Id }, newShop);
+            return this.CreatedAtAction(nameof(this.GetById), new { shopId = shop.Id }, shop);
         }
 
         [HttpPut]
-        public ActionResult<Shop> Update([FromBody] Shop shopToUpdate)
+        public ActionResult<Shop> Update([FromBody] ShopRequest shopToUpdate)
         {
             if (shopToUpdate == null)
             {
                 return this.BadRequest(NullShopDataErrorMessage);
             }
 
-            Shop? updatedShop = shopRepository.Update(shopToUpdate);
+            Shop? updatedShop = shopRepository.Update(ToShop(shopToUpdate));
 
             if (updatedShop == null)
             {
@@ -73,5 +74,18 @@ namespace AirportAPI.Controllers
 
             return this.Ok(deletedShop);
         }
+
+        private static Shop ToShop(ShopRequest request)
+        {
+            return new Shop
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Type = request.Type,
+                Manager = new Manager { Id = request.ManagerId }
+            };
+        }
     }
+
+    public sealed record ShopRequest(int Id, string Name, string Type, int ManagerId);
 }

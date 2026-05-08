@@ -25,7 +25,7 @@ public class ShopRepoProxy : RepositoryProxyBase, IShopRepo
 
     public void Add(Shop shop)
     {
-        this.Post("api/shop", shop);
+        this.Post("api/shop", ToRequest(shop));
     }
 
     public Shop? Delete(int shopId)
@@ -36,7 +36,7 @@ public class ShopRepoProxy : RepositoryProxyBase, IShopRepo
 
     public Shop? Update(Shop shop)
     {
-        using HttpResponseMessage response = this.HttpClient.PutAsJsonAsync("api/shop", shop, JsonOptions).GetAwaiter().GetResult();
+        using HttpResponseMessage response = this.HttpClient.PutAsJsonAsync("api/shop", ToRequest(shop), JsonOptions).GetAwaiter().GetResult();
         if (response.StatusCode == HttpStatusCode.NotFound)
         {
             return null;
@@ -45,6 +45,11 @@ public class ShopRepoProxy : RepositoryProxyBase, IShopRepo
         response.EnsureSuccessStatusCode();
         ShopDto? dto = response.Content.ReadFromJsonAsync<ShopDto>(JsonOptions).GetAwaiter().GetResult();
         return dto == null ? null : MapShop(dto);
+    }
+
+    private static ShopRequest ToRequest(Shop shop)
+    {
+        return new ShopRequest(shop.Id, shop.Name, shop.Type, shop.Manager?.Id ?? 0);
     }
 
     private static Shop MapShop(ShopDto dto)
@@ -83,4 +88,6 @@ public class ShopRepoProxy : RepositoryProxyBase, IShopRepo
 
         public string? Phone { get; set; }
     }
+
+    private sealed record ShopRequest(int Id, string Name, string Type, int ManagerId);
 }

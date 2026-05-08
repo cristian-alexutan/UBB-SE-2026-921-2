@@ -15,7 +15,7 @@
             this.Phone = phone;
         }
 
-        internal Manager()
+        public Manager()
         {
         }
     }

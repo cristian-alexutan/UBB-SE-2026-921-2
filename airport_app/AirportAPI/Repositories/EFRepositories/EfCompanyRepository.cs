@@ -15,6 +15,7 @@ namespace AirportAPI.Repositories
 
         public int AddCompany(Company newCompany)
         {
+            newCompany.Id = 0;
             databaseContext.Companies.Add(newCompany);
 
             databaseContext.SaveChanges();
@@ -24,7 +25,13 @@ namespace AirportAPI.Repositories
 
         public void UpdateCompany(Company companyToUpdate)
         {
-            databaseContext.Companies.Update(companyToUpdate);
+            Company? existingCompany = databaseContext.Companies.Find(companyToUpdate.Id);
+            if (existingCompany == null)
+            {
+                return;
+            }
+
+            existingCompany.Name = companyToUpdate.Name;
             databaseContext.SaveChanges();
         }
 

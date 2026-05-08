@@ -21,7 +21,11 @@ public class ReservationRepoProxy : RepositoryProxyBase, IReservationRepo
 
     public void Add(Reservation reservation)
     {
-        this.Post("api/reservations", reservation);
+        ReservationDto createdReservation = this.PostForResult<ReservationRequest, ReservationDto>(
+            "api/reservations",
+            MapReservationRequest(reservation));
+
+        reservation.Id = createdReservation.Id;
     }
 
     public void Delete(int reservationId)
@@ -31,7 +35,16 @@ public class ReservationRepoProxy : RepositoryProxyBase, IReservationRepo
 
     public void Update(Reservation reservation)
     {
-        this.Put("api/reservations", reservation);
+        this.Put("api/reservations", MapReservationRequest(reservation));
+    }
+
+    private static ReservationRequest MapReservationRequest(Reservation reservation)
+    {
+        return new ReservationRequest(
+            reservation.Id,
+            reservation.ReservationCart.Id,
+            reservation.Active,
+            reservation.ReservationDate);
     }
 
     private static Reservation MapReservation(ReservationDto dto)
@@ -168,4 +181,6 @@ public class ReservationRepoProxy : RepositoryProxyBase, IReservationRepo
 
         public string? Name { get; set; }
     }
+
+    private sealed record ReservationRequest(int Id, int CartId, bool Active, DateTime ReservationDate);
 }

@@ -22,12 +22,27 @@ public class RouteRepositoryProxy : RepositoryProxyBase, IRouteRepository
 
     public int AddRoute(Route newRoute)
     {
-        return this.PostForResult<Route, int>("api/routes", newRoute);
+        return this.PostForResult<RouteRequest, int>("api/routes", ToRequest(newRoute));
     }
 
     public void UpdateRoute(Route updatedRoute)
     {
-        this.Put("api/routes", updatedRoute);
+        this.Put($"api/routes/{updatedRoute.Id}", ToRequest(updatedRoute));
+    }
+
+    private static RouteRequest ToRequest(Route route)
+    {
+        return new RouteRequest(
+            route.Id,
+            route.RouteType,
+            route.RecurrenceInterval,
+            route.StartDate,
+            route.EndDate,
+            route.DepartureTime,
+            route.ArrivalTime,
+            route.Capacity,
+            route.Company?.Id ?? 0,
+            route.Airport?.Id ?? 0);
     }
 
     public void DeleteRoute(int routeId)
@@ -92,4 +107,16 @@ public class RouteRepositoryProxy : RepositoryProxyBase, IRouteRepository
 
         public string? City { get; set; }
     }
+
+    private sealed record RouteRequest(
+        int Id,
+        string RouteType,
+        int RecurrenceInterval,
+        DateOnly StartDate,
+        DateOnly EndDate,
+        TimeOnly DepartureTime,
+        TimeOnly ArrivalTime,
+        int Capacity,
+        int CompanyId,
+        int AirportId);
 }

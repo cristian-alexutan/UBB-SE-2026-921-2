@@ -54,20 +54,21 @@ public class FlightsController(IFlightRepository flightRepository) : ControllerB
     }
 
     [HttpPost]
-    public ActionResult<Flight> Add([FromBody] Flight flight)
+    public ActionResult<Flight> Add([FromBody] FlightRequest flight)
     {
         if (flight == null)
         {
             return this.BadRequest(NullFlightDataErrorMessage);
         }
 
-        int flightId = flightRepository.AddFlight(flight);
+        Flight flightToAdd = ToFlight(flight);
+        int flightId = flightRepository.AddFlight(flightToAdd);
 
-        return this.CreatedAtAction(nameof(this.GetById), new { flightId }, flight);
+        return this.CreatedAtAction(nameof(this.GetById), new { flightId }, flightToAdd);
     }
 
     [HttpPut("{flightId:int}")]
-    public IActionResult Update(int flightId, [FromBody] Flight flight)
+    public IActionResult Update(int flightId, [FromBody] FlightRequest flight)
     {
         if (flight == null)
         {
@@ -79,8 +80,9 @@ public class FlightsController(IFlightRepository flightRepository) : ControllerB
             return this.NotFound();
         }
 
-        flight.Id = flightId;
-        flightRepository.UpdateFlight(flight);
+        Flight flightToUpdate = ToFlight(flight);
+        flightToUpdate.Id = flightId;
+        flightRepository.UpdateFlight(flightToUpdate);
 
         return this.NoContent();
     }
@@ -98,4 +100,25 @@ public class FlightsController(IFlightRepository flightRepository) : ControllerB
 
         return this.NoContent();
     }
+
+    private static Flight ToFlight(FlightRequest request)
+    {
+        return new Flight
+        {
+            Id = request.Id,
+            Date = request.Date,
+            FlightNumber = request.FlightNumber,
+            Route = new AirportAPI.Domain.Route { Id = request.RouteId },
+            Runway = new Runway { Id = request.RunwayId },
+            Gate = new Gate { Id = request.GateId }
+        };
+    }
 }
+
+public sealed record FlightRequest(
+    int Id,
+    DateTime Date,
+    string FlightNumber,
+    int RouteId,
+    int RunwayId,
+    int GateId);

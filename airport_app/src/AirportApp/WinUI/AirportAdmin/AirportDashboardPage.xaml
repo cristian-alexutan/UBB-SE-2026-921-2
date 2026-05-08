@@ -39,7 +39,7 @@
                                              Title="Destination Airports"
                                              Items="{x:Bind ViewModel.AirportsList, Mode=OneWay}"
                                              SelectedItem="{x:Bind ViewModel.SelectedAirport, Mode=TwoWay}"
-                                             DisplayMemberPath="AirportName"
+                                    DisplayMemberPath="Name"
                                              AddCommand="{x:Bind ViewModel.PrepareNewAirportDialogCommand}"
                                              EditCommand="{x:Bind ViewModel.PrepareEditAirportDialogCommand}"
                                              DeleteCommand="{x:Bind ViewModel.PromptDeleteAirportCommand}" />

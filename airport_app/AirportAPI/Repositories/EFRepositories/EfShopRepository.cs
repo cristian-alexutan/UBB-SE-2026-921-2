@@ -24,7 +24,9 @@ namespace AirportAPI.Repositories
 
         public void Add(Shop newShop)
         {
-            databaseContext.Managers.Attach(newShop.Manager);
+            newShop.Id = 0;
+            newShop.Manager = databaseContext.Managers.Find(newShop.Manager.Id)
+                ?? throw new InvalidOperationException($"Manager with id {newShop.Manager.Id} does not exist.");
 
             databaseContext.Shops.Add(newShop);
             databaseContext.SaveChanges();
@@ -43,16 +45,8 @@ namespace AirportAPI.Repositories
             existingShop.Name = shopToUpdate.Name;
             existingShop.Type = shopToUpdate.Type;
 
-            Manager managerInstance = databaseContext.Managers.Local
-                .FirstOrDefault(manager => manager.Id == shopToUpdate.Manager.Id)
-                ?? shopToUpdate.Manager;
-
-            if (databaseContext.Entry(managerInstance).State == EntityState.Detached)
-            {
-                databaseContext.Managers.Attach(managerInstance);
-            }
-
-            existingShop.Manager = managerInstance;
+            existingShop.Manager = databaseContext.Managers.Find(shopToUpdate.Manager.Id)
+                ?? throw new InvalidOperationException($"Manager with id {shopToUpdate.Manager.Id} does not exist.");
 
             databaseContext.SaveChanges();
 

@@ -6,7 +6,7 @@
         public Client Client { get; set; }
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
-        internal Cart()
+        public Cart()
         {
         }
 

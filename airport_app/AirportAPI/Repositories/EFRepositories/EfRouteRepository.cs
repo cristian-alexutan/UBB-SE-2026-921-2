@@ -26,6 +26,12 @@ namespace AirportAPI.Repositories
 
         public int AddRoute(Route newRoute)
         {
+            newRoute.Id = 0;
+            newRoute.Company = databaseContext.Companies.Find(newRoute.Company.Id)
+                ?? throw new InvalidOperationException($"Company with id {newRoute.Company.Id} does not exist.");
+            newRoute.Airport = databaseContext.Airports.Find(newRoute.Airport.Id)
+                ?? throw new InvalidOperationException($"Airport with id {newRoute.Airport.Id} does not exist.");
+
             databaseContext.Routes.Add(newRoute);
             databaseContext.SaveChanges();
 
@@ -34,7 +40,26 @@ namespace AirportAPI.Repositories
 
         public void UpdateRoute(Route routeToUpdate)
         {
-            databaseContext.Routes.Update(routeToUpdate);
+            Route? existingRoute = databaseContext.Routes.Find(routeToUpdate.Id);
+            if (existingRoute == null)
+            {
+                return;
+            }
+
+            Company company = databaseContext.Companies.Find(routeToUpdate.Company.Id)
+                ?? throw new InvalidOperationException($"Company with id {routeToUpdate.Company.Id} does not exist.");
+            Airport airport = databaseContext.Airports.Find(routeToUpdate.Airport.Id)
+                ?? throw new InvalidOperationException($"Airport with id {routeToUpdate.Airport.Id} does not exist.");
+
+            existingRoute.RouteType = routeToUpdate.RouteType;
+            existingRoute.RecurrenceInterval = routeToUpdate.RecurrenceInterval;
+            existingRoute.StartDate = routeToUpdate.StartDate;
+            existingRoute.EndDate = routeToUpdate.EndDate;
+            existingRoute.DepartureTime = routeToUpdate.DepartureTime;
+            existingRoute.ArrivalTime = routeToUpdate.ArrivalTime;
+            existingRoute.Capacity = routeToUpdate.Capacity;
+            existingRoute.Company = company;
+            existingRoute.Airport = airport;
             databaseContext.SaveChanges();
         }
 

@@ -22,7 +22,7 @@
             this.ReservationDate = reservationDate;
         }
 
-        internal Reservation()
+        public Reservation()
         {
         }
     }

@@ -15,6 +15,7 @@ namespace AirportAPI.Repositories
 
         public int AddAirport(Airport newAirport)
         {
+            newAirport.Id = 0;
             databaseContext.Airports.Add(newAirport);
             databaseContext.SaveChanges();
 
@@ -23,7 +24,15 @@ namespace AirportAPI.Repositories
 
         public void UpdateAirport(Airport airportToUpdate)
         {
-            databaseContext.Airports.Update(airportToUpdate);
+            Airport? existingAirport = databaseContext.Airports.Find(airportToUpdate.Id);
+            if (existingAirport == null)
+            {
+                return;
+            }
+
+            existingAirport.Code = airportToUpdate.Code;
+            existingAirport.Name = airportToUpdate.Name;
+            existingAirport.City = airportToUpdate.City;
             databaseContext.SaveChanges();
         }
 

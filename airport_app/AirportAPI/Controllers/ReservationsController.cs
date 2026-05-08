@@ -28,20 +28,27 @@ namespace AirportAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add([FromBody] Reservation newReservation)
+        public ActionResult Add([FromBody] ReservationRequest request)
         {
-            if (newReservation == null)
+            if (request == null)
             {
                 return this.BadRequest("Reservation data is required.");
             }
 
+            Reservation newReservation = MapReservation(request);
             reservationRepository.Add(newReservation);
-            return this.Ok();
+            return this.CreatedAtAction(nameof(this.GetById), new { reservationId = newReservation.Id }, newReservation);
         }
 
         [HttpPut]
-        public ActionResult Update([FromBody] Reservation reservationToUpdate)
+        public ActionResult Update([FromBody] ReservationRequest request)
         {
+            if (request == null)
+            {
+                return this.BadRequest("Reservation data is required.");
+            }
+
+            Reservation reservationToUpdate = MapReservation(request);
             reservationRepository.Update(reservationToUpdate);
             return this.NoContent();
         }
@@ -52,5 +59,18 @@ namespace AirportAPI.Controllers
             reservationRepository.Delete(reservationId);
             return this.NoContent();
         }
+
+        private static Reservation MapReservation(ReservationRequest request)
+        {
+            return new Reservation
+            {
+                Id = request.Id,
+                ReservationCart = new Cart { Id = request.CartId },
+                Active = request.Active,
+                ReservationDate = request.ReservationDate
+            };
+        }
     }
+
+    public sealed record ReservationRequest(int Id, int CartId, bool Active, DateTime ReservationDate);
 }

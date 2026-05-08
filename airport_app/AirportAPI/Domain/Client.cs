@@ -10,7 +10,7 @@
             this.Name = name;
         }
 
-        internal Client()
+        public Client()
         {
         }
     }

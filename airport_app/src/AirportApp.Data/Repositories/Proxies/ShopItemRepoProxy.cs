@@ -22,7 +22,7 @@ public class ShopItemRepoProxy : RepositoryProxyBase, IShopItemRepo
 
     public void Add(ShopItem shopItem)
     {
-        this.Post("api/shop-items", shopItem);
+        this.Post("api/shop-items", MapShopItemRequest(shopItem));
     }
 
     public void Delete(int shopItemId)
@@ -32,7 +32,19 @@ public class ShopItemRepoProxy : RepositoryProxyBase, IShopItemRepo
 
     public void Update(ShopItem shopItem)
     {
-        this.Put("api/shop-items", shopItem);
+        this.Put($"api/shop-items/{shopItem.Id}", MapShopItemRequest(shopItem));
+    }
+
+    private static ShopItemRequest MapShopItemRequest(ShopItem shopItem)
+    {
+        return new ShopItemRequest(
+            shopItem.Id,
+            shopItem.Quantity,
+            shopItem.Price,
+            shopItem.Shop.Id,
+            shopItem.Photo,
+            shopItem.Name,
+            shopItem.Description);
     }
 
     private static ShopItem MapShopItem(ShopItemDto dto)
@@ -98,4 +110,13 @@ public class ShopItemRepoProxy : RepositoryProxyBase, IShopItemRepo
 
         public string? Phone { get; set; }
     }
+
+    private sealed record ShopItemRequest(
+        int Id,
+        int Quantity,
+        float Price,
+        int ShopId,
+        string Photo,
+        string Name,
+        string Description);
 }

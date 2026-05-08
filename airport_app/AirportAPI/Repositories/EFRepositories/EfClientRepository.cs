@@ -16,16 +16,23 @@ namespace AirportAPI.Repositories
 
         public void Add(Client newClient)
         {
+            newClient.Id = 0;
             databaseContext.Clients.Add(newClient);
             databaseContext.SaveChanges();
         }
 
         public Client? Update(Client clientToUpdate)
         {
-            databaseContext.Clients.Update(clientToUpdate);
+            Client? existingClient = databaseContext.Clients.Find(clientToUpdate.Id);
+            if (existingClient == null)
+            {
+                return null;
+            }
+
+            existingClient.Name = clientToUpdate.Name;
             databaseContext.SaveChanges();
 
-            return clientToUpdate;
+            return existingClient;
         }
 
         public Client? Delete(int clientId)

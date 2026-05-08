@@ -13,7 +13,7 @@
             this.Quantity = quantity;
         }
 
-        internal CartItem()
+        public CartItem()
         {
         }
 
