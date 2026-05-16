@@ -24,7 +24,7 @@ public class ShopServiceTests
     {
         Shop shop = new Shop(" ", "none", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop name field must not be empty"));
     }
 
     [Test]
@@ -32,7 +32,7 @@ public class ShopServiceTests
     {
         Shop shop = new Shop(null, "none", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop name field must not be empty"));
     }
 
     [Test]
@@ -40,7 +40,7 @@ public class ShopServiceTests
     {
         Shop shop = new Shop(string.Empty, "none", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop name field must not be empty"));
     }
 
     [Test]
@@ -48,7 +48,7 @@ public class ShopServiceTests
     {
         Shop shop = new Shop("Test", " ", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Type field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop type field must not be empty"));
     }
 
     [Test]
@@ -56,14 +56,14 @@ public class ShopServiceTests
     {
         Shop shop = new Shop("Test", null, new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Type field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop type field must not be empty"));
     }
     [Test]
     public void AddShop_EmptyStringType_ThrowsException()
     {
         Shop shop = new Shop("Test", string.Empty, new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Type field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop type field must not be empty"));
     }
     [Test]
     public void AddShop_DuplicateName_ThrowsException()
@@ -71,7 +71,7 @@ public class ShopServiceTests
         Shop shop = new Shop("Test", "Type", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         this.shopRepo.GetAll().Returns(new List<Shop> { shop });
         var exception = Assert.Catch<Exception>(() => this.shopService.AddShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Shop name already exists"));
+        Assert.That(exception!.Message, Does.Contain("A shop with this name already exists"));
     }
     [Test]
     public void AddShop_ValidShop_ShopAddedToRepo()
@@ -93,42 +93,42 @@ public class ShopServiceTests
     {
         Shop shop = new Shop(" ", "Type", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop name field must not be empty"));
     }
     [Test]
     public void UpdateShop_NullName_ThrowsException()
     {
         Shop shop = new Shop(null, "Type", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop name field must not be empty"));
     }
     [Test]
     public void UpdateShop_EmptyStringName_ThrowsException()
     {
         Shop shop = new Shop(string.Empty, "Type", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop name field must not be empty"));
     }
     [Test]
     public void UpdateShop_EmptyType_ThrowsException()
     {
         Shop shop = new Shop("Test", " ", new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Type field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop type field must not be empty"));
     }
     [Test]
     public void UpdateShop_NullType_ThrowsException()
     {
         Shop shop = new Shop("Test", null, new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Type field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop type field must not be empty"));
     }
     [Test]
     public void UpdateShop_EmptyStringType_ThrowsException()
     {
         Shop shop = new Shop("Test", string.Empty, new Manager(1, "Manager", "manager@test.com", "0700000000"));
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop));
-        Assert.That(exception!.Message, Does.Contain("Type field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("shop type field must not be empty"));
     }
     [Test]
     public void UpdateShop_DuplicateName_ThrowsException()
@@ -137,7 +137,7 @@ public class ShopServiceTests
         Shop shop2 = new Shop(2, "Test", "Type", new Manager(2, "Manager", "manager@test.com", "0700000000"));
         this.shopRepo.GetAll().Returns(new List<Shop> { shop1 });
         var exception = Assert.Catch<Exception>(() => this.shopService.UpdateShop(shop2));
-        Assert.That(exception!.Message, Does.Contain("Shop with given name already exists"));
+        Assert.That(exception!.Message, Does.Contain("A shop with this name already exists"));
     }
     [Test]
     public void UpdateShop_ValidShop_ShopUpdatedInRepo()

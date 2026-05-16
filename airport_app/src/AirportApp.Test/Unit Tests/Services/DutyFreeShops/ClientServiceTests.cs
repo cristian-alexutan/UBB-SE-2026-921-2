@@ -23,7 +23,7 @@ public class ClientServiceTests
     public void AddClient_NullClient_ThrowsException()
     {
         var exception = Assert.Catch<Exception>(() => this.clientService.AddClient(null));
-        Assert.That(exception!.Message, Does.Contain("Client must not be null"));
+        Assert.That(exception!.Message, Does.Contain("client entity cannot be null"));
     }
 
     [Test]
@@ -31,7 +31,7 @@ public class ClientServiceTests
     {
         Client client = new Client(1, null);
         var exception = Assert.Catch<Exception>(() => this.clientService.AddClient(client));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("client name field must not be empty"));
     }
 
     [Test]
@@ -39,7 +39,7 @@ public class ClientServiceTests
     {
         Client client = new Client(1, string.Empty);
         var exception = Assert.Catch<Exception>(() => this.clientService.AddClient(client));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("client name field must not be empty"));
     }
 
     [Test]
@@ -47,7 +47,7 @@ public class ClientServiceTests
     {
         Client client = new Client(1, " ");
         var exception = Assert.Catch<Exception>(() => this.clientService.AddClient(client));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("client name field must not be empty"));
     }
 
     [Test]
@@ -70,7 +70,7 @@ public class ClientServiceTests
     public void UpdateClient_NullClient_ThrowsException()
     {
         var exception = Assert.Catch<Exception>(() => this.clientService.UpdateClient(null));
-        Assert.That(exception!.Message, Does.Contain("Client must not be null"));
+        Assert.That(exception!.Message, Does.Contain("client entity cannot be null"));
     }
 
     [Test]
@@ -78,7 +78,7 @@ public class ClientServiceTests
     {
         Client client = new Client(1, null);
         var exception = Assert.Catch<Exception>(() => this.clientService.UpdateClient(client));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("client name field must not be empty"));
     }
 
     [Test]
@@ -86,7 +86,7 @@ public class ClientServiceTests
     {
         Client client = new Client(1, string.Empty);
         var exception = Assert.Catch<Exception>(() => this.clientService.UpdateClient(client));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("client name field must not be empty"));
     }
 
     [Test]
@@ -94,7 +94,7 @@ public class ClientServiceTests
     {
         Client client = new Client(1, " ");
         var exception = Assert.Catch<Exception>(() => this.clientService.UpdateClient(client));
-        Assert.That(exception!.Message, Does.Contain("Name field must not be empty"));
+        Assert.That(exception!.Message, Does.Contain("client name field must not be empty"));
     }
 
     [Test]

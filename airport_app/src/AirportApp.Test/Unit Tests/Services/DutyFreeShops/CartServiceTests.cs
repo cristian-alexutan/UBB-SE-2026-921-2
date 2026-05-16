@@ -88,7 +88,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.AddItemToCart(1, cartItem));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("insufficient stock available"));
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.AddItemToCart(1, newCartItem));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("insufficient stock available"));
     }
 
     [Test]
@@ -117,7 +117,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.AddItemToCart(1, cartItem));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("insufficient stock available"));
     }
 
     [Test]
@@ -145,7 +145,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.UpdateItemQuantity(1, 1, 10));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("Cannot update quantity"));
     }
 
     [Test]

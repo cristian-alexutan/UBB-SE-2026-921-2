@@ -53,7 +53,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
             Reservation reservation = new Reservation(cart, true, DateTime.Now);
             shopItemService.GetById(1).Returns(BuildShopItem(1, 2));
 
-            Assert.Throws<Exception>(() => reservationService.ReserveCart(reservation));
+            Assert.Throws<InvalidOperationException>(() => reservationService.ReserveCart(reservation));
         }
 
         [Test]
