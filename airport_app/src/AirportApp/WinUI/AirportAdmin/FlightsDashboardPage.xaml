@@ -50,20 +50,37 @@
                     BorderBrush="#334155"
                     BorderThickness="1"
                     Width="420"
+                    MaxHeight="560"
                     VerticalAlignment="Center"
                     Padding="20"
                     CornerRadius="8">
-                <StackPanel Spacing="12">
-                    <TextBlock Text="Manage Crew" FontSize="20" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="{x:Bind ViewModel.DialogError, Mode=OneWay}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="Manage Crew"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,12"/>
+
+                    <TextBlock Grid.Row="1"
+                               Text="{x:Bind ViewModel.DialogError, Mode=OneWay}"
                                Foreground="#FF6B6B"
                                FontWeight="SemiBold"
-                               TextWrapping="Wrap"/>
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,12"/>
 
-                    <ListView ItemsSource="{x:Bind ViewModel.AvailableCrew, Mode=OneWay}"
-                              MaxHeight="320"
+                    <ListView Grid.Row="2"
+                              ItemsSource="{x:Bind ViewModel.AvailableCrew, Mode=OneWay}"
                               Background="Transparent"
-                              BorderThickness="0">
+                              BorderThickness="0"
+                              Margin="0,0,0,12">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:CrewSelectionWrapper">
                                 <StackPanel Spacing="6" Margin="0,4,0,4">
@@ -80,13 +97,16 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                    <StackPanel Grid.Row="3"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Spacing="10">
                         <Button Content="Save"
                                 Style="{StaticResource AccentButtonStyle}"
                                 Command="{x:Bind ViewModel.SaveCrewCommand}"/>
                         <Button Content="Cancel" Command="{x:Bind ViewModel.CloseDialogCommand}"/>
                     </StackPanel>
-                </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Grid>
