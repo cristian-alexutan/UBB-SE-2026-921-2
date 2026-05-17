@@ -38,7 +38,8 @@ builder.Services.AddScoped<IManagerRepository, EfManagerRepository>();
 builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
 
 builder.Services.AddScoped<IGateService, GateService>();
-
+builder.Services.AddScoped<IEmployeeFlightService, EmployeeFlightService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
