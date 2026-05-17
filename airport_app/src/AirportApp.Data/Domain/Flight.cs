@@ -9,7 +9,7 @@
         public Runway Runway { get; set; }
         public Gate Gate { get; set; }
 
-        internal Flight()
+        public Flight()
         {
         }
     }

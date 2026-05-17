@@ -13,7 +13,7 @@
         public Company Company { get; set; }
         public Airport Airport { get; set; }
 
-        internal Route()
+        public Route()
         {
         }
     }

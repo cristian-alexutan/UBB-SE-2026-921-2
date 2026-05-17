@@ -8,7 +8,7 @@
 
         public string Subcategory { get; set; }
 
-        internal Ticket()
+        public Ticket()
         {
         }
 

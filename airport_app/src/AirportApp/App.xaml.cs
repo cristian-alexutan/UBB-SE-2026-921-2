@@ -67,9 +67,10 @@ namespace AirportApp
             services.AddTransient<IRunwayService, RunwayService>();
             services.AddTransient<IGateService, GateServiceProxy>();
             services.AddTransient<IEmployeeService, EmployeeServiceProxy>();
-            services.AddTransient<IFlightRouteService, FlightRouteService>();
+            services.AddTransient<IFlightRouteService, FlightRouteServiceProxy>();
             services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
             services.AddTransient<IRouteService, RouteServiceProxy>();
+            services.AddTransient<IFlightService, FlightServiceProxy>();
 
             // Airport Management: ViewModels
             services.AddTransient<SelectCompanyViewModel>();
