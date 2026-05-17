@@ -42,7 +42,7 @@ public class ReservationsController(IReservationService reservationService) : Co
                 CartItems = request.CartItems
                     .Select(ci => new CartItem
                     {
-                        Id = ci.CartItemId,
+                        Id = ci.Id,
                         ShopItem = new ShopItem { Id = ci.ShopItemId },
                         Quantity = ci.Quantity
                     })
@@ -95,5 +95,3 @@ public sealed record ReserveCartRequest(
     bool Active,
     DateTime ReservationDate,
     List<CartItemRequest> CartItems);
-
-public sealed record CartItemRequest(int CartItemId, int ShopItemId, int Quantity);
