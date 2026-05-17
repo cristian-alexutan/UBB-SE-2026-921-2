@@ -37,6 +37,8 @@ builder.Services.AddScoped<IGateRepository, EfGateRepository>();
 builder.Services.AddScoped<IManagerRepository, EfManagerRepository>();
 builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
 
+builder.Services.AddScoped<IRunwayService, RunwayService>();
+builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IGateService, GateService>();
 builder.Services.AddScoped<IEmployeeFlightService, EmployeeFlightService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
