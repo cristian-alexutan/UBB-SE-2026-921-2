@@ -75,19 +75,7 @@ public class CartServiceProxy : RepositoryProxyBase, ICartService
     public void DecreaseItemQuantity(int cartId, int cartItemId)
     {
         Cart? targetCart = this.GetCartById(cartId);
-
-        if (targetCart == null)
-        {
-            return;
-        }
-
         CartItem? itemToModify = FindItemInCartById(targetCart, cartItemId);
-
-        if (itemToModify == null)
-        {
-            return;
-        }
-
         if (itemToModify.Quantity > MinimumCartItemQuantity)
         {
             this.UpdateItemQuantity(cartId, cartItemId, itemToModify.Quantity - MinimumCartItemQuantity);
@@ -107,12 +95,6 @@ public class CartServiceProxy : RepositoryProxyBase, ICartService
     public bool IsLastCartItem(int cartId, int cartItemId)
     {
         Cart? targetCart = this.GetCartById(cartId);
-
-        if (targetCart == null)
-        {
-            return false;
-        }
-
         CartItem? targetItem = FindItemInCartById(targetCart, cartItemId);
         return targetItem != null && targetItem.Quantity == MinimumCartItemQuantity;
     }
