@@ -64,7 +64,7 @@ public class EmployeesController(IEmployeeService employeeService) : ControllerB
 
         int employeeId = employeeService.AddEmployee(employee.Name, employee.Role, employee.Birthday, employee.Salary, employee.HiringDate);
 
-        return this.CreatedAtAction(nameof(this.GetEmployeeById), new { employeeId }, employee);
+        return this.Ok(employeeId);
     }
 
     [HttpPut("{employeeId:int}")]
