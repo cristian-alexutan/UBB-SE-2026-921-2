@@ -304,6 +304,30 @@ namespace AirportAPI.Services
             return result;
         }
 
+        public List<Employee> GetAvailableEmployeesGroupedByRoleById(int flightId)
+        {
+            Flight? flight = flightRepository.GetFlightById(flightId);
+
+            if (flight == null)
+            {
+                return new List<Employee>();
+            }
+
+            return this.GetAvailableEmployeesGroupedByRole(flight);
+        }
+
+        public List<CrewMemberSelectionData> GetCrewSelectionDataById(int flightId)
+        {
+            Flight? flight = flightRepository.GetFlightById(flightId);
+
+            if (flight == null)
+            {
+                return new List<CrewMemberSelectionData>();
+            }
+
+            return this.GetCrewSelectionData(flight);
+        }
+
         public List<Employee> GetAvailableEmployeesGroupedByRole(Flight flight)
         {
             List<Employee> allEmployees = employeeRepository.GetAllEmployees();

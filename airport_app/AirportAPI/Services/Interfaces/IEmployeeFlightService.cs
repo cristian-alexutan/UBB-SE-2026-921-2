@@ -15,6 +15,8 @@ public interface IEmployeeFlightService
     void RemoveAllFlightsAssignmentsForEmployee(int employeeId);
     List<EmployeeScheduleItem> GetFormattedEmployeeSchedule(int employeeId);
     List<Employee> GetAvailableEmployeesGroupedByRole(Flight flight);
+    List<Employee> GetAvailableEmployeesGroupedByRoleById(int flightId);
     string FormatCrewList(int flightId);
-    public List<CrewMemberSelectionData> GetCrewSelectionData(Flight flight);
+    List<CrewMemberSelectionData> GetCrewSelectionData(Flight flight);
+    List<CrewMemberSelectionData> GetCrewSelectionDataById(int flightId);
 }
