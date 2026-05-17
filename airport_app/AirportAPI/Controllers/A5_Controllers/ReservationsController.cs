@@ -42,9 +42,9 @@ public class ReservationsController(IReservationService reservationService) : Co
                 CartItems = request.CartItems
                     .Select(cartItemRequest => new CartItem
                     {
-                        Id = ci.Id,
-                        ShopItem = new ShopItem { Id = ci.ShopItemId },
-                        Quantity = ci.Quantity
+                        Id = cartItemRequest.Id,
+                        ShopItem = new ShopItem { Id = cartItemRequest.ShopItemId },
+                        Quantity = cartItemRequest.Quantity
                     })
                     .ToList()
             },
