@@ -66,7 +66,7 @@ namespace AirportApp
             services.AddTransient<IAirportService, AirportServiceProxy>();
             services.AddTransient<IRunwayService, RunwayService>();
             services.AddTransient<IGateService, GateServiceProxy>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEmployeeService, EmployeeServiceProxy>();
             services.AddTransient<IFlightRouteService, FlightRouteService>();
             services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
             services.AddTransient<IRouteService, RouteService>();
@@ -97,7 +97,7 @@ namespace AirportApp
             services.AddSingleton<IShopService, ShopService>();
             services.AddSingleton<ICartService, CartService>();
             services.AddSingleton<ITicketService, TicketService>();
-            services.AddSingleton<IClientService, ClientService>();
+            services.AddSingleton<IClientService, ClientServiceProxy>();
             services.AddSingleton<IManagerService, ManagerService>();
             services.AddScoped<IReservationService, ReservationService>();
 
