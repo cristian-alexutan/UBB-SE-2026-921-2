@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\A5_Controllers\" />
     <Folder Include="Domain\" />
   </ItemGroup>
   
