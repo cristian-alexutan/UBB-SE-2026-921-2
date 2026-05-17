@@ -31,8 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\A5_Controllers\" />
     <Folder Include="Domain\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\AirportApp.Data\AirportApp.Data.csproj" />
   </ItemGroup>
   
 </Project>
