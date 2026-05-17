@@ -37,9 +37,16 @@ builder.Services.AddScoped<IGateRepository, EfGateRepository>();
 builder.Services.AddScoped<IManagerRepository, EfManagerRepository>();
 builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
 
-builder.Services.AddScoped<IShopItemService, ShopItemService>();
+builder.Services.AddScoped<IRunwayService, RunwayService>();
+builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IGateService, GateService>();
+builder.Services.AddScoped<IAirportService, AirportService>();
+
+builder.Services.AddScoped<IEmployeeFlightService, EmployeeFlightService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IShopItemService, ShopItemService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
 
 var app = builder.Build();
 

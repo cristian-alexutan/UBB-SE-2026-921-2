@@ -62,14 +62,14 @@ namespace AirportApp
             services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepositoryProxy>();
 
             // Airport Management: Services
-            services.AddTransient<ICompanyService, CompanyServiceProxy>();
-            services.AddTransient<IAirportService, AirportService>();
+            services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<IAirportService, AirportServiceProxy>();
             services.AddTransient<IRunwayService, RunwayService>();
             services.AddTransient<IGateService, GateServiceProxy>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEmployeeService, EmployeeServiceProxy>();
             services.AddTransient<IFlightRouteService, FlightRouteService>();
             services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
-            services.AddTransient<IRouteService, RouteService>();
+            services.AddTransient<IRouteService, RouteServiceProxy>();
 
             // Airport Management: ViewModels
             services.AddTransient<SelectCompanyViewModel>();
@@ -99,7 +99,7 @@ namespace AirportApp
             services.AddSingleton<ITicketService, TicketService>();
             services.AddSingleton<IClientService, ClientServiceProxy>();
             services.AddSingleton<IManagerService, ManagerService>();
-            services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IReservationService, ReservationServiceProxy>();
 
             // Duty-Free Shops: Session + ViewModels
             services.AddSingleton<UserSession>();
