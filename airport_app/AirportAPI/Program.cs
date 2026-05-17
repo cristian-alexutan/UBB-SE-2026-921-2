@@ -38,6 +38,7 @@ builder.Services.AddScoped<IManagerRepository, EfManagerRepository>();
 builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
 
 builder.Services.AddScoped<IGateService, GateService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 
