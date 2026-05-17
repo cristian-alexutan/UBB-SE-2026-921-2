@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using AirportAPI;
 using AirportAPI.Repositories;
 using AirportAPI.Repositories.Interfaces;
+using AirportAPI.Services;
+using AirportAPI.Services.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +36,8 @@ builder.Services.AddScoped<IFlightRepository, EfFlightRepository>();
 builder.Services.AddScoped<IGateRepository, EfGateRepository>();
 builder.Services.AddScoped<IManagerRepository, EfManagerRepository>();
 builder.Services.AddScoped<IRunwayRepository, EfRunwayRepository>();
+
+builder.Services.AddScoped<IGateService, GateService>();
 
 var app = builder.Build();
 

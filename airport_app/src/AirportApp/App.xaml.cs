@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
 using AirportApp.Data.Repositories.Proxies;
+using AirportApp.Data.Services.Proxies;
 using AirportApp.Data.User;
 using AirportApp.ViewModel;
 using AirportApp.ViewModel.DutyFreeShops;
@@ -55,7 +56,6 @@ namespace AirportApp
             services.AddTransient<ICompanyRepository, CompanyRepositoryProxy>();
             services.AddTransient<IAirportRepository, AirportRepositoryProxy>();
             services.AddTransient<IRunwayRepository, RunwayRepositoryProxy>();
-            services.AddTransient<IGateRepository, GateRepositoryProxy>();
             services.AddTransient<IEmployeeRepository, EmployeeRepositoryProxy>();
             services.AddTransient<IFlightRepository, FlightRepositoryProxy>();
             services.AddTransient<IRouteRepository, RouteRepositoryProxy>();
@@ -65,7 +65,7 @@ namespace AirportApp
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IAirportService, AirportService>();
             services.AddTransient<IRunwayService, RunwayService>();
-            services.AddTransient<IGateService, GateService>();
+            services.AddTransient<IGateService, GateServiceProxy>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IFlightRouteService, FlightRouteService>();
             services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
