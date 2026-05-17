@@ -63,7 +63,7 @@ namespace AirportApp
 
             // Airport Management: Services
             services.AddTransient<ICompanyService, CompanyService>();
-            services.AddTransient<IAirportService, AirportService>();
+            services.AddTransient<IAirportService, AirportServiceProxy>();
             services.AddTransient<IRunwayService, RunwayService>();
             services.AddTransient<IGateService, GateServiceProxy>();
             services.AddTransient<IEmployeeService, EmployeeService>();
