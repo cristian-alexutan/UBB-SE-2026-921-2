@@ -1,83 +1,125 @@
-using System.Collections;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-
 namespace AirportApp.Data.Services
 {
-    public class ShopService : IShopService
+    public class ShopService(IShopRepository shopRepository) : IShopService
     {
-        private readonly IShopRepo shopRepo;
-
-        public ShopService(IShopRepo shopRepo)
-        {
-            this.shopRepo = shopRepo;
-        }
+        private const string EmptyNameErrorMessage = "The shop name field must not be empty.";
+        private const string EmptyTypeErrorMessage = "The shop type field must not be empty.";
+        private const string DuplicateNameErrorMessage = "A shop with this name already exists in the system.";
 
         public IEnumerable<Shop> GetAllAvailableShops()
         {
-            return this.shopRepo.GetAll();
+            return shopRepository.GetAll();
         }
 
-        public void AddShop(Shop shop)
+        public void AddShop(Shop shopToAdd)
         {
-            if (string.IsNullOrWhiteSpace(shop.Name))
+            if (string.IsNullOrWhiteSpace(shopToAdd.Name))
             {
-                throw new Exception("Name field must not be empty");
+                throw new ArgumentException(EmptyNameErrorMessage, nameof(shopToAdd));
             }
 
-            if (string.IsNullOrWhiteSpace(shop.Type))
+            if (string.IsNullOrWhiteSpace(shopToAdd.Type))
             {
-                throw new Exception("Type field must not be empty");
+                throw new ArgumentException(EmptyTypeErrorMessage, nameof(shopToAdd));
             }
 
-            var nameExists = this.shopRepo.GetAll().Any(otherShop => string.Equals(otherShop.Name, shop.Name, StringComparison.OrdinalIgnoreCase));
-            if (nameExists)
+            bool doesNameAlreadyExist = this.CheckIfNameExists(shopToAdd.Name);
+            if (doesNameAlreadyExist)
             {
-                throw new Exception("Shop name already exists");
+                throw new InvalidOperationException(DuplicateNameErrorMessage);
             }
 
-            this.shopRepo.Add(shop);
+            shopRepository.Add(shopToAdd);
+        }
+
+        public void UpdateShop(Shop shopToUpdate)
+        {
+            if (string.IsNullOrWhiteSpace(shopToUpdate.Name))
+            {
+                throw new ArgumentException(EmptyNameErrorMessage, nameof(shopToUpdate));
+            }
+
+            if (string.IsNullOrWhiteSpace(shopToUpdate.Type))
+            {
+                throw new ArgumentException(EmptyTypeErrorMessage, nameof(shopToUpdate));
+            }
+
+            bool isDuplicateName = this.CheckIfNameIsDuplicateForOtherShop(shopToUpdate.Id, shopToUpdate.Name);
+            if (isDuplicateName)
+            {
+                throw new InvalidOperationException(DuplicateNameErrorMessage);
+            }
+
+            shopRepository.Update(shopToUpdate);
         }
 
         public void DeleteShop(int shopId)
         {
-            this.shopRepo.Delete(shopId);
+            shopRepository.Delete(shopId);
         }
 
-        public IEnumerable<Shop> SortAlphabetically(IEnumerable<Shop> shops)
+        public IEnumerable<Shop> SortAlphabetically(IEnumerable<Shop> shopsToSort)
         {
-            return shops.OrderBy(shop => shop.Name);
+            List<Shop> sortedList = new List<Shop>(shopsToSort);
+
+            sortedList.Sort(new ShopNameComparer());
+
+            return sortedList;
         }
 
-        public void UpdateShop(Shop shop)
+        public IEnumerable<Shop> SearchByName(string searchText)
         {
-            if (string.IsNullOrWhiteSpace(shop.Name))
-            {
-                throw new Exception("Name field must not be empty");
-            }
-            if (string.IsNullOrWhiteSpace(shop.Type))
-            {
-                throw new Exception("Type field must not be empty");
-            }
+            IEnumerable<Shop> allShops = this.GetAllAvailableShops();
+            List<Shop> matchingShops = new List<Shop>();
 
-            var isDuplicate = shopRepo.GetAll().Any(newShop =>
-                newShop.Id != shop.Id && string.Equals(newShop.Name, shop.Name));
-
-            if (isDuplicate)
+            foreach (Shop shop in allShops)
             {
-                throw new Exception("Shop with given name already exists");
+                if (shop.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                {
+                    matchingShops.Add(shop);
+                }
             }
 
-            this.shopRepo.Update(shop);
+            return matchingShops;
         }
 
-        public IEnumerable<Shop> SearchByName(string input)
+        private bool CheckIfNameExists(string nameToFind)
         {
-            var filtered = this.GetAllAvailableShops()
-                .Where(shop => shop.Name.Contains(input, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-            return filtered;
+            foreach (Shop existingShop in shopRepository.GetAll())
+            {
+                if (string.Equals(existingShop.Name, nameToFind, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CheckIfNameIsDuplicateForOtherShop(int currentShopId, string nameToVerify)
+        {
+            foreach (Shop otherShop in shopRepository.GetAll())
+            {
+                if (otherShop.Id != currentShopId && string.Equals(otherShop.Name, nameToVerify, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private class ShopNameComparer : IComparer<Shop>
+        {
+            public int Compare(Shop? firstShop, Shop? secondShop)
+            {
+                if (firstShop == null || secondShop == null)
+                {
+                    return 0;
+                }
+
+                return string.Compare(firstShop.Name, secondShop.Name, StringComparison.OrdinalIgnoreCase);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 using AirportApp.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,26 +14,13 @@ namespace AirportApp.WinUI
         {
             this.InitializeComponent();
 
-            var navigationService = App.Services.GetRequiredService<INavigationService>();
-            ViewModel = new ShellViewModel(navigationService);
+            var navigationUtil = App.Services.GetRequiredService<INavigationUtil>();
+            ViewModel = new ShellViewModel(navigationUtil);
             this.DataContext = ViewModel;
 
-            navigationService.Initialize(ContentFrame);
+            navigationUtil.Initialize(ContentFrame);
 
-            navigationService.NavigateToHome();
-
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
-        private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ShellViewModel.IsAirportTabActive))
-            {
-                if (!ViewModel.IsAirportTabActive)
-                {
-                    ContentFrame.Navigate(typeof(LandingPage));
-                }
-            }
+            navigationUtil.NavigateToConfiguredAirportRole();
         }
     }
 }

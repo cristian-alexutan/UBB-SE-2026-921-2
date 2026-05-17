@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.WinUI.Components
 {
@@ -14,8 +14,8 @@ namespace AirportApp.WinUI.Components
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
         {
-            var navigationService = App.Services.GetRequiredService<INavigationService>();
-            navigationService.NavigateToHome();
+            var navigationUtil = App.Services.GetRequiredService<INavigationUtil>();
+            navigationUtil.NavigateToHome();
         }
     }
 }

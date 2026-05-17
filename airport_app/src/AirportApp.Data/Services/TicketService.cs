@@ -1,32 +1,33 @@
-using System.Linq;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-using AirportApp.Data.Services.Interfaces;
-
 namespace AirportApp.Data.Services
 {
-    public class TicketService : ITicketService
+    public class TicketService(ITicketRepository ticketRepository) : ITicketService
     {
-        private readonly ITicketRepo ticketRepo;
+        private const string InvalidSubcategoryErrorMessage = "The provided subcategory name cannot be null or empty.";
 
-        public TicketService(ITicketRepo ticketRepo)
+        public int CountTicketsBySubcategory(string subcategoryName)
         {
-            this.ticketRepo = ticketRepo;
-        }
-
-        public int CountTicketsBySubcategory(string subcategory)
-        {
-            if (string.IsNullOrEmpty(subcategory))
+            if (string.IsNullOrEmpty(subcategoryName))
             {
-                throw new ArgumentException("Subcategory cannot be null or empty.", nameof(subcategory));
+                throw new ArgumentException(InvalidSubcategoryErrorMessage, nameof(subcategoryName));
             }
 
-            return this.ticketRepo.GetAll().Count(ticket => ticket.Subcategory == subcategory);
+            IEnumerable<Ticket> allTicketsList = ticketRepository.GetAll();
+            int matchingTicketCount = 0;
+
+            foreach (Ticket ticketInstance in allTicketsList)
+            {
+                if (ticketInstance.Subcategory == subcategoryName)
+                {
+                    matchingTicketCount++;
+                }
+            }
+
+            return matchingTicketCount;
         }
 
-        public void AddTicket(Ticket ticket)
+        public void AddTicket(Ticket ticketToAdd)
         {
-            this.ticketRepo.Add(ticket);
+            ticketRepository.Add(ticketToAdd);
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using CommunityToolkit.Mvvm.Input;
 
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.ViewModel
 {
@@ -11,29 +11,29 @@ namespace AirportApp.ViewModel
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private readonly INavigationService navigationService;
+        private readonly INavigationUtil navigationUtil;
 
-        public HomeViewModel(INavigationService navigationService)
+        public HomeViewModel(INavigationUtil navigationUtil)
         {
-            this.navigationService = navigationService;
+            this.navigationUtil = navigationUtil;
         }
 
         [RelayCommand]
         private void NavigateToCompany()
         {
-            this.navigationService.NavigateToSelectCompany();
+            this.navigationUtil.NavigateToSelectCompany();
         }
 
         [RelayCommand]
         private void NavigateToAdmin()
         {
-            this.navigationService.NavigateToAirportAdmin();
+            this.navigationUtil.NavigateToAirportAdmin();
         }
 
         [RelayCommand]
         private void NavigateToStaff()
         {
-            this.navigationService.NavigateToStaffLogin();
+            this.navigationUtil.NavigateToStaffLogin();
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

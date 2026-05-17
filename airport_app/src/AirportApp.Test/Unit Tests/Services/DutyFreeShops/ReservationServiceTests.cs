@@ -11,7 +11,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
     [TestFixture]
     public class ReservationServiceTests
     {
-        private IReservationRepo reservationRepo = null!;
+        private IReservationRepository reservationRepo = null!;
         private IShopItemService shopItemService = null!;
         private ICartService cartService = null!;
         private ReservationService reservationService = null!;
@@ -19,7 +19,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
         [SetUp]
         public void SetUp()
         {
-            reservationRepo = Substitute.For<IReservationRepo>();
+            reservationRepo = Substitute.For<IReservationRepository>();
             shopItemService = Substitute.For<IShopItemService>();
             cartService = Substitute.For<ICartService>();
             reservationService = new ReservationService(reservationRepo, shopItemService, cartService);
@@ -53,7 +53,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
             Reservation reservation = new Reservation(cart, true, DateTime.Now);
             shopItemService.GetById(1).Returns(BuildShopItem(1, 2));
 
-            Assert.Throws<Exception>(() => reservationService.ReserveCart(reservation));
+            Assert.Throws<InvalidOperationException>(() => reservationService.ReserveCart(reservation));
         }
 
         [Test]

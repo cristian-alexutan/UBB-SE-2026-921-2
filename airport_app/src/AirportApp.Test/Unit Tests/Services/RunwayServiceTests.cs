@@ -22,7 +22,7 @@ public class RunwayServiceTests
     private const int NewRunwayId = 0;
 
     [Fact]
-    public void GetAll_Should_Return_All_Runways_Always()
+    public void GetAllRunways_ShouldReturnAllRunways_Always()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -43,7 +43,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Be_Null_For_Invalid_Id()
+    public void GetRunwayById_ShouldBeNull_ForInvalidId()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -53,7 +53,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Be_Null_When_Runway_Not_Found()
+    public void GetRunwayById_ShouldBeNull_WhenRunwayNotFound()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -66,7 +66,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Return_Runway_When_Runway_Exists()
+    public void GetRunwayById_ShouldReturnRunway_WhenRunwayExists()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -81,7 +81,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void GetById_Should_Throw_When_Repo_Throws()
+    public void GetRunwayById_ShouldThrow_WhenRepoThrows()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -93,7 +93,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Null_Name()
+    public void AddRunway_ShouldThrow_ForNullName()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -103,7 +103,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Empty_Name()
+    public void AddRunway_ShouldThrow_ForEmptyName()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -113,7 +113,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Add_Should_Throw_For_Invalid_HandleTime()
+    public void AddRunway_ShouldThrow_ForInvalidHandleTime()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -123,7 +123,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Add_Should_Work_When_Valid_Input()
+    public void AddRunway_ShouldWork_WhenValidInput()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -140,7 +140,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Update_Should_Throw_When_Runway_Not_Found()
+    public void UpdateRunway_ShouldThrow_WhenRunwayNotFound()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -152,7 +152,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Update_Should_Update_All_Fields_When_Both_Are_Provided()
+    public void UpdateRunway_ShouldUpdateAllFields_WhenBothAreProvided()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -169,7 +169,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void Delete_Should_Call_Repo_For_Valid_Id()
+    public void DeleteRunway_ShouldCallRepo_ForValidId()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -182,7 +182,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void SaveRunway_Should_Throw_For_Invalid_HandleTime_Text()
+    public void SaveRunway_ShouldThrow_ForInvalidHandleTimeText()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -193,7 +193,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void SaveRunway_Should_Call_Add_When_Id_Is_Zero()
+    public void SaveRunway_ShouldCallAdd_WhenIdIsZero()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();
@@ -206,7 +206,7 @@ public class RunwayServiceTests
     }
 
     [Fact]
-    public void HasFlights_Should_Return_True_When_Flights_Exist()
+    public void HasFlights_ShouldReturnTrue_WhenFlightsExist()
     {
         var mockRunwayRepo = new Mock<IRunwayRepository>();
         var mockFlightRepo = new Mock<IFlightRepository>();

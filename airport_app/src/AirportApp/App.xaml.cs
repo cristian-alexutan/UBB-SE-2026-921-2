@@ -1,11 +1,12 @@
-using AirportApp.Data;
+﻿using System.Text.Json;
+
+using AirportApp.Data.Repositories.Proxies;
 using AirportApp.Data.User;
 using AirportApp.ViewModel;
 using AirportApp.ViewModel.DutyFreeShops;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 
@@ -15,9 +16,11 @@ namespace AirportApp
     {
         public static IServiceProvider Services { get; private set; }
         public static Window MainWindow { get; private set; }
+        public static int ConfiguredUserId { get; private set; } = DefaultUserId;
 
+        private const int DefaultUserId = 1;
+        private const string DefaultApiBaseUrl = "http://localhost:5171/";
         private Window window;
-        private static string connectionString;
 
         public App()
         {
@@ -39,28 +42,26 @@ namespace AirportApp
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            // string connectionString = @"Server=.\SQLEXPRESS;Initial Catalog=AirportDB;Integrated Security=true;TrustServerCertificate=True"
-            connectionString = @"Server=(localdb)\MSSQLLocalDB; Database = AirportDB; Trusted_Connection = True; TrustServerCertificate = True;";
-            services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            ConfiguredUserId = ReadConfiguredUserId();
+            services.AddSingleton(new HttpClient
+            {
+                BaseAddress = new Uri(ReadConfiguredApiBaseUrl())
+            });
 
-            // ── Airport Management: Infrastructure ────────────────────────
-            services.AddSingleton<DatabaseConnectionFactory>();
+            // Airport Management: Infrastructure
+            services.AddSingleton<MockUserUtil>();
 
-            // ── Airport Management: Repositories ─────────────────────────
-            services.AddTransient<ICompanyRepository, CompanyRepository>();
-            services.AddTransient<IAirportRepository, AirportRepository>();
-            services.AddTransient<IRunwayRepository, RunwayRepository>();
-            services.AddTransient<IGateRepository, EfGateRepository>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<IFlightRepository, FlightRepository>();
-            services.AddTransient<IRouteRepository, RouteRepository>();
-            services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepository>();
-            services.AddTransient<IEmployeeRepository, EfEmployeeRepository>();
-            services.AddTransient<IFlightRepository, EfFlightRepository>();
-            services.AddTransient<IEmployeeFlightRepository, EfEmployeeFlightRepository>();
+            // Airport Management: Repositories
+            services.AddTransient<ICompanyRepository, CompanyRepositoryProxy>();
+            services.AddTransient<IAirportRepository, AirportRepositoryProxy>();
+            services.AddTransient<IRunwayRepository, RunwayRepositoryProxy>();
+            services.AddTransient<IGateRepository, GateRepositoryProxy>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepositoryProxy>();
+            services.AddTransient<IFlightRepository, FlightRepositoryProxy>();
+            services.AddTransient<IRouteRepository, RouteRepositoryProxy>();
+            services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepositoryProxy>();
 
-            // ── Airport Management: Services ──────────────────────────────
+            // Airport Management: Services
             services.AddTransient<ICompanyService, CompanyService>();
             services.AddTransient<IAirportService, AirportService>();
             services.AddTransient<IRunwayService, RunwayService>();
@@ -70,7 +71,7 @@ namespace AirportApp
             services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
             services.AddTransient<IRouteService, RouteService>();
 
-            // ── Airport Management: ViewModels ────────────────────────────
+            // Airport Management: ViewModels
             services.AddTransient<SelectCompanyViewModel>();
             services.AddTransient<AirportAdminViewModel>();
             services.AddTransient<EmployeesDashboardViewModel>();
@@ -82,17 +83,16 @@ namespace AirportApp
             services.AddTransient<HomeViewModel>();
             services.AddTransient<StaffLoginViewModel>();
 
-            // ── Duty-Free Shops: Infrastructure ──────────────────────────
-            // ── Duty-Free Shops: Repositories ─────────────────────────────
-            services.AddSingleton<IClientRepo, ClientDbRepo>();
-            services.AddSingleton<ITicketRepo, TicketDbRepo>();
-            services.AddSingleton<IManagerRepo, ManagerDbRepo>();
-            services.AddSingleton<IShopRepo, ShopDbRepo>();
-            services.AddSingleton<IShopItemRepo, ShopItemDbRepo>();
-            services.AddSingleton<ICartRepo, EfCartDbRepo>();
-            services.AddScoped<IReservationRepo, ReservationDbRepo>();
+            // Duty-Free Shops: Repositories
+            services.AddSingleton<IClientRepository, ClientRepoProxy>();
+            services.AddSingleton<ITicketRepository, TicketRepoProxy>();
+            services.AddSingleton<IManagerRepository, ManagerRepoProxy>();
+            services.AddSingleton<IShopRepository, ShopRepoProxy>();
+            services.AddSingleton<IShopItemRepository, ShopItemRepoProxy>();
+            services.AddSingleton<ICartRepository, CartRepoProxy>();
+            services.AddTransient<IReservationRepository, ReservationRepoProxy>();
 
-            // ── Duty-Free Shops: Services ─────────────────────────────────
+            // Duty-Free Shops: Services
             services.AddSingleton<IShopItemService, ShopItemService>();
             services.AddSingleton<IShopService, ShopService>();
             services.AddSingleton<ICartService, CartService>();
@@ -101,7 +101,7 @@ namespace AirportApp
             services.AddSingleton<IManagerService, ManagerService>();
             services.AddScoped<IReservationService, ReservationService>();
 
-            // ── Duty-Free Shops: Session + ViewModels ─────────────────────
+            // Duty-Free Shops: Session + ViewModels
             services.AddSingleton<UserSession>();
             services.AddTransient<ILandingViewModel, LandingViewModel>();
             services.AddTransient<IShopPageViewModel, ShopPageViewModel>();
@@ -122,9 +122,60 @@ namespace AirportApp
                     shopItem,
                     shop));
 
-            // ── Shell ──────────────────────────────────────────────────────
-            services.AddSingleton<INavigationService, NavigationService>();
+            // Shell
+            services.AddSingleton<INavigationUtil, NavigationUtil>();
             services.AddSingleton<MainWindow>();
+        }
+
+        private static int ReadConfiguredUserId()
+        {
+            string settingsPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+            if (!File.Exists(settingsPath))
+            {
+                return DefaultUserId;
+            }
+
+            try
+            {
+                using JsonDocument document = JsonDocument.Parse(File.ReadAllText(settingsPath));
+                if (document.RootElement.TryGetProperty("UserID", out JsonElement userIdElement) &&
+                    userIdElement.TryGetInt32(out int userId))
+                {
+                    return userId;
+                }
+            }
+            catch (JsonException)
+            {
+            }
+
+            return DefaultUserId;
+        }
+
+        private static string ReadConfiguredApiBaseUrl()
+        {
+            string settingsPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+            if (!File.Exists(settingsPath))
+            {
+                return DefaultApiBaseUrl;
+            }
+
+            try
+            {
+                using JsonDocument document = JsonDocument.Parse(File.ReadAllText(settingsPath));
+                if (document.RootElement.TryGetProperty("ApiBaseUrl", out JsonElement apiBaseUrlElement))
+                {
+                    string? apiBaseUrl = apiBaseUrlElement.GetString();
+                    if (!string.IsNullOrWhiteSpace(apiBaseUrl))
+                    {
+                        return apiBaseUrl;
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+            }
+
+            return DefaultApiBaseUrl;
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)

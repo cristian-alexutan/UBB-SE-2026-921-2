@@ -1,15 +1,15 @@
 ﻿namespace AirportApp.Data
 {
-    public class EmployeeScheduleItem
+    public sealed class EmployeeScheduleItem
     {
         public string Id { get; set; }
-        public string FlightNumber { get; set; }
-        public string FlightType { get; set; }
-        public string Date { get; set; }
-        public string GateName { get; set; }
-        public string RunwayName { get; set; }
-        public string FlightTime { get; set; }
-        internal EmployeeScheduleItem()
+        public string FlightNumber { get; set; } = string.Empty;
+        public string FlightType { get; set; } = string.Empty;
+        public string Date { get; set; } = string.Empty;
+        public string GateName { get; set; } = string.Empty;
+        public string RunwayName { get; set; } = string.Empty;
+        public string FlightTime { get; set; } = string.Empty;
+        public EmployeeScheduleItem()
         {
         }
     }

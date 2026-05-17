@@ -1,26 +1,26 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using CommunityToolkit.Mvvm.Input;
 
-using AirportApp.WinUI.Services;
+using AirportApp.WinUI.Utils;
 
 namespace AirportApp.ViewModel
 {
     public partial class HeaderViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly INavigationService navigationService;
+        private readonly INavigationUtil navigationUtil;
 
-        public HeaderViewModel(INavigationService navigationService)
+        public HeaderViewModel(INavigationUtil navigationUtil)
         {
-            this.navigationService = navigationService;
+            this.navigationUtil = navigationUtil;
         }
 
         [RelayCommand]
         private void NavigateHome()
         {
-            navigationService.NavigateToHome();
+            navigationUtil.NavigateToHome();
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

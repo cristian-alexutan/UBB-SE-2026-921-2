@@ -1,199 +1,206 @@
-using System;
-using System.Collections.Generic;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Repositories.Interfaces;
-using AirportApp.Data.Services.Interfaces;
-
 namespace AirportApp.Data.Services
 {
-    public class CartService : ICartService
+    public class CartService(
+        ICartRepository cartRepository,
+        IShopItemService shopItemService) : ICartService
     {
         private const int MinimumCartItemQuantity = 1;
-        private readonly ICartRepo cartRepo;
-        private readonly IShopItemService shopItemService;
-
-        public CartService(ICartRepo cartRepo, IShopItemService shopItemService)
-        {
-            this.cartRepo = cartRepo;
-            this.shopItemService = shopItemService;
-        }
 
         public IEnumerable<Cart> GetAllCarts()
         {
-            return this.cartRepo.GetAll();
+            return cartRepository.GetAll();
         }
 
-        public Cart GetCartById(int cartId)
+        public Cart? GetCartById(int cartId)
         {
-            return this.cartRepo.GetById(cartId);
+            return cartRepository.GetById(cartId);
         }
 
         public Cart GetOrCreateCart(int userId)
         {
-            var cart = this.cartRepo.GetById(userId);
-            if (cart == null)
+            Cart? existingCart = cartRepository.GetById(userId);
+
+            if (existingCart != null)
             {
-                cart = new Cart(userId, new Client(userId, "Current Client"), new List<CartItem>());
-                this.cartRepo.Add(cart);
+                return existingCart;
             }
 
-            return cart;
+            Client currentClient = new Client(userId, "Current Client");
+            List<CartItem> emptyItemList = [];
+
+            Cart newCart = new Cart(userId, currentClient, emptyItemList);
+            cartRepository.Add(newCart);
+
+            return newCart;
         }
 
-        public void AddCart(Cart cart)
+        public void AddCart(Cart newCart)
         {
-            this.cartRepo.Add(cart);
+            cartRepository.Add(newCart);
         }
 
         public void DeleteCart(int cartId)
         {
-            this.cartRepo.Delete(cartId);
+            cartRepository.Delete(cartId);
         }
 
-        public void AddItemToCart(int cartId, CartItem item)
+        public void AddItemToCart(int cartId, CartItem itemToAdd)
         {
-            var cart = this.cartRepo.GetById(cartId);
-            CartItem existing = null;
-            if (cart != null)
+            Cart? targetCart = cartRepository.GetById(cartId);
+
+            if (targetCart == null)
             {
-                foreach (var currentCartItem in cart.CartItems)
-                {
-                    if (currentCartItem.ShopItem?.Id == item.ShopItem.Id)
-                    {
-                        existing = currentCartItem;
-                        break;
-                    }
-                }
+                return;
             }
 
-            var shopItem = this.shopItemService.GetById(item.ShopItem.Id);
-            int totalQuantity = (existing?.Quantity ?? 0) + item.Quantity;
+            CartItem? existingItemInCart = this.FindItemInCart(targetCart, itemToAdd.ShopItem.Id);
 
-            if (shopItem == null || totalQuantity > shopItem.Quantity)
+            ShopItem? productInStock = shopItemService.GetById(itemToAdd.ShopItem.Id);
+
+            int requestedQuantity = itemToAdd.Quantity;
+            if (existingItemInCart != null)
             {
-                throw new InvalidOperationException("Not enough stock.");
+                requestedQuantity += existingItemInCart.Quantity;
             }
 
-            if (existing != null)
+            if (productInStock == null || requestedQuantity > productInStock.Quantity)
             {
-                this.cartRepo.UpdateItemQuantity(cartId, existing.Id, totalQuantity);
+                throw new InvalidOperationException("Operation failed: There is insufficient stock available for this item.");
+            }
+
+            if (existingItemInCart != null)
+            {
+                cartRepository.UpdateItemQuantity(cartId, existingItemInCart.Id, requestedQuantity);
             }
             else
             {
-                this.cartRepo.AddItemToCart(cartId, item);
+                cartRepository.AddItemToCart(cartId, itemToAdd);
             }
         }
 
         public void RemoveItemFromCart(int cartId, int cartItemId)
         {
-            this.cartRepo.RemoveItemFromCart(cartId, cartItemId);
+            cartRepository.RemoveItemFromCart(cartId, cartItemId);
         }
 
-        public void UpdateItemQuantity(int cartId, int cartItemId, int quantity)
+        public void UpdateItemQuantity(int cartId, int cartItemId, int newQuantity)
         {
-            var cart = this.cartRepo.GetById(cartId);
-            CartItem cartItem = null;
-            if (cart != null)
-            {
-                foreach (var currentCartItem in cart.CartItems)
-                {
-                    if (currentCartItem.Id == cartItemId)
-                    {
-                        cartItem = currentCartItem;
-                        break;
-                    }
-                }
-            }
+            Cart? targetCart = cartRepository.GetById(cartId);
 
-            if (cartItem != null)
-            {
-                var shopItem = this.shopItemService.GetById(cartItem.ShopItem.Id);
-                if (quantity > shopItem.Quantity)
-                {
-                    throw new InvalidOperationException("Not enough stock.");
-                }
-            }
-
-            this.cartRepo.UpdateItemQuantity(cartId, cartItemId, quantity);
-        }
-
-        public void ClearCart(int cartId)
-        {
-            this.cartRepo.ClearCart(cartId);
-        }
-
-        public double GetCartTotal(int cartId)
-        {
-            var cart = this.cartRepo.GetById(cartId);
-            if (cart == null)
-            {
-                return 0;
-            }
-
-            return cart.GetOverallPrice();
-        }
-
-        public void DecreaseItemQuantity(int cartId, int cartItemId)
-        {
-            var cart = this.cartRepo.GetById(cartId);
-            CartItem cartItem = null;
-            if (cart != null)
-            {
-                foreach (var currentCartItem in cart.CartItems)
-                {
-                    if (currentCartItem.Id == cartItemId)
-                    {
-                        cartItem = currentCartItem;
-                        break;
-                    }
-                }
-            }
-
-            if (cartItem == null)
+            if (targetCart == null)
             {
                 return;
             }
 
-            if (cartItem.Quantity > MinimumCartItemQuantity)
+            CartItem? targetItem = this.FindItemInCartById(targetCart, cartItemId);
+
+            if (targetItem != null)
             {
-                this.cartRepo.UpdateItemQuantity(cartId, cartItemId, cartItem.Quantity - MinimumCartItemQuantity);
+                ShopItem? productInStock = shopItemService.GetById(targetItem.ShopItem.Id);
+
+                if (productInStock != null && newQuantity > productInStock.Quantity)
+                {
+                    throw new InvalidOperationException("Cannot update quantity: Total exceeds available stock.");
+                }
+            }
+
+            cartRepository.UpdateItemQuantity(cartId, cartItemId, newQuantity);
+        }
+
+        public void ClearCart(int cartId)
+        {
+            cartRepository.ClearCart(cartId);
+        }
+
+        public double GetCartTotal(int cartId)
+        {
+            Cart? targetCart = cartRepository.GetById(cartId);
+
+            if (targetCart == null)
+            {
+                return 0;
+            }
+
+            return targetCart.GetOverallPrice();
+        }
+
+        public void DecreaseItemQuantity(int cartId, int cartItemId)
+        {
+            Cart? targetCart = cartRepository.GetById(cartId);
+
+            if (targetCart == null)
+            {
+                return;
+            }
+
+            CartItem? itemToModify = this.FindItemInCartById(targetCart, cartItemId);
+
+            if (itemToModify == null)
+            {
+                return;
+            }
+
+            if (itemToModify.Quantity > MinimumCartItemQuantity)
+            {
+                int updatedQuantity = itemToModify.Quantity - MinimumCartItemQuantity;
+                cartRepository.UpdateItemQuantity(cartId, cartItemId, updatedQuantity);
             }
             else
             {
-                this.cartRepo.RemoveItemFromCart(cartId, cartItemId);
+                cartRepository.RemoveItemFromCart(cartId, cartItemId);
             }
         }
 
         public IEnumerable<CartItem> GetCartItems(int cartId)
         {
-            var cart = this.cartRepo.GetById(cartId);
-            if (cart == null || cart.CartItems == null)
+            Cart? targetCart = cartRepository.GetById(cartId);
+
+            if (targetCart == null || targetCart.CartItems == null)
             {
-                return new List<CartItem>();
+                return [];
             }
 
-            return cart.CartItems;
+            return targetCart.CartItems;
         }
 
         public bool IsLastCartItem(int cartId, int cartItemId)
         {
-            var cart = this.cartRepo.GetById(cartId);
-            if (cart == null)
+            Cart? targetCart = cartRepository.GetById(cartId);
+
+            if (targetCart == null)
             {
                 return false;
             }
 
-            CartItem cartItem = null;
-            foreach (var currentCartItem in cart.CartItems)
+            CartItem? targetItem = this.FindItemInCartById(targetCart, cartItemId);
+
+            return targetItem != null && targetItem.Quantity == MinimumCartItemQuantity;
+        }
+
+        private CartItem? FindItemInCart(Cart cart, int shopItemId)
+        {
+            foreach (CartItem currentItem in cart.CartItems)
             {
-                if (currentCartItem.Id == cartItemId)
+                if (currentItem.ShopItem != null && currentItem.ShopItem.Id == shopItemId)
                 {
-                    cartItem = currentCartItem;
-                    break;
+                    return currentItem;
                 }
             }
 
-            return cartItem != null && cartItem.Quantity == MinimumCartItemQuantity;
+            return null;
+        }
+
+        private CartItem? FindItemInCartById(Cart cart, int cartItemId)
+        {
+            foreach (CartItem currentItem in cart.CartItems)
+            {
+                if (currentItem.Id == cartItemId)
+                {
+                    return currentItem;
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -2,9 +2,6 @@
 
 namespace AirportApp.Data.Services
 {
-    /// <summary>
-    /// One row in the crew-selection dialog.
-    /// </summary>
     public class CrewMemberSelectionData
     {
         public Employee Employee { get; set; } = new();
@@ -219,7 +216,6 @@ namespace AirportApp.Data.Services
                 }
                 catch
                 {
-                    //--intent: ignore existing assignments or minor conflicts during bulk operation.
                 }
             }
         }

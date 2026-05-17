@@ -10,13 +10,13 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops
     [TestFixture]
     public class TicketServiceTests
     {
-        private ITicketRepo ticketRepository;
+        private ITicketRepository ticketRepository;
         private TicketService ticketService;
 
         [SetUp]
         public void SetUp()
         {
-            ticketRepository = Substitute.For<ITicketRepo>();
+            ticketRepository = Substitute.For<ITicketRepository>();
             ticketService = new TicketService(ticketRepository);
         }
 

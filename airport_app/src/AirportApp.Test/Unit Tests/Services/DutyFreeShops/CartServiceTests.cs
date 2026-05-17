@@ -12,7 +12,7 @@ namespace AirportApp.Test.UnitTests.Services.DutyFreeShops;
 [TestFixture]
 public class CartServiceTests
 {
-    private ICartRepo cartRepo = null!;
+    private ICartRepository cartRepo = null!;
     private IShopItemService shopItemService = null!;
     private CartService cartService = null!;
 
@@ -22,7 +22,7 @@ public class CartServiceTests
     [SetUp]
     public void Setup()
     {
-        this.cartRepo = Substitute.For<ICartRepo>();
+        this.cartRepo = Substitute.For<ICartRepository>();
         this.shopItemService = Substitute.For<IShopItemService>();
         this.cartService = new CartService(this.cartRepo, this.shopItemService);
     }
@@ -88,7 +88,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.AddItemToCart(1, cartItem));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("insufficient stock available"));
     }
 
     [Test]
@@ -103,7 +103,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.AddItemToCart(1, newCartItem));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("insufficient stock available"));
     }
 
     [Test]
@@ -117,7 +117,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.AddItemToCart(1, cartItem));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("insufficient stock available"));
     }
 
     [Test]
@@ -145,7 +145,7 @@ public class CartServiceTests
 
         var exception = Assert.Catch<InvalidOperationException>(() => this.cartService.UpdateItemQuantity(1, 1, 10));
 
-        Assert.That(exception!.Message, Does.Contain("Not enough stock"));
+        Assert.That(exception!.Message, Does.Contain("Cannot update quantity"));
     }
 
     [Test]

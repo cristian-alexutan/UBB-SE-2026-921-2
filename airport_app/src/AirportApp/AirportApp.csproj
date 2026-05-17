@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
@@ -25,6 +25,7 @@
     <None Remove="WinUI\CompanyPage.xaml" />
     <None Remove="WinUI\Components\Header.xaml" />
     <None Remove="WinUI\HomePage.xaml" />
+    <None Remove="WinUI\NoAirportRolePage.xaml" />
     <None Remove="WinUI\StaffPage.xaml" />
     <None Remove="WinUI\DutyFreeShops\LandingPage\LandingPage.xaml" />
     <None Remove="WinUI\DutyFreeShops\ShopPage\ShopPage.xaml" />
@@ -62,10 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".github\copilot-instructions.md" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.7" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
@@ -111,6 +119,9 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
     <Page Update="WinUI\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="WinUI\NoAirportRolePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="WinUI\SelectCompanyPage.xaml">
