@@ -40,7 +40,7 @@ public class ReservationsController(IReservationService reservationService) : Co
             {
                 Id = request.CartId,
                 CartItems = request.CartItems
-                    .Select(ci => new CartItem
+                    .Select(cartItemRequest => new CartItem
                     {
                         Id = ci.Id,
                         ShopItem = new ShopItem { Id = ci.ShopItemId },
@@ -56,9 +56,9 @@ public class ReservationsController(IReservationService reservationService) : Co
             reservationService.ReserveCart(reservation);
             return this.Ok(reservation.Id);
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException conflictException)
         {
-            return this.Conflict(ex.Message);
+            return this.Conflict(conflictException.Message);
         }
     }
 

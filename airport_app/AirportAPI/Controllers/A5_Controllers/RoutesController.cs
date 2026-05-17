@@ -57,9 +57,9 @@ public class RoutesController(IRouteService routeService) : ControllerBase
 
             return this.Ok(routeId);
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException conflictException)
         {
-            return this.Conflict(ex.Message);
+            return this.Conflict(conflictException.Message);
         }
     }
 

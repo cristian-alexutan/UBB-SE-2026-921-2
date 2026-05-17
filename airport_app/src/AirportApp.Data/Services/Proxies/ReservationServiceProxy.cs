@@ -30,7 +30,7 @@ public class ReservationServiceProxy : RepositoryProxyBase, IReservationService
             reservation.Active,
             reservation.ReservationDate,
             reservation.ReservationCart.CartItems
-                .Select(ci => new CartItemRequest(ci.Id, ci.ShopItem.Id, ci.Quantity))
+                .Select(cartItem => new CartItemRequest(cartItem.Id, cartItem.ShopItem.Id, cartItem.Quantity))
                 .ToList());
 
         int newId = this.PostForResult<ReserveCartRequest, int>("api/reservations/reserve", request);
@@ -47,9 +47,10 @@ public class ReservationServiceProxy : RepositoryProxyBase, IReservationService
         this.Put($"api/reservations/{reservationId}/cancel", (object?)null);
     }
 
-    public Reservation GetActiveReservationForCart(int cartId)
+    public Reservation? GetActiveReservationForCart(int cartId)
     {
-        return MapReservation(this.GetRequired<ReservationDto>($"api/reservations/cart/{cartId}/active"));
+        ReservationDto? reservationDto = this.GetOptional<ReservationDto>($"api/reservations/cart/{cartId}/active");
+        return reservationDto == null ? null : MapReservation(reservationDto);
     }
 
     private static Reservation MapReservation(ReservationDto dto)
