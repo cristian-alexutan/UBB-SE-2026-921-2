@@ -47,6 +47,8 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IShopItemService, ShopItemService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IFlightService, FlightService>();
+builder.Services.AddScoped<IFlightRouteService, FlightRouteService>();
 
 var app = builder.Build();
 
