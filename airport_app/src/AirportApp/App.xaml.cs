@@ -99,7 +99,7 @@ namespace AirportApp
             services.AddSingleton<ICartService, CartService>();
             services.AddSingleton<ITicketService, TicketService>();
             services.AddSingleton<IClientService, ClientServiceProxy>();
-            services.AddSingleton<IManagerService, ManagerService>();
+            services.AddSingleton<IManagerService, ManagerServiceProxy>();
             services.AddScoped<IReservationService, ReservationServiceProxy>();
 
             // Duty-Free Shops: Session + ViewModels
