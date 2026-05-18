@@ -68,7 +68,7 @@ namespace AirportApp
             services.AddTransient<IGateService, GateServiceProxy>();
             services.AddTransient<IEmployeeService, EmployeeServiceProxy>();
             services.AddTransient<IFlightRouteService, FlightRouteServiceProxy>();
-            services.AddTransient<IEmployeeFlightService, EmployeeFlightService>();
+            services.AddTransient<IEmployeeFlightService, EmployeeFlightServiceProxy>();
             services.AddTransient<IRouteService, RouteServiceProxy>();
             services.AddTransient<IFlightService, FlightServiceProxy>();
 
