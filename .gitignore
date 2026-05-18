@@ -485,3 +485,8 @@ $RECYCLE.BIN/
 bin/
 obj/
 
+/airport_app/AirportAPI/appsettings.Development.json
+/airport_app/AirportAPI/appsettings.json
+/airport_app/src/AirportApp/appsettings.json
+/airport_app/AirportAPI/AppDbContext.cs
+/airport_app/src/AirportApp.Data/AppDbContext.cs
