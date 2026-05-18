@@ -17,7 +17,7 @@
         public DateOnly Birthday { get; set; }
         public DateOnly HiringDate { get; set; }
         public int Salary { get; set; }
-        internal Employee()
+        public Employee()
         {
         }
 
