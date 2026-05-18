@@ -95,9 +95,9 @@ namespace AirportApp
 
             // Duty-Free Shops: Services
             services.AddSingleton<IShopItemService, ShopItemServiceProxy>();
-            services.AddSingleton<IShopService, ShopService>();
+            services.AddSingleton<IShopService, ShopServiceProxy>();
             services.AddSingleton<ICartService, CartService>();
-            services.AddSingleton<ITicketService, TicketService>();
+            services.AddSingleton<ITicketService, TicketServiceProxy>();
             services.AddSingleton<IClientService, ClientServiceProxy>();
             services.AddSingleton<IManagerService, ManagerServiceProxy>();
             services.AddScoped<IReservationService, ReservationServiceProxy>();
