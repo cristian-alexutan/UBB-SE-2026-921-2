@@ -119,9 +119,7 @@ public class FlightRouteServiceProxy : RepositoryProxyBase, IFlightRouteService
                 nameof(RecurrenceType.Daily) => DailyIntervalDays,
                 nameof(RecurrenceType.Weekly) => WeeklyIntervalDays,
                 nameof(RecurrenceType.Monthly) => MonthlyIntervalDays,
-                nameof(RecurrenceType.Custom) => int.TryParse(customDaysText, out int custom) && custom > 0
-                    ? custom
-                    : throw new InvalidOperationException("Invalid custom interval."),
+                nameof(RecurrenceType.Custom) => ParseCustomInterval(customDaysText),
                 _ => throw new InvalidOperationException("A recurrence type is required for recurrent flights.")
             };
         }
@@ -219,6 +217,21 @@ public class FlightRouteServiceProxy : RepositoryProxyBase, IFlightRouteService
         }
 
         return matching;
+    }
+
+    private static int ParseCustomInterval(string? customDaysText)
+    {
+        if (string.IsNullOrWhiteSpace(customDaysText))
+        {
+            throw new InvalidOperationException("Custom days are required when recurrence type is Custom.");
+        }
+
+        if (!int.TryParse(customDaysText, out int custom) || custom <= 0)
+        {
+            throw new InvalidOperationException("Invalid custom interval.");
+        }
+
+        return custom;
     }
 
     public FlightSummary BuildFlightSummary(Flight flight, string crewText)

@@ -18,10 +18,12 @@ namespace AirportWebApp.Models.AirportManagement
         public int Capacity { get; set; }
 
         [Required]
-        public TimeSpan DepartureOffset { get; set; }
+        [Range(0, 1439, ErrorMessage = "Departure time must be a valid minute offset.")]
+        public int DepartureOffsetMinutes { get; set; }
 
         [Required]
-        public TimeSpan ArrivalOffset { get; set; }
+        [Range(0, 1439, ErrorMessage = "Arrival time must be a valid minute offset.")]
+        public int ArrivalOffsetMinutes { get; set; }
 
         public bool IsRecurrent { get; set; }
 
@@ -33,7 +35,7 @@ namespace AirportWebApp.Models.AirportManagement
 
         public string RecurrenceType { get; set; } = "Daily";
 
-        public string CustomDaysText { get; set; } = string.Empty;
+        public string? CustomDaysText { get; set; }
 
         [Required]
         public int RunwayId { get; set; }
