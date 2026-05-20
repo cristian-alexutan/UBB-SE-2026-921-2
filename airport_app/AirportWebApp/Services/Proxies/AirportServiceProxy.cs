@@ -1,5 +1,3 @@
-using AirportWebApp.Services.Proxies;
-
 namespace AirportWebApp.Services.Proxies
 {
     public class AirportServiceProxy : RepositoryProxyBase, IAirportService

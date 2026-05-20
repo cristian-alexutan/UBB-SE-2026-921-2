@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AirportAPI.Domain;
+
 using Route = AirportAPI.Domain.Route;
 
 namespace AirportAPI;

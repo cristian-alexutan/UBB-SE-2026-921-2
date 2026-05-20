@@ -1,37 +1,74 @@
 namespace AirportWebApp.Infrastructure
 {
-    public class WebUserSession
+    public class WebUserSession(IConfiguration configuration)
     {
-        private readonly MockUserRoles roles;
+        public int CurrentUserId => configuration.GetValue<int>("UserID");
+        private MockUserRoles CurrentUserRoles => new MockUserUtil().GetRolesForUser(CurrentUserId);
 
-        public WebUserSession(IConfiguration configuration)
+        public int UserId => CurrentUserRoles.UserId;
+
+        public DutyFreeModuleRole DutyFreeRole => CurrentUserRoles.DutyFreeRole;
+
+        public int? CompanyId => CurrentUserRoles.CompanyId;
+
+        public int? EmployeeId => CurrentUserRoles.EmployeeId;
+
+        public int DutyFreeUserId => CurrentUserRoles.DutyFreeUserId;
+
+        public bool IsAirportAdmin => CurrentUserRoles.AirportRole == AirportModuleRole.AirportAdministrator;
+
+        public bool IsCompanyRepresentative => CurrentUserRoles.AirportRole == AirportModuleRole.CompanyRepresentative;
+
+        public bool IsAirportStaffMember => CurrentUserRoles.AirportRole == AirportModuleRole.AirportStaffMember;
+
+        public bool HasNoAirportRole => CurrentUserRoles.AirportRole == AirportModuleRole.None;
+
+        public bool IsDutyFreeManager => CurrentUserRoles.DutyFreeRole == DutyFreeModuleRole.Manager;
+
+        public bool IsDutyFreeClient => CurrentUserRoles.DutyFreeRole == DutyFreeModuleRole.Client;
+
+        public AirportModuleRole AirportRole
         {
-            int userId = configuration.GetValue<int>("UserID");
-            roles = new MockUserUtil().GetRolesForUser(userId);
+            get
+            {
+                string mapping = configuration[$"_userRoleMappings:{CurrentUserId}"];
+                return ParseRoleFromMapping(mapping);
+            }
         }
 
-        public int UserId => roles.UserId;
+        private AirportModuleRole ParseRoleFromMapping(string? rawMappingText)
+        {
+            if (string.IsNullOrWhiteSpace(rawMappingText))
+            {
+                return AirportModuleRole.None;
+            }
 
-        public AirportModuleRole AirportRole => roles.AirportRole;
+            string[] mappingSections = rawMappingText.Split(';', StringSplitOptions.TrimEntries);
 
-        public DutyFreeModuleRole DutyFreeRole => roles.DutyFreeRole;
+            foreach (string section in mappingSections)
+            {
+                if (section.StartsWith("Airport Management:", StringComparison.OrdinalIgnoreCase))
+                {
+                    string roleContent = section.Replace("Airport Management:", string.Empty, StringComparison.OrdinalIgnoreCase).Trim();
 
-        public int? CompanyId => roles.CompanyId;
+                    if (roleContent.Contains("Airport Administrator"))
+                    {
+                        return AirportModuleRole.AirportAdministrator;
+                    }
 
-        public int? EmployeeId => roles.EmployeeId;
+                    if (roleContent.Contains("Company Representative"))
+                    {
+                        return AirportModuleRole.CompanyRepresentative;
+                    }
 
-        public int DutyFreeUserId => roles.DutyFreeUserId;
+                    if (roleContent.Contains("Airport Staff Member"))
+                    {
+                        return AirportModuleRole.AirportStaffMember;
+                    }
+                }
+            }
 
-        public bool IsAirportAdmin => roles.AirportRole == AirportModuleRole.AirportAdministrator;
-
-        public bool IsCompanyRepresentative => roles.AirportRole == AirportModuleRole.CompanyRepresentative;
-
-        public bool IsAirportStaffMember => roles.AirportRole == AirportModuleRole.AirportStaffMember;
-
-        public bool HasNoAirportRole => roles.AirportRole == AirportModuleRole.None;
-
-        public bool IsDutyFreeManager => roles.DutyFreeRole == DutyFreeModuleRole.Manager;
-
-        public bool IsDutyFreeClient => roles.DutyFreeRole == DutyFreeModuleRole.Client;
+            return AirportModuleRole.None;
+        }
     }
 }
