@@ -52,3 +52,4 @@ namespace AirportWebApp.Services.Proxies
         public record DeleteWarningResponse(string WarningMessage);
     }
 }
+

@@ -21,21 +21,32 @@ public class FlightRoutesController(IFlightRouteService flightRouteService) : Co
             return this.BadRequest(NullRequestErrorMessage);
         }
 
-        int routeId = flightRouteService.AddFlightToRoute(
-            request.CompanyId,
-            request.AirportId,
-            request.RouteType,
-            request.RecurrenceInterval,
-            request.StartDate,
-            request.EndDate,
-            request.DepartureTime,
-            request.ArrivalTime,
-            request.Capacity,
-            request.FlightNumber,
-            request.RunwayId,
-            request.GateId);
+        try
+        {
+            int routeId = flightRouteService.AddFlightToRoute(
+                request.CompanyId,
+                request.AirportId,
+                request.RouteType,
+                request.RecurrenceInterval,
+                request.StartDate,
+                request.EndDate,
+                request.DepartureTime,
+                request.ArrivalTime,
+                request.Capacity,
+                request.FlightNumber,
+                request.RunwayId,
+                request.GateId);
 
-        return this.Ok(routeId);
+            return this.Ok(routeId);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return this.Conflict(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return this.BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("flights")]
