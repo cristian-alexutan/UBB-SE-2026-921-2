@@ -52,17 +52,8 @@ namespace AirportApp
             // Airport Management: Infrastructure
             services.AddSingleton<MockUserUtil>();
 
-            // Airport Management: Repositories
-            services.AddTransient<ICompanyRepository, CompanyRepositoryProxy>();
-            services.AddTransient<IAirportRepository, AirportRepositoryProxy>();
-            services.AddTransient<IRunwayRepository, RunwayRepositoryProxy>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepositoryProxy>();
-            services.AddTransient<IFlightRepository, FlightRepositoryProxy>();
-            services.AddTransient<IRouteRepository, RouteRepositoryProxy>();
-            services.AddTransient<IEmployeeFlightRepository, EmployeeFlightRepositoryProxy>();
-
             // Airport Management: Services
-            services.AddTransient<ICompanyService, CompanyService>();
+            services.AddTransient<ICompanyService, CompanyServiceProxy>();
             services.AddTransient<IAirportService, AirportServiceProxy>();
             services.AddTransient<IRunwayService, RunwayServiceProxy>();
             services.AddTransient<IGateService, GateServiceProxy>();
@@ -84,19 +75,10 @@ namespace AirportApp
             services.AddTransient<HomeViewModel>();
             services.AddTransient<StaffLoginViewModel>();
 
-            // Duty-Free Shops: Repositories
-            services.AddSingleton<IClientRepository, ClientRepoProxy>();
-            services.AddSingleton<ITicketRepository, TicketRepoProxy>();
-            services.AddSingleton<IManagerRepository, ManagerRepoProxy>();
-            services.AddSingleton<IShopRepository, ShopRepoProxy>();
-            services.AddSingleton<IShopItemRepository, ShopItemRepoProxy>();
-            services.AddSingleton<ICartRepository, CartRepoProxy>();
-            services.AddTransient<IReservationRepository, ReservationRepoProxy>();
-
             // Duty-Free Shops: Services
             services.AddSingleton<IShopItemService, ShopItemServiceProxy>();
             services.AddSingleton<IShopService, ShopServiceProxy>();
-            services.AddSingleton<ICartService, CartService>();
+            services.AddSingleton<ICartService, CartServiceProxy>();
             services.AddSingleton<ITicketService, TicketServiceProxy>();
             services.AddSingleton<IClientService, ClientServiceProxy>();
             services.AddSingleton<IManagerService, ManagerServiceProxy>();

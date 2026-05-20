@@ -23,26 +23,29 @@ public class ShopsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult CreateShop([FromBody] Shop shop)
+    public IActionResult CreateShop([FromBody] ShopRequest shopRequest)
     {
-        if (shop == null)
+        if (shopRequest == null)
         {
             return BadRequest("Shop data is null.");
         }
 
+        Shop shop = ToShop(shopRequest);
         shopService.AddShop(shop);
 
         return CreatedAtAction(nameof(GetAllShops), new { id = shop.Id }, shop);
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateShop(int id, [FromBody] Shop shop)
+    public IActionResult UpdateShop(int id, [FromBody] ShopRequest shopRequest)
     {
-        if (shop == null)
+        if (shopRequest == null)
         {
             return BadRequest("Shop data is null.");
         }
 
+        Shop shop = ToShop(shopRequest);
+        shop.Id = id;
         shopService.UpdateShop(shop);
         return NoContent();
     }
@@ -73,4 +76,17 @@ public class ShopsController : ControllerBase
         var sortedShops = shopService.SortAlphabetically(shops);
         return Ok(sortedShops);
     }
+
+    private static Shop ToShop(ShopRequest request)
+    {
+        return new Shop
+        {
+            Id = request.Id,
+            Name = request.Name,
+            Type = request.Type,
+            Manager = new Manager { Id = request.ManagerId }
+        };
+    }
+
+    public sealed record ShopRequest(int Id, string Name, string Type, int ManagerId);
 }

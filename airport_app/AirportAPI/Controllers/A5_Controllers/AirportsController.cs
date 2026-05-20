@@ -6,11 +6,11 @@ namespace AirportAPI.Controllers.A5_Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AirportController : ControllerBase
+public class AirportsController : ControllerBase
 {
     private readonly IAirportService airportService;
 
-    public AirportController(IAirportService airportService)
+    public AirportsController(IAirportService airportService)
     {
         this.airportService = airportService;
     }
