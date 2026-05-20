@@ -5,6 +5,7 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="AirportAPI/AirportAPI.csproj" Id="9c547056-b68b-49b5-a83f-6dcdcb276b1d" />
+  <Project Path="AirportWebApp/AirportWebApp.csproj" Id="eb382570-5658-48a0-9719-d4b35fbe7799" />
   <Project Path="src/AirportApp.Data/AirportApp.Data.csproj" Id="8b63e15b-a655-4932-8fac-86ae1f2b9853" />
   <Project Path="src/AirportApp.Test/AirportApp.Test.csproj" Id="ece58d75-0fcc-470a-bda1-02bff94ac559" />
   <Project Path="src/AirportApp/AirportApp.csproj">

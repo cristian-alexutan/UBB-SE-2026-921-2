@@ -1,0 +1,25 @@
+using AirportWebApp.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AirportWebApp.Controllers;
+
+public class AirportManagementController : Controller
+{
+    private readonly WebUserSession session;
+
+    public AirportManagementController(WebUserSession session)
+    {
+        this.session = session;
+    }
+
+    public IActionResult Index()
+    {
+        return session.AirportRole switch
+        {
+            AirportModuleRole.AirportAdministrator => RedirectToAction("Index", "AirportAdmin"),
+            AirportModuleRole.CompanyRepresentative => RedirectToAction("Index", "CompanyDashboard"),
+            AirportModuleRole.AirportStaffMember => RedirectToAction("Index", "StaffDashboard"),
+            _ => View("NoRole"),
+        };
+    }
+}

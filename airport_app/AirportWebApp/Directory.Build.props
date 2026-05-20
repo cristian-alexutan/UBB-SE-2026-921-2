@@ -1,0 +1,14 @@
+<Project>
+  <!-- Import parent build props for shared settings (StyleCop, Nullable, etc.) -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <!-- Remove AirportApp.Data usings that don't exist in this project -->
+  <ItemGroup>
+    <Using Remove="AirportApp.Data.Domain" />
+    <Using Remove="AirportApp.Data.Repositories" />
+    <Using Remove="AirportApp.Data.Repositories.Interfaces" />
+    <Using Remove="AirportApp.Data.Services" />
+    <Using Remove="AirportApp.Data.Services.Interfaces" />
+    <Using Remove="Microsoft.Data.SqlClient" />
+  </ItemGroup>
+</Project>
