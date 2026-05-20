@@ -51,16 +51,17 @@ public class ShopItemsController(IShopItemService shopItemService) : ControllerB
     }
 
     [HttpPost]
-    public ActionResult Add([FromBody] ShopItem shopItem)
+    public ActionResult Add([FromBody] ShopItemRequest shopItemRequest)
     {
-        shopItemService.AddShopItem(shopItem);
+        shopItemService.AddShopItem(ToShopItem(shopItemRequest));
 
         return this.Ok();
     }
 
     [HttpPut("{shopItemId:int}")]
-    public ActionResult Update(int shopItemId, [FromBody] ShopItem shopItem)
+    public ActionResult Update(int shopItemId, [FromBody] ShopItemRequest shopItemRequest)
     {
+        ShopItem shopItem = ToShopItem(shopItemRequest);
         shopItem.Id = shopItemId;
 
         shopItemService.UpdateShopItem(shopItem);
@@ -75,4 +76,27 @@ public class ShopItemsController(IShopItemService shopItemService) : ControllerB
 
         return NoContent();
     }
+
+    private static ShopItem ToShopItem(ShopItemRequest request)
+    {
+        return new ShopItem
+        {
+            Id = request.Id,
+            Quantity = request.Quantity,
+            Price = request.Price,
+            Shop = new Shop { Id = request.ShopId },
+            Photo = request.Photo,
+            Name = request.Name,
+            Description = request.Description
+        };
+    }
+
+    public sealed record ShopItemRequest(
+        int Id,
+        int Quantity,
+        float Price,
+        int ShopId,
+        string Photo,
+        string Name,
+        string Description);
 }
