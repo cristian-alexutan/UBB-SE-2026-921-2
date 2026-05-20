@@ -15,7 +15,7 @@ namespace AirportWebApp.Domain
             this.Phone = phone;
         }
 
-        internal Manager()
+        public Manager()
         {
         }
     }
