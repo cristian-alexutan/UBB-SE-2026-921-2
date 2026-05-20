@@ -14,6 +14,7 @@ public class AirportAdminController : Controller
     private readonly IAirportService airportService;
     private readonly IRunwayService runwayService;
     private readonly IGateService gateService;
+    private readonly ICompanyService companyService;
 
     public AirportAdminController(
         WebUserSession session,
@@ -23,7 +24,8 @@ public class AirportAdminController : Controller
         IEmployeeFlightService employeeFlightService,
         IAirportService airportService,
         IRunwayService runwayService,
-        IGateService gateService)
+        IGateService gateService,
+        ICompanyService companyService)
     {
         this.session = session;
         this.flightRouteService = flightRouteService;
@@ -33,6 +35,7 @@ public class AirportAdminController : Controller
         this.airportService = airportService;
         this.runwayService = runwayService;
         this.gateService = gateService;
+        this.companyService = companyService;
     }
 
     public IActionResult Index() => RedirectToAction(nameof(Flights));
@@ -68,6 +71,9 @@ public class AirportAdminController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult AddFlight(AddFlightFormModel form)
     {
+        form.FlightNumberPrefix = companyService.GenerateFlightCodeUsingCompanyId(form.CompanyId);
+        ModelState.Remove(nameof(AddFlightFormModel.FlightNumberPrefix));
+
         if (!ModelState.IsValid)
         {
             form.Airports = airportService.GetAllAirports();
@@ -81,8 +87,8 @@ public class AirportAdminController : Controller
             form.RouteType,
             form.AirportId,
             form.Capacity,
-            form.DepartureOffset,
-            form.ArrivalOffset,
+            TimeSpan.FromMinutes(form.DepartureOffsetMinutes),
+            TimeSpan.FromMinutes(form.ArrivalOffsetMinutes),
             form.IsRecurrent,
             form.StartDate,
             form.EndDate,

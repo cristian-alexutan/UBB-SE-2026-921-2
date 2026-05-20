@@ -1,21 +1,22 @@
-using AirportWebApp.Infrastructure;
-using AirportWebApp.Services.Interfaces;
-using AirportWebApp.Services.Proxies;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// HTTP client pointed at the API
 builder.Services.AddSingleton(new HttpClient
 {
     BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5171/")
 });
 
-// User session (reads UserID from appsettings.json)
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddSingleton<WebUserSession>();
 
-// Service proxies
 builder.Services.AddSingleton<IAirportService, AirportServiceProxy>();
 builder.Services.AddSingleton<ICompanyService, CompanyServiceProxy>();
 builder.Services.AddSingleton<IRunwayService, RunwayServiceProxy>();
@@ -45,10 +46,13 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
 app.MapStaticAssets();
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=DutyFree}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.MapControllers();
 
 app.Run();

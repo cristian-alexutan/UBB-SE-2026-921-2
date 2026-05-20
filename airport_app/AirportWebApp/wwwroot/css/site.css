@@ -1,31 +1,86 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+    position: relative;
+    min-height: 100%;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
+}
+
+:root {
+    --airport-dark-navy: #0F172A;
+    --airport-slate: #1E293B;
+    --airport-accent-teal: #2bb8c0;
+    --airport-text-white: #F8FAFC;
+    --sidebar-width: 250px;
+}
+
+body {
+    background-color: var(--airport-dark-navy);
+    color: var(--airport-text-white);
+}
+
+.sidebar-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--airport-slate);
+    border-right: 1px solid #334155;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+}
+
+.sidebar-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #94A3B8;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.nav-link-custom {
+    display: block;
+    padding: 12px 15px;
+    color: var(--airport-text-white);
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    transition: background 0.2s;
+}
+
+.nav-link-custom:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link-custom.active {
+    background-color: #cbd5e1;
+    color: #1e293b;
+    font-weight: bold;
 }
