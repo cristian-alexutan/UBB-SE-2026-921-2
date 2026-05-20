@@ -1,5 +1,6 @@
 using AirportWebApp.Infrastructure;
 using AirportWebApp.Models.DutyFree;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
@@ -39,7 +40,7 @@ public class DutyFreeController : Controller
             UserRole = session.DutyFreeRole,
         };
 
-        return View(model);
+        return View("AdminDashboard", model);
     }
 
     public IActionResult Search(string? searchText, string? sort)
@@ -94,6 +95,7 @@ public class DutyFreeController : Controller
             Id = shop.Id,
             Name = shop.Name,
             Type = shop.Type,
+            ManagerId = shop.Manager?.Id ?? 0
         };
 
         return View(form);
@@ -115,6 +117,12 @@ public class DutyFreeController : Controller
             {
                 existing.Name = form.Name;
                 existing.Type = form.Type;
+                if (existing.Manager == null)
+                {
+                    existing.Manager = new Manager();
+                }
+                existing.Manager.Id = form.ManagerId;
+
                 shopService.UpdateShop(existing);
             }
         }
