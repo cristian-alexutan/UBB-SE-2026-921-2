@@ -25,8 +25,16 @@ namespace AirportAPI.Repositories
         public void Add(Shop newShop)
         {
             newShop.Id = 0;
-            newShop.Manager = databaseContext.Managers.Find(newShop.Manager.Id)
-                ?? throw new InvalidOperationException($"Manager with id {newShop.Manager.Id} does not exist.");
+            if (newShop.Manager == null || newShop.Manager.Id == 0)
+            {
+                newShop.Manager = databaseContext.Managers.FirstOrDefault()
+                    ?? throw new InvalidOperationException("No managers exist in the database table.");
+            }
+            else
+            {
+                newShop.Manager = databaseContext.Managers.Find(newShop.Manager.Id)
+                    ?? throw new InvalidOperationException($"Manager with id {newShop.Manager.Id} does not exist.");
+            }
 
             databaseContext.Shops.Add(newShop);
             databaseContext.SaveChanges();
@@ -45,8 +53,16 @@ namespace AirportAPI.Repositories
             existingShop.Name = shopToUpdate.Name;
             existingShop.Type = shopToUpdate.Type;
 
-            existingShop.Manager = databaseContext.Managers.Find(shopToUpdate.Manager.Id)
-                ?? throw new InvalidOperationException($"Manager with id {shopToUpdate.Manager.Id} does not exist.");
+            if (existingShop.Manager == null || existingShop.Manager.Id == 0)
+            {
+                existingShop.Manager = databaseContext.Managers.FirstOrDefault()
+                    ?? throw new InvalidOperationException("No managers exist in the database table.");
+            }
+            else
+            {
+                existingShop.Manager = databaseContext.Managers.Find(existingShop.Manager.Id)
+                    ?? throw new InvalidOperationException($"Manager with id {existingShop.Manager.Id} does not exist.");
+            }
 
             databaseContext.SaveChanges();
 
