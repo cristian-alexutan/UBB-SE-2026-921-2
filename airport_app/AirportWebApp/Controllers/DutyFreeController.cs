@@ -42,6 +42,27 @@ public class DutyFreeController : Controller
         return View(model);
     }
 
+    public IActionResult Search(string? searchText, string? sort)
+    {
+        IEnumerable<Shop> shops;
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            shops = shopService.SearchByName(searchText);
+        }
+        else
+        {
+            shops = shopService.GetAllAvailableShops();
+        }
+
+        if (sort == "name")
+        {
+            shops = shopService.SortAlphabetically(shops);
+        }
+
+        return PartialView("_ShopList", shops.ToList());
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult AddShop(ShopFormModel form)
