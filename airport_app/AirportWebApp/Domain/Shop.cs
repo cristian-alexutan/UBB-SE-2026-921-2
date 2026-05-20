@@ -10,7 +10,7 @@ namespace AirportWebApp.Domain
 
         public Manager Manager { get; set; }
 
-        protected Shop()
+        public Shop()
         {
         }
 
