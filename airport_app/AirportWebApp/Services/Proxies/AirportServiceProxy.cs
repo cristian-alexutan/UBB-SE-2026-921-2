@@ -1,5 +1,3 @@
-using AirportWebApp.Services.Proxies;
-
 namespace AirportWebApp.Services.Proxies
 {
     public class AirportServiceProxy : RepositoryProxyBase, IAirportService
@@ -10,44 +8,44 @@ namespace AirportWebApp.Services.Proxies
 
         public List<Airport> GetAllAirports()
         {
-            return GetList<Airport>("api/airport");
+            return GetList<Airport>("api/airports");
         }
 
         public Airport? GetAirportById(int airportId)
         {
-            return GetOptional<Airport>($"api/airport/{airportId}");
+            return GetOptional<Airport>($"api/airports/{airportId}");
         }
 
         public int AddAirport(string airportCode, string airportName, string city)
         {
             var payload = new { AirportCode = airportCode, AirportName = airportName, City = city };
-            return this.PostForResult<object, int>("api/airport", payload);
+            return this.PostForResult<object, int>("api/airports", payload);
         }
 
         public void UpdateAirport(int airportId, string? newCity = null, string? newName = null, string? newCode = null)
         {
             var payload = new { NewCity = newCity, NewName = newName, NewCode = newCode };
-            this.Put($"api/airport/{airportId}", payload);
+            this.Put($"api/airports/{airportId}", payload);
         }
 
         public void SaveAirport(int airportId, string airportCode, string airportName, string city)
         {
             var payload = new { AirportCode = airportCode, AirportName = airportName, City = city };
-            this.Put($"api/airport/{airportId}", payload);
+            this.Put($"api/airports/{airportId}", payload);
         }
 
         public void DeleteAirportUsingId(int airportId)
         {
-            Delete($"api/airport/{airportId}");
+            Delete($"api/airports/{airportId}");
         }
         public bool HasFlights(int airportId)
         {
-            return GetRequired<bool>($"api/airport/{airportId}/has-flights");
+            return GetRequired<bool>($"api/airports/{airportId}/has-flights");
         }
 
         public string GetDeleteWarningMessage(int airportId)
         {
-            var response = this.GetRequired<DeleteWarningResponse>($"api/airport/{airportId}/delete-warning");
+            var response = this.GetRequired<DeleteWarningResponse>($"api/airports/{airportId}/delete-warning");
             return response.WarningMessage;
         }
 

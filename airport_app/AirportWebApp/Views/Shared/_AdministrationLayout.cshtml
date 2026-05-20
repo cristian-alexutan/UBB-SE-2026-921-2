@@ -1,0 +1,22 @@
+﻿@{
+	Layout = "_Layout";
+}
+
+<div class="sidebar-layout">
+	<nav class="sidebar">
+		<div class="sidebar-header">ADMIN PANEL</div>
+
+		<a class="nav-link-custom @(ViewData["ActiveSection"]?.ToString() == "Flights" ? "active" : "")"
+		   asp-controller="AirportAdministration" asp-action="DisplayFlights">FLIGHTS</a>
+
+		<a class="nav-link-custom @(ViewData["ActiveSection"]?.ToString() == "Employees" ? "active" : "")"
+		   asp-controller="AirportAdministration" asp-action="DisplayEmployees">EMPLOYEES</a>
+
+		<a class="nav-link-custom @(ViewData["ActiveSection"]?.ToString() == "Configuration" ? "active" : "")"
+		   asp-controller="AirportAdministration" asp-action="DisplayConfiguration">AIRPORT</a>
+	</nav>
+
+	<main class="main-content">
+		@RenderBody()
+	</main>
+</div>
