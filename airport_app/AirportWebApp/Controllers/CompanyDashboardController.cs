@@ -35,46 +35,35 @@ public class CompanyDashboardController : Controller
         this.gateService = gateService;
     }
 
+    [HttpGet("/CompanyRepresentative")]
+    [HttpGet("/CompanyDashboard")]
     public IActionResult Index(string? search)
     {
-        int companyId = session.CompanyId ?? 0;
-        var company = companyService.GetCompanyById(companyId);
-
-        var allFlights = flightRouteService.GetFlightsByCompanyId(companyId);
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            allFlights = flightRouteService.SearchFlights(allFlights, search);
-        }
-
-        var summaries = allFlights
-            .Select(f => flightRouteService.BuildFlightSummary(f, employeeFlightService.FormatCrewList(f.Id)))
-            .ToList();
-
-        var model = new CompanyDashboardViewModel
-        {
-            CompanyId = companyId,
-            CompanyName = company?.Name ?? string.Empty,
-            Flights = summaries,
-            SearchQuery = search ?? string.Empty,
-            AddFlightForm = BuildAddFlightForm(companyId),
-        };
-
-        return View(model);
+        return View(BuildDashboardModel(session.CompanyId ?? 0, search));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult AddFlight(AddFlightFormModel form)
     {
-        if (ModelState.IsValid)
+        try
         {
+            form.FlightNumberPrefix = companyService.GenerateFlightCodeUsingCompanyId(form.CompanyId);
+            ModelState.Remove(nameof(AddFlightFormModel.FlightNumberPrefix));
+
+            if (!ModelState.IsValid)
+            {
+                PopulateAddFlightDropdowns(form);
+                return View(nameof(Index), BuildDashboardModel(form.CompanyId, null, form, true));
+            }
+
             flightRouteService.CreateFlightWithSchedule(
                 form.CompanyId,
                 form.RouteType,
                 form.AirportId,
                 form.Capacity,
-                form.DepartureOffset,
-                form.ArrivalOffset,
+                TimeSpan.FromMinutes(form.DepartureOffsetMinutes),
+                TimeSpan.FromMinutes(form.ArrivalOffsetMinutes),
                 form.IsRecurrent,
                 form.StartDate,
                 form.EndDate,
@@ -84,9 +73,15 @@ public class CompanyDashboardController : Controller
                 form.RunwayId,
                 form.GateId,
                 _ => form.FlightNumberPrefix);
-        }
 
-        return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            PopulateAddFlightDropdowns(form);
+            ModelState.AddModelError(string.Empty, ex.GetBaseException().Message);
+            return View(nameof(Index), BuildDashboardModel(form.CompanyId, null, form, true));
+        }
     }
 
     [HttpPost]
@@ -131,14 +126,46 @@ public class CompanyDashboardController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private AddFlightFormModel BuildAddFlightForm(int companyId)
+    private CompanyDashboardViewModel BuildDashboardModel(int companyId, string? search, AddFlightFormModel? addFlightForm = null, bool showAddFlightForm = false)
     {
-        return new AddFlightFormModel
+        var company = companyService.GetCompanyById(companyId);
+        var allFlights = flightRouteService.GetFlightsByCompanyId(companyId);
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            allFlights = flightRouteService.SearchFlights(allFlights, search);
+        }
+
+        var summaries = allFlights
+            .Select(f => flightRouteService.BuildFlightSummary(f, employeeFlightService.FormatCrewList(f.Id)))
+            .ToList();
+
+        return new CompanyDashboardViewModel
         {
             CompanyId = companyId,
-            Airports = airportService.GetAllAirports(),
-            Runways = runwayService.GetAllRunways(),
-            Gates = gateService.GetAllGates(),
+            CompanyName = company?.Name ?? string.Empty,
+            Flights = summaries,
+            SearchQuery = search ?? string.Empty,
+            AddFlightForm = addFlightForm ?? BuildAddFlightForm(companyId),
+            ShowAddFlightForm = showAddFlightForm,
         };
+    }
+
+    private void PopulateAddFlightDropdowns(AddFlightFormModel form)
+    {
+        form.Airports = airportService.GetAllAirports();
+        form.Runways = runwayService.GetAllRunways();
+        form.Gates = gateService.GetAllGates();
+    }
+
+    private AddFlightFormModel BuildAddFlightForm(int companyId)
+    {
+        var form = new AddFlightFormModel
+        {
+            CompanyId = companyId,
+        };
+
+        PopulateAddFlightDropdowns(form);
+        return form;
     }
 }
