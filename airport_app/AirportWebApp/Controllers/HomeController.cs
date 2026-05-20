@@ -15,7 +15,6 @@ public class HomeController(WebUserSession userSession) : Controller
     private const string StaffController = "StaffDashboard";
     private const string DefaultAction = "Index";
 
-
     public IActionResult Index()
     {
         switch (userSession.AirportRole)
