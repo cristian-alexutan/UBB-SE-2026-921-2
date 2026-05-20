@@ -1,0 +1,9 @@
+﻿@{
+	Layout = "_Layout";
+	ViewData["Title"] = "Access Denied";
+}
+<div class="container text-center mt-5">
+	<h1 class="text-danger"><i class="bi bi-shield-lock"></i> No Access</h1>
+	<p class="lead">Your account (ID: @Model.CurrentUserId) does not have an assigned role for the Airport Management module.</p>
+	<a href="/" class="btn btn-outline-info">Try Refreshing</a>
+</div>
