@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="6AVOBDi5PaR7XNQDGzht" name="Page-2">
+    <mxGraphModel dx="1030" dy="534" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" value="" vertex="1">
+          <mxGeometry height="300" width="20" x="50" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Client" vertex="1">
+          <mxGeometry height="30" width="60" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="Browser" vertex="1">
+          <mxGeometry height="330" width="100" x="130" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="DutyFreeCartController" vertex="1">
+          <mxGeometry height="300" width="140" x="330" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};direction=east;" value="CartServiceProxy" vertex="1">
+          <mxGeometry height="300" width="110" x="570" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-6" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="AirportAPI" vertex="1">
+          <mxGeometry height="300" width="100" x="800" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-7" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="Database" vertex="1">
+          <mxGeometry height="300" width="100" x="1080" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-3" value="click Remove Item">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="60" y="140" as="sourcePoint" />
+            <mxPoint x="140" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ni-asa_72PPDNLbn2iRv-11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-4" value="POST /RemoveItem(cartId, cartItemId)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="180" y="160" as="sourcePoint" />
+            <mxPoint x="260" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-5" value="RemoveItemFromCart(cartId, cartItemId)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="400" y="180" as="sourcePoint" />
+            <mxPoint x="480" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" value="DELETE api/carts/{cartId}/items/{cartItemId}">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="625" y="204.5" as="sourcePoint" />
+            <mxPoint x="850" y="204.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" value="DELETE FROM CartItems WHERE Id = {cartItemId}">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="850" y="230" as="sourcePoint" />
+            <mxPoint x="1130" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-6" value="OK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1130" y="270" as="sourcePoint" />
+            <mxPoint x="1050" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-5" value="200 OK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="850" y="290" as="sourcePoint" />
+            <mxPoint x="770" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-4" value="DONE">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="310" as="sourcePoint" />
+            <mxPoint x="540" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-3" value="redirect to cart">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="330" as="sourcePoint" />
+            <mxPoint x="320" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jzKuW9nwpHyuIDe6PgL4-9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="Ni-asa_72PPDNLbn2iRv-1" value="cart page without&amp;nbsp;&lt;div&gt;deleted item&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="180" y="350" as="sourcePoint" />
+            <mxPoint x="100" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
