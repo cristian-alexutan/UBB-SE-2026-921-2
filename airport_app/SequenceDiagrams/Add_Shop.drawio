@@ -1,0 +1,153 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Pagină-1" id="AF3ZWmotVgp28sOLrM90">
+    <mxGraphModel dx="774" dy="451" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="Browser" vertex="1">
+          <mxGeometry height="470" width="100" x="60" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-2" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="DutyFreeController" vertex="1">
+          <mxGeometry height="470" width="100" x="170" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ShopServiceProxy" vertex="1">
+          <mxGeometry height="470" width="100" x="280" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="AirportAPI/&lt;div&gt;ShopsController&lt;/div&gt;" vertex="1">
+          <mxGeometry height="470" width="100" x="390" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-5" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Manager" vertex="1">
+          <mxGeometry height="60" width="30" x="10" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-9" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="AirportAPI/&lt;div&gt;ShopService&lt;/div&gt;" vertex="1">
+          <mxGeometry height="470" width="100" x="500" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-10" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="Database" vertex="1">
+          <mxGeometry height="470" width="100" x="610" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-11" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;fontSize=12;html=1;endArrow=blockThin;endFill=1;rounded=0;elbow=horizontal;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="30" y="100" as="sourcePoint" />
+            <mxPoint x="109.5" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-13" connectable="0" parent="bJzX_vU1DmHyPeF9BwVE-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Click add shop" vertex="1">
+          <mxGeometry relative="1" x="0.3621" as="geometry">
+            <mxPoint x="-17" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-14" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;fontSize=12;html=1;endArrow=blockThin;endFill=1;rounded=0;elbow=horizontal;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="-35" />
+            </Array>
+            <mxPoint x="109.5" y="120" as="sourcePoint" />
+            <mxPoint x="219.5" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-15" connectable="0" parent="bJzX_vU1DmHyPeF9BwVE-14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST/DutyFree/&lt;div&gt;AddShop(form)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.0879" y="-3" as="geometry">
+            <mxPoint x="-9" y="17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-16" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;fontSize=12;html=1;endArrow=blockThin;endFill=1;rounded=0;elbow=vertical;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="219.5" y="150" as="sourcePoint" />
+            <mxPoint x="329.5" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-17" connectable="0" parent="bJzX_vU1DmHyPeF9BwVE-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="AddShop(shop)" vertex="1">
+          <mxGeometry relative="1" x="-0.1667" y="-9" as="geometry">
+            <mxPoint x="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-18" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;fontSize=12;html=1;endArrow=blockThin;endFill=1;rounded=0;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="329.5" y="180" as="sourcePoint" />
+            <mxPoint x="439.5" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-19" connectable="0" parent="bJzX_vU1DmHyPeF9BwVE-18" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST /api/shops" vertex="1">
+          <mxGeometry relative="1" x="-0.2576" y="1" as="geometry">
+            <mxPoint x="10" y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-20" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;fontSize=12;html=1;endArrow=blockThin;endFill=1;rounded=0;exitX=0.5;exitY=0.412;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="219.88" />
+            </Array>
+            <mxPoint x="440" y="200" as="sourcePoint" />
+            <mxPoint x="549.5" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-21" connectable="0" parent="bJzX_vU1DmHyPeF9BwVE-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="AddShop(shop)" vertex="1">
+          <mxGeometry relative="1" x="-0.2451" y="-3" as="geometry">
+            <mxPoint x="9" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-22" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;fontSize=12;html=1;endArrow=blockThin;endFill=1;rounded=0;elbow=horizontal;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="549.5" y="220" as="sourcePoint" />
+            <mxPoint x="659.5" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-23" connectable="0" parent="bJzX_vU1DmHyPeF9BwVE-22" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Save new shop" vertex="1">
+          <mxGeometry relative="1" x="-0.1667" y="-5" as="geometry">
+            <mxPoint x="5" y="5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-25" edge="1" parent="1" source="bJzX_vU1DmHyPeF9BwVE-10" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="bJzX_vU1DmHyPeF9BwVE-9" value="Shop saved">
+          <mxGeometry relative="1" x="0.0818" y="25" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="650" y="310" as="sourcePoint" />
+            <mxPoint x="570" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-26" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="Success">
+          <mxGeometry relative="1" x="0.0868" y="20" as="geometry">
+            <mxPoint x="1" as="offset" />
+            <Array as="points">
+              <mxPoint x="490" y="290" />
+            </Array>
+            <mxPoint x="549.5" y="290" as="sourcePoint" />
+            <mxPoint x="440" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-27" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="201 created">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="439.5" y="320" as="sourcePoint" />
+            <mxPoint x="329.5" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-28" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="success">
+          <mxGeometry relative="1" x="0.0818" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="329.5" y="340" as="sourcePoint" />
+            <mxPoint x="219.5" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-29" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="redirect to shop list">
+          <mxGeometry relative="1" x="0.0818" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="219.5" y="360" as="sourcePoint" />
+            <mxPoint x="109.5" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-32" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;rounded=0;" target="bJzX_vU1DmHyPeF9BwVE-5" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="25" y="480" as="sourcePoint" />
+            <mxPoint x="60" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bJzX_vU1DmHyPeF9BwVE-35" edge="1" parent="1" source="bJzX_vU1DmHyPeF9BwVE-1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="display updated shops">
+          <mxGeometry relative="1" x="0.1061" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="110" y="430" as="sourcePoint" />
+            <mxPoint x="20" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
