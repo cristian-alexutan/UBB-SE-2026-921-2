@@ -40,9 +40,13 @@
         </div>
 
         <div class="col-auto ms-auto">
-            <button class="btn brand-color-bg text-white px-3 py-2 rounded-2" id="CartButton">
-                <i class="bi bi-shop"></i>
-            </button>
+            @if (Model.UserRole.ToString() == "Client")
+            {
+                <a asp-controller="DutyFreeCart" asp-action="Index"
+                   class="btn brand-color-bg text-white px-3 py-2 rounded-2">
+                    <i class="bi bi-cart"></i>
+                </a>
+            }
         </div>
     </div>
 
