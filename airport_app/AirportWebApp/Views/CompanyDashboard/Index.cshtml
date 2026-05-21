@@ -109,14 +109,14 @@
             <div class="form-grid">
 
                 <!-- TYPE -->
-                <div>
-                    <label class="form-label">Type</label>
-                    <select class="form-ctrl" name="RouteType">
-                        <option value="ArrDep">Arr / Dep</option>
-                        <option value="Arrival">Arrival</option>
-                        <option value="Departure">Departure</option>
-                    </select>
-                </div>
+				<div>
+					<label asp-for="AddFlightForm.RouteType" class="form-label">Type</label>
+					<select asp-for="AddFlightForm.RouteType" class="form-ctrl">
+						<option value="">Arr / Dep</option>
+						<option value="Arrival">Arrival</option>
+						<option value="Departure">Departure</option>
+					</select>
+				</div>
 
                 <!-- AIRPORT -->
                 <div>
@@ -166,11 +166,11 @@
                 </div>
 
                 <!-- CAPACITY -->
-                <div>
-                    <label class="form-label">Capacity</label>
-                    <input class="form-ctrl" type="number" name="Capacity"
-                           placeholder="e.g. 180" min="1" />
-                </div>
+				<div>
+					<label asp-for="AddFlightForm.Capacity" class="form-label">Capacity</label>
+					<input asp-for="AddFlightForm.Capacity" class="form-ctrl" placeholder="e.g. 180" />
+					<span asp-validation-for="AddFlightForm.Capacity" class="text-danger small"></span>
+				</div>
 
                 <!-- RECURRENT CHECKBOX -->
                 <div style="display:flex; align-items:flex-end; padding-bottom:.1rem;">
