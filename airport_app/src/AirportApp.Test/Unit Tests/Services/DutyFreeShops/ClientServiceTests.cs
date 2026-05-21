@@ -1,6 +1,6 @@
-using AirportApp.Data.Repositories.Interfaces;
-using AirportApp.Data.Services;
-using AirportApp.Data.Domain;
+using AirportAPI.Repositories.Interfaces;
+using AirportAPI.Services;
+using AirportAPI.Domain;
 using NSubstitute;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Assert;
