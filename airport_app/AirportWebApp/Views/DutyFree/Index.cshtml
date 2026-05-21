@@ -12,6 +12,12 @@
             <option value="name">Shop Name</option>
         </select>
     </div>
+    @if (!Model.IsManager)
+    {
+        <a asp-controller="DutyFreeCart" asp-action="Index" class="btn btn-primary ms-3">
+            Cart
+        </a>
+    }
 </div>
 
 <div id="shopContainer">

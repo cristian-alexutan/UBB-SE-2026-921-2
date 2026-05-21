@@ -39,11 +39,7 @@
             </form>
         </div>
 
-        <div class="col-auto ms-auto">
-            <button class="btn brand-color-bg text-white px-3 py-2 rounded-2" id="CartButton">
-                <i class="bi bi-shop"></i>
-            </button>
-        </div>
+        <div class="col-auto ms-auto"></div>
     </div>
 
     <div class="row align-items-center justify-content-between mb-4">
@@ -130,6 +126,15 @@
                             </div>
                             
                             <p class="text-muted small opacity-75 mt-1 m-0">@shop.Type</p>
+                        </div>
+
+                        <div class="mt-3">
+                            <a asp-controller="DutyFreeShopItems"
+                               asp-action="Index"
+                               asp-route-shopId="@shop.Id"
+                               class="btn btn-outline-secondary btn-sm">
+                                View products
+                            </a>
                         </div>
                     </div>
                 </div>

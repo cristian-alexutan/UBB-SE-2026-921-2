@@ -60,13 +60,9 @@ public class DutyFreeShopItemsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult AddItem(ShopItemFormModel form)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         if (ModelState.IsValid)
         {
             var shop = shopService.GetShopById(form.ShopId);
@@ -79,13 +75,9 @@ public class DutyFreeShopItemsController : Controller
         return RedirectToAction(nameof(Index), new { shopId = form.ShopId });
     }
 
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult EditItemForm(int id)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         var item = shopItemService.GetById(id);
         if (item == null)
         {
@@ -106,13 +98,9 @@ public class DutyFreeShopItemsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult EditItem(ShopItemFormModel form)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         if (ModelState.IsValid)
         {
             var existing = shopItemService.GetById(form.Id);
@@ -130,13 +118,9 @@ public class DutyFreeShopItemsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult DeleteItem(int id, int shopId)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         shopItemService.RemoveShopItem(id);
         return RedirectToAction(nameof(Index), new { shopId });
     }

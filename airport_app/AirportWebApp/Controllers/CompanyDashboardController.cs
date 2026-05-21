@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
 
+[RequireAirportRole(AirportModuleRole.CompanyRepresentative)]
 public class CompanyDashboardController : Controller
 {
     private readonly WebUserSession session;
@@ -48,6 +49,7 @@ public class CompanyDashboardController : Controller
     {
         try
         {
+            form.CompanyId = session.CompanyId ?? 0;
             form.FlightNumberPrefix = companyService.GenerateFlightCodeUsingCompanyId(form.CompanyId);
             ModelState.Remove(nameof(AddFlightFormModel.FlightNumberPrefix));
 
@@ -88,6 +90,11 @@ public class CompanyDashboardController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult DeleteFlight(int id)
     {
+        if (!CanAccessFlight(id))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
         flightRouteService.DeleteFlightUsingId(id);
         return RedirectToAction(nameof(Index));
     }
@@ -98,6 +105,11 @@ public class CompanyDashboardController : Controller
         if (flight == null)
         {
             return NotFound();
+        }
+
+        if (!CanAccessFlight(flight))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
         }
 
         var crewData = employeeFlightService.GetCrewSelectionDataById(flightId);
@@ -122,8 +134,24 @@ public class CompanyDashboardController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult SaveCrew(int flightId, List<int> selectedEmployeeIds)
     {
+        if (!CanAccessFlight(flightId))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
         employeeFlightService.UpdateEmployeesForFlightUsingIds(flightId, selectedEmployeeIds ?? new List<int>());
         return RedirectToAction(nameof(Index));
+    }
+
+    private bool CanAccessFlight(int flightId)
+    {
+        var flight = flightRouteService.GetFlightById(flightId);
+        return flight != null && CanAccessFlight(flight);
+    }
+
+    private bool CanAccessFlight(Flight flight)
+    {
+        return session.CompanyId.HasValue && flight.Route?.Company?.Id == session.CompanyId.Value;
     }
 
     private CompanyDashboardViewModel BuildDashboardModel(int companyId, string? search, AddFlightFormModel? addFlightForm = null, bool showAddFlightForm = false)

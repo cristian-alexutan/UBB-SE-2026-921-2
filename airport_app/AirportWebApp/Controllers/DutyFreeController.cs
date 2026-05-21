@@ -40,9 +40,12 @@ public class DutyFreeController : Controller
             UserRole = session.DutyFreeRole,
         };
 
-        return View("AdminDashboard", model);
+        return session.IsDutyFreeManager
+            ? View("AdminDashboard", model)
+            : View(model);
     }
 
+    [RequireDutyFreeRole(DutyFreeModuleRole.Client)]
     public IActionResult Search(string? searchText, string? sort)
     {
         IEnumerable<Shop> shops;
@@ -66,9 +69,10 @@ public class DutyFreeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult AddShop(ShopFormModel form)
     {
-        if (session.IsDutyFreeManager && ModelState.IsValid)
+        if (ModelState.IsValid)
         {
             var manager = managerService.GetManagerById(session.DutyFreeUserId);
             shopService.AddShop(new Shop(form.Name, form.Type, manager!));
@@ -77,13 +81,9 @@ public class DutyFreeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult EditShopForm(int id)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         var shop = shopService.GetAllAvailableShops().FirstOrDefault(s => s.Id == id);
         if (shop == null)
         {
@@ -103,13 +103,9 @@ public class DutyFreeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult EditShop(ShopFormModel form)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         if (ModelState.IsValid)
         {
             var existing = shopService.GetAllAvailableShops().FirstOrDefault(s => s.Id == form.Id);
@@ -132,13 +128,9 @@ public class DutyFreeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult DeleteShop(int id)
     {
-        if (!session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         shopService.DeleteShop(id);
         return RedirectToAction(nameof(Index));
     }
