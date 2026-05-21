@@ -24,8 +24,8 @@ public class DutyFreeCartController : Controller
     public IActionResult Index()
     {
         var cart = cartService.GetOrCreateCart(session.DutyFreeUserId);
-        var cartItems = cartService.GetCartItems(cart.Id).ToList();
-        var total = cartService.GetCartTotal(cart.Id);
+        var cartItems = cart.CartItems.ToList();
+        var total = cart.GetOverallPrice();
 
         Reservation? activeReservation = null;
         try
@@ -37,10 +37,10 @@ public class DutyFreeCartController : Controller
             // No active reservation.
         }
 
-        var itemViewModels = cartItems.Select(ci => new CartItemViewModel
+        var itemViewModels = cartItems.Select(cartItem => new CartItemViewModel
         {
-            CartItem = ci,
-            IsLast = cartService.IsLastCartItem(cart.Id, ci.Id),
+            CartItem = cartItem,
+            IsLast = cartItem.Quantity == 1
         }).ToList();
 
         var model = new CartViewModel
