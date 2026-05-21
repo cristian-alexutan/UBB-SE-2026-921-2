@@ -22,6 +22,18 @@ public class ShopsController : ControllerBase
         return Ok(shops);
     }
 
+    [HttpGet("{id}")]
+    public ActionResult<Shop> GetShopById(int id)
+    {
+        var shop = shopService.GetShopById(id);
+        if (shop == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(shop);
+    }
+
     [HttpPost]
     public IActionResult CreateShop([FromBody] ShopRequest shopRequest)
     {

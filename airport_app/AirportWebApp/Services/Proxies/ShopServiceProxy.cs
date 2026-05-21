@@ -21,6 +21,11 @@ public class ShopServiceProxy : RepositoryProxyBase, IShopService
         return GetList<Shop>("api/shops");
     }
 
+    public Shop? GetShopById(int shopId)
+    {
+        return GetOptional<Shop>($"api/shops/{shopId}");
+    }
+
     public void AddShop(Shop shop)
     {
         this.Post("api/shops", shop);

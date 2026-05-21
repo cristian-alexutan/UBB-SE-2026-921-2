@@ -22,7 +22,7 @@ public class DutyFreeShopItemsController : Controller
 
     public IActionResult Index(int shopId, string? search, string? sort)
     {
-        var shop = shopService.GetAllAvailableShops().FirstOrDefault(s => s.Id == shopId);
+        var shop = shopService.GetShopById(shopId);
         if (shop == null)
         {
             return NotFound();
@@ -69,7 +69,7 @@ public class DutyFreeShopItemsController : Controller
 
         if (ModelState.IsValid)
         {
-            var shop = shopService.GetAllAvailableShops().FirstOrDefault(s => s.Id == form.ShopId);
+            var shop = shopService.GetShopById(form.ShopId);
             if (shop != null)
             {
                 shopItemService.AddShopItem(new ShopItem(form.Quantity, form.Price, shop, string.Empty, form.Name, string.Empty));

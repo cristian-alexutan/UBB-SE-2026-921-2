@@ -16,6 +16,12 @@ public class ShopServiceProxy : RepositoryProxyBase, IShopService
             .ToList();
     }
 
+    public Shop? GetShopById(int shopId)
+    {
+        var dto = this.GetRequired<ShopDto>($"api/shops/{shopId}");
+        return dto == null ? null : MapShop(dto);
+    }
+
     public void AddShop(Shop shop)
     {
         this.Post("api/shops", ToRequest(shop));
