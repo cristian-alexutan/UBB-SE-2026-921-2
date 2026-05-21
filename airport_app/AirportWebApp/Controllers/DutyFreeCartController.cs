@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
 
+[RequireDutyFreeRole(DutyFreeModuleRole.Client)]
 public class DutyFreeCartController : Controller
 {
     private readonly WebUserSession session;
@@ -58,6 +59,11 @@ public class DutyFreeCartController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult UpdateQuantity(int cartId, int cartItemId, int quantity)
     {
+        if (!CanAccessCart(cartId))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
         cartService.UpdateItemQuantity(cartId, cartItemId, quantity);
         return RedirectToAction(nameof(Index));
     }
@@ -66,6 +72,11 @@ public class DutyFreeCartController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult RemoveItem(int cartId, int cartItemId)
     {
+        if (!CanAccessCart(cartId))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
         cartService.RemoveItemFromCart(cartId, cartItemId);
         return RedirectToAction(nameof(Index));
     }
@@ -74,6 +85,11 @@ public class DutyFreeCartController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Reserve(int cartId)
     {
+        if (!CanAccessCart(cartId))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
         var cart = cartService.GetCartById(cartId);
         var reservation = new Reservation(cart, true, DateTime.UtcNow);
         reservationService.ReserveCart(reservation);
@@ -84,7 +100,18 @@ public class DutyFreeCartController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult CancelReservation(int reservationId)
     {
+        var reservation = reservationService.GetReservationById(reservationId);
+        if (reservation.ReservationCart == null || !CanAccessCart(reservation.ReservationCart.Id))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
         reservationService.CancelReservation(reservationId);
         return RedirectToAction(nameof(Index));
+    }
+
+    private bool CanAccessCart(int cartId)
+    {
+        return cartService.GetOrCreateCart(session.DutyFreeUserId).Id == cartId;
     }
 }

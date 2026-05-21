@@ -16,10 +16,10 @@ public class AirportManagementController : Controller
     {
         return session.AirportRole switch
         {
-            AirportModuleRole.AirportAdministrator => RedirectToAction("Index", "AirportAdmin"),
+            AirportModuleRole.AirportAdministrator => RedirectToAction("DisplayFlights", "AirportAdministration"),
             AirportModuleRole.CompanyRepresentative => RedirectToAction("Index", "CompanyDashboard"),
             AirportModuleRole.AirportStaffMember => RedirectToAction("Index", "StaffDashboard"),
-            _ => View("NoRole"),
+            _ => View("~/Views/Home/NoRole.cshtml", session),
         };
     }
 }

@@ -50,17 +50,14 @@ public class DutyFreeItemDetailsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [RequireDutyFreeRole(DutyFreeModuleRole.Client)]
     public IActionResult AddToCart(int itemId, int cartId, int quantity)
     {
-        if (!session.IsDutyFreeClient && !session.IsDutyFreeManager)
-        {
-            return Forbid();
-        }
-
         var item = shopItemService.GetById(itemId);
         if (item != null)
         {
-            cartService.AddItemToCart(cartId, new CartItem(0, item, quantity));
+            var cart = cartService.GetOrCreateCart(session.DutyFreeUserId);
+            cartService.AddItemToCart(cart.Id, new CartItem(0, item, quantity));
         }
 
         return RedirectToAction(nameof(Index), new { id = itemId });
