@@ -24,7 +24,7 @@ namespace AirportWebApp.Services.Proxies
 
         public void UpdateAirport(int airportId, string? newCity = null, string? newName = null, string? newCode = null)
         {
-            var payload = new { NewCity = newCity, NewName = newName, NewCode = newCode };
+            var payload = new { AirportCode = newCode, AirportName = newName, City = newCity };
             this.Put($"api/airports/{airportId}", payload);
         }
 

@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using AirportWebApp.Domain;
 
 namespace AirportWebApp.Models.AirportManagement
 {
     public class EmployeesDashboardViewModel
     {
         public List<Employee> Employees { get; set; } = new();
+        public List<EmployeeRole> DisplayedRoles { get; set; } = new();
         public Employee? EditEmployee { get; set; }
     }
 
@@ -13,10 +13,21 @@ namespace AirportWebApp.Models.AirportManagement
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Role is required.")]
         public string Role { get; set; } = string.Empty;
+
+        [Range(0, int.MaxValue, ErrorMessage = "Salary must be a positive number.")]
+        public int Salary { get; set; }
+
+        [Required(ErrorMessage = "Birthday is required.")]
+        [DataType(DataType.Date)]
+        public DateTime? Birthday { get; set; }
+
+        [Required(ErrorMessage = "Hiring date is required.")]
+        [DataType(DataType.Date)]
+        public DateTime? HiringDate { get; set; }
     }
 }
