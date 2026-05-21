@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
 
+[RequireAirportRole(AirportModuleRole.AirportAdministrator)]
 public class AirportAdministrationController(
     WebUserSession userSession,
     IFlightRouteService flightRouteService,
