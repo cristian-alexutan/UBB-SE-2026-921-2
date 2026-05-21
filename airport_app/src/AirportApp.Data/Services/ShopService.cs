@@ -11,6 +11,11 @@ namespace AirportApp.Data.Services
             return shopRepository.GetAll();
         }
 
+        public Shop? GetShopById(int shopId)
+        {
+            return shopRepository.GetById(shopId);
+        }
+
         public void AddShop(Shop shopToAdd)
         {
             if (string.IsNullOrWhiteSpace(shopToAdd.Name))

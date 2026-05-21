@@ -20,6 +20,26 @@ public class ShopServiceTests
     }
 
     [Test]
+    public void GetShopById_ExistingId_ReturnsShop()
+    {
+        Shop shop = new Shop(1, "Test", "Type", new Manager(1, "Manager", "manager@test.com", "0700000000"));
+        this.shopRepo.GetById(1).Returns(shop);
+
+        var existingShop = this.shopService.GetShopById(1);
+
+        Assert.That(existingShop, Is.EqualTo(shop));
+    }
+
+    [Test]
+    public void GetShopById_NonExistingId_ReturnsNull()
+    {
+        this.shopRepo.GetById(1).Returns((Shop)null!);
+        var nonExistingShop = this.shopService.GetShopById(1);
+
+        Assert.That(nonExistingShop, Is.Null);
+    }
+
+    [Test]
     public void AddShop_EmptyName_ThrowsException()
     {
         Shop shop = new Shop(" ", "none", new Manager(1, "Manager", "manager@test.com", "0700000000"));
