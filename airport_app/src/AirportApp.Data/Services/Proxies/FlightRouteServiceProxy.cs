@@ -1,6 +1,4 @@
 ﻿using AirportApp.Data.Repositories.Proxies;
-using AirportApp.Data.Services;
-
 using Route = AirportApp.Data.Domain.Route;
 
 namespace AirportApp.Data.Services.Proxies;
