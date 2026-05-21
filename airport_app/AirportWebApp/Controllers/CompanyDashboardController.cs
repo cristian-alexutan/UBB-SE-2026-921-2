@@ -1,5 +1,3 @@
-using AirportWebApp.Infrastructure;
-using AirportWebApp.Models.AirportManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
@@ -45,13 +43,17 @@ public class CompanyDashboardController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult AddFlight(AddFlightFormModel form)
+    public IActionResult AddFlight([Bind(Prefix = "AddFlightForm")] AddFlightFormModel form)
     {
         try
         {
             form.CompanyId = session.CompanyId ?? 0;
-            form.FlightNumberPrefix = companyService.GenerateFlightCodeUsingCompanyId(form.CompanyId);
-            ModelState.Remove(nameof(AddFlightFormModel.FlightNumberPrefix));
+
+            TimeSpan departureOffset = CalculateOffset(form.DepartureHour, form.DepartureHour, form.DepartureAmPm);
+            TimeSpan arrivalOffset = CalculateOffset(form.ArrivalHour, form.ArrivalMinute, form.ArrivalAmPm);
+
+            ModelState.Clear();
+            TryValidateModel(form);
 
             if (!ModelState.IsValid)
             {
@@ -64,8 +66,8 @@ public class CompanyDashboardController : Controller
                 form.RouteType,
                 form.AirportId,
                 form.Capacity,
-                TimeSpan.FromMinutes(form.DepartureOffsetMinutes),
-                TimeSpan.FromMinutes(form.ArrivalOffsetMinutes),
+                departureOffset,
+                arrivalOffset,
                 form.IsRecurrent,
                 form.StartDate,
                 form.EndDate,
@@ -74,29 +76,63 @@ public class CompanyDashboardController : Controller
                 form.CustomDaysText,
                 form.RunwayId,
                 form.GateId,
-                _ => form.FlightNumberPrefix);
+                _ => companyService.GenerateFlightCodeUsingCompanyId(form.CompanyId));
 
             return RedirectToAction(nameof(Index));
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
             PopulateAddFlightDropdowns(form);
-            ModelState.AddModelError(string.Empty, ex.GetBaseException().Message);
+            ModelState.AddModelError(string.Empty, exception.GetBaseException().Message);
             return View(nameof(Index), BuildDashboardModel(form.CompanyId, null, form, true));
         }
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult DeleteFlight(int id)
+    private TimeSpan CalculateOffset(int hour, int minute, string amPm)
     {
-        if (!CanAccessFlight(id))
+        int militaryHour = hour % 12;
+        if (string.Equals(amPm, "PM", StringComparison.OrdinalIgnoreCase))
         {
-            return StatusCode(StatusCodes.Status403Forbidden);
+            militaryHour += 12;
+        }
+        return new TimeSpan(militaryHour, minute, 0);
+    }
+
+    [HttpGet]
+    public IActionResult DeleteFlight(int flightId)
+    {
+        if (flightId <= 0)
+        {
+            return this.NotFound();
         }
 
-        flightRouteService.DeleteFlightUsingId(id);
-        return RedirectToAction(nameof(Index));
+        var flightInstance = flightRouteService.GetFlightById(flightId);
+
+        if (flightInstance == null || !this.CanAccessFlight(flightInstance))
+        {
+            return this.NotFound("Flight not found or access denied.");
+        }
+
+        string crewListText = employeeFlightService.FormatCrewList(flightId);
+        var viewModel = flightRouteService.BuildFlightSummary(flightInstance, crewListText);
+
+        return this.View(viewModel);
+    }
+
+    [HttpPost]
+    [ActionName("DeleteFlight")]
+    [ValidateAntiForgeryToken]
+    public IActionResult ExecuteDeleteFlight(int flightId)
+    {
+        if (!this.CanAccessFlight(flightId))
+        {
+            return this.Forbid();
+        }
+
+        employeeFlightService.RemoveAllCrewAssignmentsForFlight(flightId);
+        flightRouteService.DeleteFlightUsingId(flightId);
+
+        return this.RedirectToAction(nameof(this.Index));
     }
 
     public IActionResult ManageCrew(int flightId)
