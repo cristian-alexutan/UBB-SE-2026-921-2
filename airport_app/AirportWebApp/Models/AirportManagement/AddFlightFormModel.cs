@@ -4,13 +4,13 @@ namespace AirportWebApp.Models.AirportManagement
 {
     public class AddFlightFormModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please select a company.")]
         public int CompanyId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a route type.")]
         public string RouteType { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Please select a destination airport.")]
         public int AirportId { get; set; }
 
         [Required]
@@ -46,7 +46,6 @@ namespace AirportWebApp.Models.AirportManagement
         [Required]
         public string FlightNumberPrefix { get; set; } = string.Empty;
 
-        // Supporting data for dropdowns
         public List<Airport> Airports { get; set; } = new();
         public List<Runway> Runways { get; set; } = new();
         public List<Gate> Gates { get; set; } = new();
