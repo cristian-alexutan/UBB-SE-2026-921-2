@@ -4,17 +4,26 @@
     ViewData["Title"] = Model.Item.Name;
 }
 
-<nav aria-label="breadcrumb" class="mb-3">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a asp-controller="DutyFree" asp-action="Index">Shops</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a asp-controller="DutyFreeShopItems" asp-action="Index" asp-route-shopId="@Model.Shop.Id">@Model.Shop.Name</a>
-        </li>
-        <li class="breadcrumb-item active">@Model.Item.Name</li>
-    </ol>
-</nav>
+<div class="d-flex align-items-start gap-3 mb-3">
+    <nav aria-label="breadcrumb" class="me-auto">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+                <a asp-controller="DutyFree" asp-action="Index">Shops</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-controller="DutyFreeShopItems" asp-action="Index" asp-route-shopId="@Model.Shop.Id">@Model.Shop.Name</a>
+            </li>
+            <li class="breadcrumb-item active">@Model.Item.Name</li>
+        </ol>
+    </nav>
+
+    @if (!Model.IsManager)
+    {
+        <a asp-controller="DutyFreeCart" asp-action="Index" class="btn btn-primary">
+            Cart
+        </a>
+    }
+</div>
 
 <div class="card shadow-sm">
     <div class="row g-0">
@@ -41,7 +50,14 @@
                 </p>
                 <hr />
 
-                @if (Model.ItemAlreadyInCart)
+                @if (Model.IsManager)
+                {
+                    <div class="mt-3">
+                        <a asp-controller="DutyFreeShopItems" asp-action="EditItemForm"
+                           asp-route-id="@Model.Item.Id" class="btn btn-warning">Edit Item</a>
+                    </div>
+                }
+                else if (Model.ItemAlreadyInCart)
                 {
                     <div class="alert alert-info">
                         This item is already in your cart.
@@ -61,14 +77,6 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Add to Cart</button>
                     </form>
-                }
-
-                @if (Model.IsManager)
-                {
-                    <div class="mt-3">
-                        <a asp-controller="DutyFreeShopItems" asp-action="EditItemForm"
-                           asp-route-id="@Model.Item.Id" class="btn btn-warning">Edit Item</a>
-                    </div>
                 }
             </div>
         </div>

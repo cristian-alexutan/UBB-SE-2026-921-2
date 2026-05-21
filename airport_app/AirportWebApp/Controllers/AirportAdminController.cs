@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
 
+[RequireAirportRole(AirportModuleRole.AirportAdministrator)]
 public class AirportAdminController : Controller
 {
     private readonly WebUserSession session;
