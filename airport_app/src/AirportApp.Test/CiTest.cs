@@ -1,4 +1,4 @@
-﻿namespace Ci.Tests;
+namespace Ci.Tests;
 
 public class SanityCheck
 {
