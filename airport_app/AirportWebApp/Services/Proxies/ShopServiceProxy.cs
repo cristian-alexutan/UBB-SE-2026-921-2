@@ -23,7 +23,7 @@ public class ShopServiceProxy : RepositoryProxyBase, IShopService
 
     public Shop? GetShopById(int shopId)
     {
-        return GetRequired<Shop>($"api/shops/{shopId}");
+        return GetOptional<Shop>($"api/shops/{shopId}");
     }
 
     public void AddShop(Shop shop)
