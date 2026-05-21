@@ -37,14 +37,21 @@ namespace AirportWebApp.Models.AirportManagement
 
         public string? CustomDaysText { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a runway.")]
         public int RunwayId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a gate.")]
         public int GateId { get; set; }
 
-        [Required]
         public string FlightNumberPrefix { get; set; } = string.Empty;
+
+        public int DepartureHour { get; set; } = 12;
+        public int DepartureMinute { get; set; } = 0;
+        public string DepartureAmPm { get; set; } = "PM";
+
+        public int ArrivalHour { get; set; } = 1;
+        public int ArrivalMinute { get; set; } = 0;
+        public string ArrivalAmPm { get; set; } = "PM";
 
         public List<Airport> Airports { get; set; } = new();
         public List<Runway> Runways { get; set; } = new();

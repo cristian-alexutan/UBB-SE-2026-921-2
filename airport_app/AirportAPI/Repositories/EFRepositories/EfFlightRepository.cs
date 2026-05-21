@@ -19,6 +19,7 @@ namespace AirportAPI.Repositories
         {
             return databaseContext.Flights
                 .Include(flight => flight.Route)
+                    .ThenInclude(route => route.Company)
                 .Include(flight => flight.Runway)
                 .Include(flight => flight.Gate)
                 .FirstOrDefault(flight => flight.Id == flightId);

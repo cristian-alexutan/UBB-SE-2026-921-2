@@ -87,17 +87,36 @@ public class AirportAdministrationController(
         return this.RedirectToAction(nameof(this.DisplayFlights));
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult RemoveFlight(int flightId)
+    [HttpGet]
+    public IActionResult DeleteFlight(int flightId)
     {
         if (flightId <= 0)
         {
-            return this.BadRequest();
+            return this.NotFound();
         }
 
+        Flight? flightInstance = flightRouteService.GetFlightById(flightId);
+
+        if (flightInstance == null)
+        {
+            return this.NotFound("Flight not found or access denied.");
+        }
+
+        string crewListText = employeeFlightService.FormatCrewList(flightId);
+        FlightSummary viewModel = flightRouteService.BuildFlightSummary(flightInstance, crewListText);
+
+        return this.View(viewModel);
+    }
+
+    [HttpPost]
+    [ActionName("DeleteFlight")]
+    [ValidateAntiForgeryToken]
+    public IActionResult ExecuteDeleteFlight(int flightId)
+    {
+        employeeFlightService.RemoveAllCrewAssignmentsForFlight(flightId);
         flightRouteService.DeleteFlightUsingId(flightId);
-        return this.RedirectToAction(nameof(this.DisplayFlights));
+
+        return this.RedirectToAction(nameof(this.Index));
     }
 
     [HttpGet]

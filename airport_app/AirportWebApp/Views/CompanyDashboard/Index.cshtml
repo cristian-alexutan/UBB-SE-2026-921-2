@@ -80,12 +80,12 @@
                             <td>@f.RunwayText</td>
                             <td>@f.GateText</td>
                             <td>
-                                <button class="btn-delete"
-                                        data-id="@f.Id"
-                                        data-num="@f.FlightNumber"
-                                        title="Delete flight">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
+								<a asp-action="DeleteFlight"
+								   asp-route-flightId="@f.Id"
+								   class="btn btn-sm btn-outline-danger"
+								   title="Delete flight">
+									<i class="bi bi-trash"></i>
+								</a>
                             </td>
                         </tr>
                     }
@@ -98,17 +98,16 @@
 
 <!-- add flight -->
 <div class="modal-backdrop-custom @(ViewData.ModelState.IsValid ? string.Empty : "open")" id="addModal">
-    <div class="modal-box">
-        <div class="modal-title">Add Flight</div>
+	<div class="modal-box">
+		<div class="modal-title">Add Flight</div>
 
-        <form method="post" asp-action="AddFlight" id="addFlightForm">
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="CompanyId" value="@Model.CompanyId" />
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+		<form method="post" asp-action="AddFlight" id="addFlightForm">
+			@Html.AntiForgeryToken()
+			<input type="hidden" asp-for="AddFlightForm.CompanyId" />
 
-            <div class="form-grid">
+			<div class="form-grid">
 
-                <!-- TYPE -->
+				<!-- TYPE -->
 				<div>
 					<label asp-for="AddFlightForm.RouteType" class="form-label">Type</label>
 					<select asp-for="AddFlightForm.RouteType" class="form-ctrl">
@@ -118,151 +117,127 @@
 					</select>
 				</div>
 
-                <!-- AIRPORT -->
-                <div>
-                    <label class="form-label">Airport</label>
-                    <select class="form-ctrl" name="AirportId">
-                        <option value="">Select Airport</option>
-                        @if (Model.AddFlightForm?.Airports != null)
-                        {
-                            @foreach (var ap in Model.AddFlightForm.Airports)
-                            {
-                                <option value="@ap.Id">@ap.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
+				<!-- AIRPORT -->
+				<div>
+					<label asp-for="AddFlightForm.AirportId" class="form-label">Airport</label>
+					<select asp-for="AddFlightForm.AirportId" class="form-ctrl">
+						<option value="">Select Airport</option>
+						@foreach (var airport in Model.AddFlightForm.Airports)
+						{
+							<option value="@airport.Id">@airport.Name</option>
+						}
+					</select>
+					<span asp-validation-for="AddFlightForm.AirportId" class="text-danger small"></span>
+				</div>
 
-                <!-- DEP. TIME -->
-                <div>
-                    <label class="form-label">Dep. Time</label>
-                    <div class="time-row">
-                        <input class="time-part" type="number" min="1" max="12"
-                               name="DepHour" value="12" id="depHour" />
-                        <span class="time-sep">:</span>
-                        <input class="time-part" type="number" min="0" max="59"
-                               name="DepMin" value="00" id="depMin" />
-                        <select class="ampm-select" name="DepAmPm" id="depAmPm">
-                            <option>AM</option>
-                            <option selected>PM</option>
-                        </select>
-                    </div>
-                </div>
+				<!-- DEP. TIME -->
+				<div>
+					<label class="form-label">Dep. Time</label>
+					<div class="time-row">
+						<input asp-for="AddFlightForm.DepartureHour" class="time-part" type="number" min="1" max="12" />
+						<span class="time-sep">:</span>
+						<input asp-for="AddFlightForm.DepartureMinute" class="time-part" type="number" min="0" max="59" />
+						<select asp-for="AddFlightForm.DepartureAmPm" class="ampm-select">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+				</div>
 
-                <!-- ARR. TIME -->
-                <div>
-                    <label class="form-label">Arr. Time</label>
-                    <div class="time-row">
-                        <input class="time-part" type="number" min="1" max="12"
-                               name="ArrHour" value="1" id="arrHour" />
-                        <span class="time-sep">:</span>
-                        <input class="time-part" type="number" min="0" max="59"
-                               name="ArrMin" value="00" id="arrMin" />
-                        <select class="ampm-select" name="ArrAmPm" id="arrAmPm">
-                            <option>AM</option>
-                            <option selected>PM</option>
-                        </select>
-                    </div>
-                </div>
+				<!-- ARR. TIME -->
+				<div>
+					<label class="form-label">Arr. Time</label>
+					<div class="time-row">
+						<input asp-for="AddFlightForm.ArrivalHour" class="time-part" type="number" min="1" max="12" />
+						<span class="time-sep">:</span>
+						<input asp-for="AddFlightForm.ArrivalMinute" class="time-part" type="number" min="0" max="59" />
+						<select asp-for="AddFlightForm.ArrivalAmPm" class="ampm-select">
+							<option value="AM">AM</option>
+							<option value="PM">PM</option>
+						</select>
+					</div>
+				</div>
 
-                <!-- CAPACITY -->
+				<!-- CAPACITY -->
 				<div>
 					<label asp-for="AddFlightForm.Capacity" class="form-label">Capacity</label>
 					<input asp-for="AddFlightForm.Capacity" class="form-ctrl" placeholder="e.g. 180" />
 					<span asp-validation-for="AddFlightForm.Capacity" class="text-danger small"></span>
 				</div>
 
-                <!-- RECURRENT CHECKBOX -->
-                <div style="display:flex; align-items:flex-end; padding-bottom:.1rem;">
-                    <div class="check-wrap">
-                        <input type="checkbox" id="recurrentCheck" name="IsRecurrent" value="true" />
-                        <label for="recurrentCheck">Recurrent Flight</label>
-                    </div>
-                </div>
+				<!-- RECURRENT CHECKBOX -->
+				<div style="display:flex; align-items:flex-end; padding-bottom:.1rem;">
+					<div class="check-wrap">
+						<input asp-for="AddFlightForm.IsRecurrent" type="checkbox" id="recurrentCheck" />
+						<label for="recurrentCheck">Recurrent Flight</label>
+					</div>
+				</div>
 
-                <!-- DATE (single) -->
-                <div id="singleDateWrap">
-                    <label class="form-label">Date</label>
-                    <input class="form-ctrl" type="date" name="SingleDate"
-                           value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                </div>
+				<!-- DATE (single) -->
+				<div id="singleDateWrap">
+					<label asp-for="AddFlightForm.SingleDate" class="form-label">Date</label>
+					<input asp-for="AddFlightForm.SingleDate" class="form-ctrl" type="date" />
+				</div>
 
-                <!-- GATE -->
-                <div>
-                    <label class="form-label">Gate</label>
-                    <select class="form-ctrl" name="GateId">
-                        <option value="">Select Gate</option>
-                        @if (Model.AddFlightForm?.Gates != null)
-                        {
-                            @foreach (var g in Model.AddFlightForm.Gates)
-                            {
-                                <option value="@g.Id">@g.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
+				<!-- GATE -->
+				<div>
+					<label asp-for="AddFlightForm.GateId" class="form-label">Gate</label>
+					<select asp-for="AddFlightForm.GateId" class="form-ctrl">
+						<option value="">Select Gate</option>
+						@foreach (var gate in Model.AddFlightForm.Gates)
+						{
+							<option value="@gate.Id">@gate.Name</option>
+						}
+					</select>
+					<span asp-validation-for="AddFlightForm.GateId" class="text-danger small"></span>
+				</div>
 
-                <!-- RUNWAY (full width) -->
-                <div class="full">
-                    <label class="form-label">Runway</label>
-                    <select class="form-ctrl" name="RunwayId">
-                        <option value="">Select Runway</option>
-                        @if (Model.AddFlightForm?.Runways != null)
-                        {
-                            @foreach (var r in Model.AddFlightForm.Runways)
-                            {
-                                <option value="@r.Id">@r.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
+				<!-- RUNWAY -->
+				<div class="full">
+					<label asp-for="AddFlightForm.RunwayId" class="form-label">Runway</label>
+					<select asp-for="AddFlightForm.RunwayId" class="form-ctrl">
+						<option value="">Select Runway</option>
+						@foreach (var runway in Model.AddFlightForm.Runways)
+						{
+							<option value="@runway.Id">@runway.Name</option>
+						}
+					</select>
+					<span asp-validation-for="AddFlightForm.RunwayId" class="text-danger small"></span>
+				</div>
 
-                <!-- RECURRENT SECTION -->
-                <div id="recurrent-section" class="full">
-                    <div class="rec-grid">
+				<!-- RECURRENT SECTION -->
+				<div id="recurrent-section" class="full">
+					<div class="rec-grid">
+						<div>
+							<label asp-for="AddFlightForm.StartDate" class="form-label">Start Date</label>
+							<input asp-for="AddFlightForm.StartDate" class="form-ctrl" type="date" />
+						</div>
+						<div>
+							<label asp-for="AddFlightForm.EndDate" class="form-label">End Date</label>
+							<input asp-for="AddFlightForm.EndDate" class="form-ctrl" type="date" />
+						</div>
+						<div class="full">
+							<label asp-for="AddFlightForm.RecurrenceType" class="form-label">Recurrence Type</label>
+							<select asp-for="AddFlightForm.RecurrenceType" class="form-ctrl">
+								<option value="Daily">Daily</option>
+								<option value="Weekly">Weekly</option>
+								<option value="Custom">Custom</option>
+							</select>
+						</div>
+						<div class="full" id="custom-days-wrap">
+							<label asp-for="AddFlightForm.CustomDaysText" class="form-label">Interval (days)</label>
+							<input asp-for="AddFlightForm.CustomDaysText" class="form-ctrl" type="number" min="1" />
+						</div>
+					</div>
+				</div>
+			</div>
 
-                        <!-- Start Date -->
-                        <div>
-                            <label class="form-label">Start Date</label>
-                            <input class="form-ctrl" type="date" name="StartDate"
-                                   value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                        </div>
-
-                        <!-- End Date -->
-                        <div>
-                            <label class="form-label">End Date</label>
-                            <input class="form-ctrl" type="date" name="EndDate"
-                                   value="@DateTime.Today.AddMonths(1).ToString("yyyy-MM-dd")" />
-                        </div>
-
-                        <!-- Recurrence Type -->
-                        <div class="full">
-                            <label class="form-label">Recurrence Type</label>
-                            <select class="form-ctrl" name="RecurrenceType" id="recurrenceType">
-                                <option value="Daily">Daily</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Custom">Custom Days</option>
-                            </select>
-                        </div>
-
-                        <!-- Custom Interval -->
-                        <div class="full" id="custom-days-wrap">
-                            <label class="form-label">Custom Interval (days)</label>
-                            <input class="form-ctrl" type="number" name="CustomDaysText" id="customDaysText"
-                                   min="1" step="1" value="1" placeholder="e.g. 3" />
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer-btns">
-                <button type="submit" class="btn-save">Save Flight</button>
-                <button type="button" class="btn-cancel" id="cancelAdd">Cancel</button>
-            </div>
-        </form>
-    </div>
+			<div class="modal-footer-btns">
+				<button type="submit" class="btn-save">Save Flight</button>
+				<button type="button" class="btn-cancel" id="cancelAdd">Cancel</button>
+			</div>
+		</form>
+	</div>
 </div>
 
 <!--delete-->
