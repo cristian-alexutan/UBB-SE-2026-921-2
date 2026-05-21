@@ -40,16 +40,37 @@ public class ShopItemServiceProxy : RepositoryProxyBase, IShopItemService
 
     public void AddShopItem(ShopItem shopItem)
     {
-        this.Post("api/shop-items", shopItem);
+        this.Post("api/shop-items", ToRequest(shopItem));
     }
 
     public void UpdateShopItem(ShopItem shopItem)
     {
-        this.Put($"api/shop-items/{shopItem.Id}", shopItem);
+        this.Put($"api/shop-items/{shopItem.Id}", ToRequest(shopItem));
     }
 
     public void RemoveShopItem(int shopItemId)
     {
         this.Delete($"api/shop-items/{shopItemId}");
     }
+
+    private static ShopItemRequest ToRequest(ShopItem shopItem)
+    {
+        return new ShopItemRequest(
+            shopItem.Id,
+            shopItem.Quantity,
+            shopItem.Price,
+            shopItem.Shop?.Id ?? 0,
+            shopItem.Photo,
+            shopItem.Name,
+            shopItem.Description);
+    }
+
+    private sealed record ShopItemRequest(
+        int Id,
+        int Quantity,
+        float Price,
+        int ShopId,
+        string Photo,
+        string Name,
+        string Description);
 }
