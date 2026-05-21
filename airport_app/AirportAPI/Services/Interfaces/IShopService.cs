@@ -4,6 +4,8 @@ namespace AirportAPI.Services.Interfaces
     {
         IEnumerable<Shop> GetAllAvailableShops();
 
+        Shop? GetShopById(int shopId);
+
         void AddShop(Shop shop);
 
         void DeleteShop(int shopId);
