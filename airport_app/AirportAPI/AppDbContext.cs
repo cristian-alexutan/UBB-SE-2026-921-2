@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Route = AirportAPI.Domain.Route;
+using Route = AirportLib.Domain.Domain.Route;
 
 namespace AirportAPI;
 
@@ -117,7 +117,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Manager>().HasData(
-            new Manager { Id = 1, Name = "Marcel", Email = "marcel@gmail.com", Phone = "4074593789" });
+            new Manager(1, "Marcel", "marcel@gmail.com", "4074593789"));
 
         modelBuilder.Entity<Shop>().HasData(
             new { Id = 1, Name = "Sky Bites", Type = "Food & Beverage", ManagerId = 1 },
@@ -140,7 +140,7 @@ public class AppDbContext : DbContext
             new { Id = 12, Name = "Power Bank", Description = "Portable charger", Price = 15.0f, Quantity = 90, Photo = "https://images.unsplash.com/photo-1609592424060-bd0c5b305c91", ShopId = 4 });
 
         modelBuilder.Entity<Client>().HasData(
-            new Client { Id = 1, Name = "Crina" });
+            new Client(1, "Crina"));
 
         modelBuilder.Entity<Cart>().HasData(
             new { Id = 1, ClientId = 1 });
@@ -149,11 +149,11 @@ public class AppDbContext : DbContext
             new { Id = 1, Quantity = 2, ShopItemId = 1, CartId = 1 });
 
         modelBuilder.Entity<Ticket>().HasData(
-            new Ticket { Id = 1, Category = "Duty Free Shops", Subcategory = "Global Duty Free" },
-            new Ticket { Id = 2, Category = "Duty Free Shops", Subcategory = "Sky Bites" },
-            new Ticket { Id = 3, Category = "Duty Free Shops", Subcategory = "Runway Cafe" },
-            new Ticket { Id = 4, Category = "Duty Free Shops", Subcategory = "Elite Boutique" },
-            new Ticket { Id = 5, Category = "Duty Free Shops", Subcategory = "FlySmart Store" });
+            new Ticket(1, "Duty Free Shops", "Global Duty Free"),
+            new Ticket(2, "Duty Free Shops", "Sky Bites"),
+            new Ticket(3, "Duty Free Shops", "Runway Cafe"),
+            new Ticket(4, "Duty Free Shops", "Elite Boutique"),
+            new Ticket(5, "Duty Free Shops", "FlySmart Store"));
 
         modelBuilder.Entity<Company>().HasData(
             new Company { Id = 1, Name = "WizzAir" },

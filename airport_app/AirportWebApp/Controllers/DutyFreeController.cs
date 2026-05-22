@@ -1,6 +1,3 @@
-using AirportWebApp.Infrastructure;
-using AirportWebApp.Models.DutyFree;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;
@@ -106,24 +103,25 @@ public class DutyFreeController : Controller
     [RequireDutyFreeRole(DutyFreeModuleRole.Manager)]
     public IActionResult EditShop(ShopFormModel form)
     {
-        if (ModelState.IsValid)
+        if (!this.ModelState.IsValid)
         {
-            var existing = shopService.GetAllAvailableShops().FirstOrDefault(s => s.Id == form.Id);
-            if (existing != null)
-            {
-                existing.Name = form.Name;
-                existing.Type = form.Type;
-                if (existing.Manager == null)
-                {
-                    existing.Manager = new Manager();
-                }
-                existing.Manager.Id = form.ManagerId;
-
-                shopService.UpdateShop(existing);
-            }
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        return RedirectToAction(nameof(Index));
+        Shop? existingShop = shopService.GetAllAvailableShops()
+            .FirstOrDefault(shop => shop.Id == form.Id);
+
+        if (existingShop == null)
+        {
+            return this.NotFound();
+        }
+
+        existingShop.Name = form.Name;
+        existingShop.Type = form.Type;
+
+        shopService.UpdateShop(existingShop);
+
+        return this.RedirectToAction(nameof(this.Index));
     }
 
     [HttpPost]

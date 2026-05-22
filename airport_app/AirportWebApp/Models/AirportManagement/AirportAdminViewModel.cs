@@ -1,8 +1,6 @@
 namespace AirportWebApp.Models.AirportManagement
 {
     using System.Collections.Generic;
-
-    using AirportWebApp.Domain;
     public enum AirportAdministrationSection
     {
         Flights,

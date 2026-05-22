@@ -1,5 +1,3 @@
-using AirportWebApp.Domain;
-
 namespace AirportWebApp.Models.AirportManagement
 {
     public class CompanyDashboardViewModel

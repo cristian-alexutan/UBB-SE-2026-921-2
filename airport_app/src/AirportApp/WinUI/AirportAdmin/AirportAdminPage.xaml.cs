@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel;
 
-using Microsoft.UI.Xaml;
+using AirportApp.ViewModel;
+
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-
-using AirportApp.ViewModel;
 
 namespace AirportApp.WinUI.AirportAdmin
 {

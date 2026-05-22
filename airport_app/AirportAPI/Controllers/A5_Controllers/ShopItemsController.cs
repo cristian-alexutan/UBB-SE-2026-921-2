@@ -1,5 +1,3 @@
-using AirportAPI.Services.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportAPI.Controllers;
@@ -37,7 +35,7 @@ public class ShopItemsController(IShopItemService shopItemService) : ControllerB
     [HttpGet("shop/{shopId:int}/sorted-by-price")]
     public ActionResult<IEnumerable<ShopItem>> GetSortedByPrice(int shopId)
     {
-        Shop shop = new Shop { Id = shopId };
+        Shop shop = new Shop(shopId, null!, null!, null!);
 
         return this.Ok(shopItemService.GetItemsSortedByPrice(shop));
     }
@@ -45,7 +43,7 @@ public class ShopItemsController(IShopItemService shopItemService) : ControllerB
     [HttpGet("shop/{shopId:int}/sorted-alphabetically")]
     public ActionResult<IEnumerable<ShopItem>> GetSortedAlphabetically(int shopId)
     {
-        Shop shop = new Shop { Id = shopId };
+        Shop shop = new Shop(shopId, null!, null!, null!);
 
         return this.Ok(shopItemService.GetItemsSortedAlphabetically(shop));
     }
@@ -84,7 +82,7 @@ public class ShopItemsController(IShopItemService shopItemService) : ControllerB
             Id = request.Id,
             Quantity = request.Quantity,
             Price = request.Price,
-            Shop = new Shop { Id = request.ShopId },
+            Shop = new Shop(request.ShopId, null!, null!, null!),
             Photo = request.Photo,
             Name = request.Name,
             Description = request.Description

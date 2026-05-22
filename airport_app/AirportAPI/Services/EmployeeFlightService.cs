@@ -1,19 +1,11 @@
 using System.Text;
 
 using AirportAPI.Repositories.Interfaces;
-using AirportAPI.Services.Interfaces;
-using Route = AirportAPI.Domain.Route;
+
+using Route = AirportLib.Domain.Domain.Route;
 
 namespace AirportAPI.Services
 {
-    public class CrewMemberSelectionData
-    {
-        public Employee Employee { get; set; } = new();
-        public bool IsSelected { get; set; }
-        public bool IsFirstInRoleGroup { get; set; }
-        public string RoleHeader { get; set; } = string.Empty;
-    }
-
     public class EmployeeFlightService(
         IEmployeeFlightRepository employeeFlightRepository,
         IEmployeeRepository employeeRepository,

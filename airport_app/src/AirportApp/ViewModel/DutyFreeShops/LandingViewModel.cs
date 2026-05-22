@@ -1,8 +1,9 @@
-using System;
 using System.Windows.Input;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.User;
+
 using AirportApp.ViewModel.DutyFreeShops.Interface;
+
+using AirportLib.Domain.User;
+
 using CommunityToolkit.Mvvm.Input;
 
 namespace AirportApp.ViewModel.DutyFreeShops

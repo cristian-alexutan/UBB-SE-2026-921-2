@@ -1,6 +1,7 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using AirportApp.ViewModel;
+
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using AirportApp.ViewModel;
 
 namespace AirportApp.WinUI
 {

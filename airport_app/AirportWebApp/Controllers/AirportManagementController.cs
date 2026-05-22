@@ -1,4 +1,3 @@
-using AirportWebApp.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportWebApp.Controllers;

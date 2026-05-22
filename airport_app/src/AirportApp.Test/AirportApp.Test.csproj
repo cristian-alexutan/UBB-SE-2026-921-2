@@ -24,15 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AirportAPI\AirportAPI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Remove="AirportApp.Data.Domain" />
     <Using Remove="AirportApp.Data.Repositories" />
     <Using Remove="AirportApp.Data.Repositories.Interfaces" />
     <Using Remove="AirportApp.Data.Services" />
     <Using Remove="AirportApp.Data.Services.Interfaces" />
+    <ProjectReference Include="..\..\AirportAPI\AirportAPI.csproj" />
     <Using Include="Xunit" />
   </ItemGroup>
 

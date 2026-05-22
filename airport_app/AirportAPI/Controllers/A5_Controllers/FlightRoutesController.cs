@@ -1,9 +1,8 @@
-﻿using AirportAPI.DTOs;
-using AirportAPI.Services.Interfaces;
+﻿using AirportLib.Domain.DTOs;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Route = AirportAPI.Domain.Route;
+using Route = AirportLib.Domain.Domain.Route;
 
 namespace AirportAPI.Controllers.A5_Controllers;
 

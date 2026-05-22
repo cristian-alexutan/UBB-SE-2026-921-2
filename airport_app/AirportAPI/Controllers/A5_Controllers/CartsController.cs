@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AirportAPI.Services.Interfaces;
 namespace AirportAPI.Controllers.A5_Controllers;
 
 [Route("api/[controller]")]
@@ -66,11 +65,10 @@ public class CartsController(ICartService cartService) : ControllerBase
             return this.NotFound();
         }
 
-        CartItem cartItem = new()
-        {
-            ShopItem = new ShopItem { Id = request.ShopItemId },
-            Quantity = request.Quantity
-        };
+        CartItem cartItem = new CartItem(
+            0,
+            new ShopItem { Id = request.ShopItemId },
+            request.Quantity);
 
         cartService.AddItemToCart(cartId, cartItem);
 

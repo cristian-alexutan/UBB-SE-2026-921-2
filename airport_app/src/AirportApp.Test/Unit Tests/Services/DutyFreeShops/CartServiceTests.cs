@@ -1,10 +1,7 @@
-using System.Collections.Generic;
-using AirportAPI.Domain;
-using AirportAPI.Repositories.Interfaces;
-using AirportAPI.Services;
-using AirportAPI.Services.Interfaces;
 using NSubstitute;
+
 using NUnit.Framework;
+
 using Assert = NUnit.Framework.Assert;
 
 namespace AirportApp.Test.UnitTests.Services.DutyFreeShops;

@@ -14,14 +14,6 @@
     <Using Include="System.Collections.Generic" />
     <Using Include="System.Linq" />
     <Using Include="System.Collections.ObjectModel" />
-    
-    <Using Include="AirportApp.Data.Domain" />
-    <Using Include="AirportApp.Data.Repositories" />
-    <Using Include="AirportApp.Data.Repositories.Interfaces" />
-    <Using Include="AirportApp.Data.Services" />
-    <Using Include="AirportApp.Data.Services.Interfaces" />
-    
-    <Using Include="Microsoft.Data.SqlClient" />
 
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>

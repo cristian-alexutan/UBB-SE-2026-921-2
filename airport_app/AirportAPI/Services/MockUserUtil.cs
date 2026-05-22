@@ -1,6 +1,3 @@
-using AirportAPI.Repositories.Interfaces;
-using AirportAPI.Services.Interfaces;
-
 namespace AirportAPI.Services
 {
     public enum AirportModuleRole

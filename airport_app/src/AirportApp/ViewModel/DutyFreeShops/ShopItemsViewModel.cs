@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using AirportApp.Data.Domain;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.User;
+
 using AirportApp.ViewModel.DutyFreeShops.Interface;
+
+using AirportLib.Domain.User;
 
 namespace AirportApp.ViewModel.DutyFreeShops
 {

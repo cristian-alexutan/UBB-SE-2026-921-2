@@ -1,5 +1,3 @@
-using AirportAPI.Services.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportAPI.Controllers;

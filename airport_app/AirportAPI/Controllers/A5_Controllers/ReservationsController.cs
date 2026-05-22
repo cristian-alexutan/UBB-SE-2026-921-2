@@ -1,5 +1,3 @@
-using AirportAPI.Services.Interfaces;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportAPI.Controllers.A5_Controllers;
@@ -36,18 +34,12 @@ public class ReservationsController(IReservationService reservationService) : Co
         }
 
         Reservation reservation = new Reservation(
-            new Cart
-            {
-                Id = request.CartId,
-                CartItems = request.CartItems
-                    .Select(cartItemRequest => new CartItem
-                    {
-                        Id = cartItemRequest.Id,
-                        ShopItem = new ShopItem { Id = cartItemRequest.ShopItemId },
-                        Quantity = cartItemRequest.Quantity
-                    })
-                    .ToList()
-            },
+            new Cart(
+                request.CartId,
+                null!,
+                request.CartItems
+                    .Select(cartItemRequest => new CartItem(cartItemRequest.Id, new ShopItem { Id = cartItemRequest.ShopItemId }, cartItemRequest.Quantity))
+                    .ToList()),
             request.Active,
             request.ReservationDate);
 

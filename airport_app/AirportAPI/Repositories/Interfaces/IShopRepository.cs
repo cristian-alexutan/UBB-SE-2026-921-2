@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using AirportAPI.Domain;
-
     public interface IShopRepository
     {
         IEnumerable<Shop> GetAll();

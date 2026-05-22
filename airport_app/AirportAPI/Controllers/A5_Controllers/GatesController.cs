@@ -1,6 +1,4 @@
-﻿using AirportAPI.Services.Interfaces;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AirportAPI.Controllers.A5_Controllers;
 

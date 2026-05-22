@@ -1,12 +1,11 @@
-using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Mvvm.Input;
-using AirportApp.Data.Services.Interfaces;
-using AirportApp.Data.Domain;
-using AirportApp.Data.User;
+
 using AirportApp.ViewModel.DutyFreeShops.Interface;
+
+using AirportLib.Domain.User;
+
+using CommunityToolkit.Mvvm.Input;
 
 namespace AirportApp.ViewModel.DutyFreeShops
 {

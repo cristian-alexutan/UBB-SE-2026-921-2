@@ -1,19 +1,18 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using AirportApp.Data.Domain;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using WinRT.Interop;
-using Microsoft.UI.Xaml.Input;
 using Windows.System;
+
+using WinRT.Interop;
 namespace AirportApp
 {
     public sealed partial class ShopItemsPage : Page

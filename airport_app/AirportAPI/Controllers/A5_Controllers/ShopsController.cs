@@ -1,6 +1,4 @@
-﻿using AirportAPI.Services.Interfaces;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AirportAPI.Controllers.A5_Controllers;
 
@@ -91,13 +89,11 @@ public class ShopsController : ControllerBase
 
     private static Shop ToShop(ShopRequest request)
     {
-        return new Shop
-        {
-            Id = request.Id,
-            Name = request.Name,
-            Type = request.Type,
-            Manager = new Manager { Id = request.ManagerId }
-        };
+        return new Shop(
+            request.Id,
+            request.Name,
+            request.Type,
+            new Manager(request.ManagerId, null, null, null));
     }
 
     public sealed record ShopRequest(int Id, string Name, string Type, int ManagerId);
