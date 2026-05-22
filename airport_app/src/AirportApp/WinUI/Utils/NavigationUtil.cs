@@ -1,108 +1,156 @@
+using AirportApp.ViewModel;
+using AirportApp.WinUI.AirportAdmin;
+
+using AirportLib.Domain.User;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 
-using AirportApp.Data.Services;
-using AirportApp.Data.User;
-using AirportApp.ViewModel;
-using AirportApp.WinUI.AirportAdmin;
-using AirportApp.WinUI.StaffLogin;
-
 namespace AirportApp.WinUI.Utils
 {
-    public class NavigationUtil : INavigationUtil
+    public class NavigationUtility(
+        IServiceProvider serviceProvider,
+        MockUserUtility mockUserUtility,
+        UserSession userSession) : INavigationUtil
     {
-        private readonly IServiceProvider services;
-        private readonly MockUserUtil mockUserUtil;
-        private readonly UserSession userSession;
-        private Frame frame;
+        private Frame? rootNavigationFrame;
 
-        public NavigationUtil(IServiceProvider services, MockUserUtil mockUserUtil, UserSession userSession)
+        public void Initialize(Frame navigationFrame)
         {
-            this.services = services;
-            this.mockUserUtil = mockUserUtil;
-            this.userSession = userSession;
-        }
-
-        public void Initialize(Frame frame)
-        {
-            this.frame = frame;
+            this.rootNavigationFrame = navigationFrame;
         }
 
         public void NavigateToHome()
         {
-            frame.Navigate(typeof(HomePage), services.GetRequiredService<HomeViewModel>());
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
+
+            this.rootNavigationFrame.Navigate(
+                typeof(HomePage),
+                serviceProvider.GetRequiredService<HomeViewModel>());
         }
 
         public void NavigateToConfiguredAirportRole()
         {
-            MockUserRoles roles = mockUserUtil.GetRolesForUser(App.ConfiguredUserId);
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
 
-            switch (roles.AirportRole)
+            MockUserRoleContext userRoleContext = mockUserUtility.GetRolesForUser(App.ConfiguredUserId);
+
+            switch (userRoleContext.AirportRole)
             {
                 case AirportModuleRole.None:
-                    frame.Navigate(typeof(NoAirportRolePage));
+                    this.rootNavigationFrame.Navigate(typeof(NoAirportRolePage));
                     break;
+
                 case AirportModuleRole.CompanyRepresentative:
-                    NavigateToCompanyDashboard(roles.CompanyId ?? 1);
+                    this.NavigateToCompanyDashboard(userRoleContext.CompanyId ?? 1);
                     break;
+
                 case AirportModuleRole.AirportAdministrator:
-                    NavigateToAirportAdmin();
+                    this.NavigateToAirportAdmin();
                     break;
+
                 case AirportModuleRole.AirportStaffMember:
-                    NavigateToStaffDashboard(roles.EmployeeId ?? App.ConfiguredUserId);
+                    this.NavigateToStaffDashboard(userRoleContext.EmployeeId ?? App.ConfiguredUserId);
                     break;
+
                 default:
-                    NavigateToHome();
+                    this.NavigateToHome();
                     break;
             }
         }
 
         public void NavigateToConfiguredDutyFreeRole()
         {
-            MockUserRoles roles = mockUserUtil.GetRolesForUser(App.ConfiguredUserId);
-
-            if (roles.DutyFreeRole == DutyFreeModuleRole.Manager)
+            if (this.rootNavigationFrame == null)
             {
-                userSession.SetAdmin(roles.DutyFreeUserId);
+                return;
+            }
+
+            MockUserRoleContext userRoleContext = mockUserUtility.GetRolesForUser(App.ConfiguredUserId);
+
+            if (userRoleContext.DutyFreeRole == DutyFreeModuleRole.Manager)
+            {
+                userSession.SetAdmin(userRoleContext.DutyFreeUserId);
             }
             else
             {
-                userSession.SetClient(roles.DutyFreeUserId);
+                userSession.SetClient(userRoleContext.DutyFreeUserId);
             }
 
-            frame.Navigate(typeof(ShopPage));
+            this.rootNavigationFrame.Navigate(typeof(ShopPage));
         }
 
         public void NavigateToSelectCompany()
         {
-            frame.Navigate(typeof(SelectCompanyPage), services.GetRequiredService<SelectCompanyViewModel>());
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
+
+            this.rootNavigationFrame.Navigate(
+                typeof(SelectCompanyPage),
+                serviceProvider.GetRequiredService<SelectCompanyViewModel>());
         }
 
         public void NavigateToCompanyDashboard(int companyId)
         {
-            frame.Navigate(typeof(CompanyPage), (services.GetRequiredService<CompanyViewModel>(), companyId));
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
+
+            this.rootNavigationFrame.Navigate(
+                typeof(CompanyPage),
+                (serviceProvider.GetRequiredService<CompanyViewModel>(), companyId));
         }
 
         public void NavigateToStaffLogin()
         {
-            MockUserRoles roles = mockUserUtil.GetRolesForUser(App.ConfiguredUserId);
-            NavigateToStaffDashboard(roles.EmployeeId ?? App.ConfiguredUserId);
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
+
+            MockUserRoleContext userRoleContext = mockUserUtility.GetRolesForUser(App.ConfiguredUserId);
+
+            int targetEmployeeId = userRoleContext.EmployeeId ?? App.ConfiguredUserId;
+
+            this.NavigateToStaffDashboard(targetEmployeeId);
         }
 
         public void NavigateToAirportAdmin()
         {
-            frame.Navigate(
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
+
+            var adminViewModel = serviceProvider.GetRequiredService<AirportAdminViewModel>();
+            var flightsViewModel = serviceProvider.GetRequiredService<FlightsDashboardViewModel>();
+            var employeesViewModel = serviceProvider.GetRequiredService<EmployeesDashboardViewModel>();
+            var dashboardViewModel = serviceProvider.GetRequiredService<AirportDashboardViewModel>();
+
+            this.rootNavigationFrame.Navigate(
                 typeof(AirportAdminPage),
-                (
-                    services.GetRequiredService<AirportAdminViewModel>(),
-                    services.GetRequiredService<FlightsDashboardViewModel>(),
-                    services.GetRequiredService<EmployeesDashboardViewModel>(),
-                    services.GetRequiredService<AirportDashboardViewModel>()));
+                (adminViewModel, flightsViewModel, employeesViewModel, dashboardViewModel));
         }
 
         public void NavigateToStaffDashboard(int employeeId)
         {
-            frame.Navigate(typeof(StaffPage), (services.GetRequiredService<StaffPageViewModel>(), employeeId));
+            if (this.rootNavigationFrame == null)
+            {
+                return;
+            }
+
+            this.rootNavigationFrame.Navigate(
+                typeof(StaffPage),
+                (serviceProvider.GetRequiredService<StaffPageViewModel>(), employeeId));
         }
     }
 }

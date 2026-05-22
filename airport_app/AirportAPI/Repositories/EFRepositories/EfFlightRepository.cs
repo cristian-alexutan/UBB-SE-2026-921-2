@@ -2,6 +2,8 @@
 
 using Microsoft.EntityFrameworkCore;
 
+using Route = AirportLib.Domain.Domain.Route;
+
 namespace AirportAPI.Repositories
 {
     public class EfFlightRepository(AppDbContext databaseContext) : IFlightRepository
@@ -84,7 +86,7 @@ namespace AirportAPI.Repositories
                 return;
             }
 
-            AirportAPI.Domain.Route route = databaseContext.Routes.Find(flight.Route.Id)
+            Route route = databaseContext.Routes.Find(flight.Route.Id)
                 ?? throw new InvalidOperationException($"Route with id {flight.Route.Id} does not exist.");
             Runway runway = databaseContext.Runways.Find(flight.Runway.Id)
                 ?? throw new InvalidOperationException($"Runway with id {flight.Runway.Id} does not exist.");

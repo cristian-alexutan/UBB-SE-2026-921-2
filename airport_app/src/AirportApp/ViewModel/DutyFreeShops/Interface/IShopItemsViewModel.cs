@@ -1,7 +1,4 @@
-using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using AirportApp.Data.Domain;
 
 namespace AirportApp.ViewModel.DutyFreeShops.Interface
 {

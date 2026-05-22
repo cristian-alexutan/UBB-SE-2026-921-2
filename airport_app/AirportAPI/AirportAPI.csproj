@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -22,20 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Remove="AirportApp.Data.Domain" />
-    <Using Remove="AirportApp.Data.Repositories" />
-    <Using Remove="AirportApp.Data.Repositories.Interfaces" />
-    <Using Remove="AirportApp.Data.Services" />
-    <Using Remove="AirportApp.Data.Services.Interfaces" />
-    <Using Include="AirportAPI.Domain" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\src\AirportApp.Data\AirportApp.Data.csproj" />
+    <ProjectReference Include="..\AirportLib.Services\AirportLib.Services.csproj" />
+    <ProjectReference Include="..\AirportLib.Domain\AirportLib.Domain.csproj" />
+    <Using Include="AirportLib.Domain.Domain" />
+    <Using Include="AirportLib.Services.Services.Interfaces" />
   </ItemGroup>
   
 </Project>

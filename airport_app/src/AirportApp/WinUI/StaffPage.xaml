@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:components="using:AirportApp.WinUI.Components"
-    xmlns:data="using:AirportApp.Data"
+    xmlns:data="using:AirportLib.Domain.Domain"
     mc:Ignorable="d"
     Background="#0F172A">
 

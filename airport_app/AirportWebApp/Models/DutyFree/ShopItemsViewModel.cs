@@ -1,6 +1,3 @@
-using AirportWebApp.Domain;
-using AirportWebApp.Infrastructure;
-
 namespace AirportWebApp.Models.DutyFree
 {
     public class ShopItemsViewModel

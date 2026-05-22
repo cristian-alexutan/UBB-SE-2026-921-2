@@ -4,7 +4,6 @@ using AirportAPI;
 using AirportAPI.Repositories;
 using AirportAPI.Repositories.Interfaces;
 using AirportAPI.Services;
-using AirportAPI.Services.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,4 @@
-﻿using AirportAPI.DTOs;
-using AirportAPI.Services;
-using AirportAPI.Services.Interfaces;
+﻿using AirportLib.Domain.DTOs;
 
 using Microsoft.AspNetCore.Mvc;
 

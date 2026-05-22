@@ -1,12 +1,11 @@
 ﻿using System.Text.Json;
 
-using AirportApp.Data.Repositories.Proxies;
-using AirportApp.Data.Services.Proxies;
-using AirportApp.Data.User;
 using AirportApp.ViewModel;
 using AirportApp.ViewModel.DutyFreeShops;
 using AirportApp.ViewModel.DutyFreeShops.Interface;
 using AirportApp.WinUI.Utils;
+
+using AirportLib.Domain.User;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -50,7 +49,7 @@ namespace AirportApp
             });
 
             // Airport Management: Infrastructure
-            services.AddSingleton<MockUserUtil>();
+            services.AddSingleton<MockUserUtility>();
 
             // Airport Management: Services
             services.AddTransient<ICompanyService, CompanyServiceProxy>();
@@ -90,12 +89,21 @@ namespace AirportApp
             services.AddTransient<IShopPageViewModel, ShopPageViewModel>();
             services.AddTransient<ICartViewModel, CartViewModel>();
 
-            services.AddSingleton<Func<Shop, IShopItemsViewModel>>(sp => shop =>
-                new ShopItemsViewModel(
-                    sp.GetRequiredService<IShopItemService>(),
-                    sp.GetRequiredService<ICartService>(),
-                    sp.GetRequiredService<UserSession>(),
-                    shop));
+            services.AddSingleton<Func<ShopItem, Shop, IItemDetailsViewModel>>(serviceProvider =>
+                (shopItem, shop) =>
+                {
+                    ICartService cartService = serviceProvider.GetRequiredService<ICartService>();
+                    IShopItemService shopItemService = serviceProvider.GetRequiredService<IShopItemService>();
+
+                    AirportLib.Domain.User.UserSession userSession = serviceProvider.GetRequiredService<AirportLib.Domain.User.UserSession>();
+
+                    return new ItemDetailsViewModel(
+                        cartService,
+                        shopItemService,
+                        userSession,
+                        shopItem,
+                        shop);
+                });
 
             services.AddSingleton<Func<ShopItem, Shop, IItemDetailsViewModel>>(sp => (shopItem, shop) =>
                 new ItemDetailsViewModel(
@@ -104,9 +112,23 @@ namespace AirportApp
                     sp.GetRequiredService<UserSession>(),
                     shopItem,
                     shop));
+            services.AddSingleton<Func<Shop, IShopItemsViewModel>>(serviceProvider =>
+                (Shop shop) =>
+                {
+                    IShopItemService shopItemService = serviceProvider.GetRequiredService<IShopItemService>();
+                    ICartService cartService = serviceProvider.GetRequiredService<ICartService>();
+
+                    AirportLib.Domain.User.UserSession userSession = serviceProvider.GetRequiredService<AirportLib.Domain.User.UserSession>();
+
+                    return new ShopItemsViewModel(
+                        shopItemService,
+                        cartService,
+                        userSession,
+                        shop);
+                });
 
             // Shell
-            services.AddSingleton<INavigationUtil, NavigationUtil>();
+            services.AddSingleton<INavigationUtil, NavigationUtility>();
             services.AddSingleton<MainWindow>();
         }
 

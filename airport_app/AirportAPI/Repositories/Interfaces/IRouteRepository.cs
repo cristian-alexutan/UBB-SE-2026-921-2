@@ -1,6 +1,6 @@
 ﻿namespace AirportAPI.Repositories.Interfaces;
 
-using Route = AirportAPI.Domain.Route;
+using Route = AirportLib.Domain.Domain.Route;
 
 public interface IRouteRepository
 {

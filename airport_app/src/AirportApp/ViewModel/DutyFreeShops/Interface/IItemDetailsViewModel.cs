@@ -1,7 +1,5 @@
-using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using AirportApp.Data.Domain;
 
 namespace AirportApp.ViewModel.DutyFreeShops.Interface
 {

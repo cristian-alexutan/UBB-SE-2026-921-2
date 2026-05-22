@@ -1,10 +1,8 @@
-using AirportWebApp.Domain;
-
 namespace AirportWebApp.Models.DutyFree
 {
     public class CartItemViewModel
     {
-        public CartItem CartItem { get; set; } = new CartItem();
+        public CartItem? CartItem { get; set; }
         public bool IsLast { get; set; }
     }
 

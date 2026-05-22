@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AirportApp.Converters"
-    xmlns:domain="using:AirportApp.Data.Domain">
+    xmlns:domain="using:AirportLib.Domain.Domain">
 
     <Grid Background="#F9FAFB" Padding="100 0 0 0" RequestedTheme="Light">
         <Grid.Resources>

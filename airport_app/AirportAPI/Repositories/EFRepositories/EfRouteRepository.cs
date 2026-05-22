@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-using Route = AirportAPI.Domain.Route;
+using Route = AirportLib.Domain.Domain.Route;
 
 namespace AirportAPI.Repositories
 {

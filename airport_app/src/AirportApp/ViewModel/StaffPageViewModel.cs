@@ -1,14 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Microsoft.Extensions.Primitives;
 using Microsoft.UI.Xaml;
-
-using AirportApp.Data;
-using AirportApp.Data.Services.Interfaces;
 
 namespace AirportApp.ViewModel
 {
