@@ -1,6 +1,6 @@
 namespace AirportWebApp.Services.Proxies
 {
-    public class AirportServiceProxy : RepositoryProxyBase, IAirportService
+    public class AirportServiceProxy : ServiceProxyBase, IAirportService
     {
         public AirportServiceProxy(HttpClient httpClient) : base(httpClient)
         {

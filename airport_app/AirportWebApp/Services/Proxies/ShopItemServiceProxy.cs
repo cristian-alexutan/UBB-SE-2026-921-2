@@ -2,7 +2,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class ShopItemServiceProxy : RepositoryProxyBase, IShopItemService
+public class ShopItemServiceProxy : ServiceProxyBase, IShopItemService
 {
     public ShopItemServiceProxy(HttpClient httpClient) : base(httpClient)
     {

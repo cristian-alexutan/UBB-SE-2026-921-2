@@ -6,7 +6,7 @@ using AirportWebApp.Services.Interfaces;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class ManagerServiceProxy : RepositoryProxyBase, IManagerService
+public class ManagerServiceProxy : ServiceProxyBase, IManagerService
 {
     public ManagerServiceProxy(HttpClient httpClient)
         : base(httpClient)

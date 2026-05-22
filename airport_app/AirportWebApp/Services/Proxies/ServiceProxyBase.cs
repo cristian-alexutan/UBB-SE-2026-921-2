@@ -4,14 +4,14 @@ using System.Text.Json;
 
 namespace AirportWebApp.Services.Proxies;
 
-public abstract class RepositoryProxyBase
+public abstract class ServiceProxyBase
 {
     protected static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true
     };
 
-    protected RepositoryProxyBase(HttpClient httpClient)
+    protected ServiceProxyBase(HttpClient httpClient)
     {
         this.HttpClient = httpClient;
     }

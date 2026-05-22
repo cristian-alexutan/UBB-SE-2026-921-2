@@ -3,7 +3,7 @@ using AirportWebApp.Services.Proxies;
 using Route = AirportWebApp.Domain.Route;
 namespace AirportWebApp.Services.Proxies;
 
-public class EmployeeFlightServiceProxy : RepositoryProxyBase, IEmployeeFlightService
+public class EmployeeFlightServiceProxy : ServiceProxyBase, IEmployeeFlightService
 {
     private sealed class AssignDto
     {

@@ -4,7 +4,7 @@ using AirportWebApp.Services.Interfaces;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class ReservationServiceProxy : RepositoryProxyBase, IReservationService
+public class ReservationServiceProxy : ServiceProxyBase, IReservationService
 {
     public ReservationServiceProxy(HttpClient httpClient)
         : base(httpClient)

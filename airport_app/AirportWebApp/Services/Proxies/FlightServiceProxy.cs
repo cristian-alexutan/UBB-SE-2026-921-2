@@ -3,7 +3,7 @@ using Route = AirportWebApp.Domain.Route;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class FlightServiceProxy : RepositoryProxyBase, IFlightService
+public class FlightServiceProxy : ServiceProxyBase, IFlightService
 {
     public FlightServiceProxy(HttpClient httpClient) : base(httpClient)
     {

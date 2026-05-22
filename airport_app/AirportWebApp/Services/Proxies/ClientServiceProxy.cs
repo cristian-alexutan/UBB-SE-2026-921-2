@@ -4,7 +4,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class ClientServiceProxy : RepositoryProxyBase, IClientService
+public class ClientServiceProxy : ServiceProxyBase, IClientService
 {
     public ClientServiceProxy(HttpClient httpClient)
         : base(httpClient)

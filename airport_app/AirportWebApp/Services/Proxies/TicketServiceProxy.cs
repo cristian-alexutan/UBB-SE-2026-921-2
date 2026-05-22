@@ -6,7 +6,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class TicketServiceProxy : RepositoryProxyBase, ITicketService
+public class TicketServiceProxy : ServiceProxyBase, ITicketService
 {
     public TicketServiceProxy(HttpClient httpClient) : base(httpClient)
     {
