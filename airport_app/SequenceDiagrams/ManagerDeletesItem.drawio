@@ -1,0 +1,278 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="hrCfs4gupBTnNZidBo_9">
+    <mxGraphModel dx="1585" dy="822" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};participant=umlActor;" value="" vertex="1">
+          <mxGeometry height="920" width="20" x="70" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Manager" vertex="1">
+          <mxGeometry height="30" width="60" x="50" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="DutyFreeShopItemsIndexView" vertex="1">
+          <mxGeometry height="930" width="160" x="140" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-14" parent="EOKiiNB9M0-hMvIa2oWp-3" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="40" width="10" x="75" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-55" parent="EOKiiNB9M0-hMvIa2oWp-3" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="50" width="10" x="75" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="RequireDutyFreeRole" vertex="1">
+          <mxGeometry height="930" width="120" x="330" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-20" parent="EOKiiNB9M0-hMvIa2oWp-4" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="55" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-21" edge="1" parent="EOKiiNB9M0-hMvIa2oWp-4" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" value="Check session.IsDutyFreeManager">
+          <mxGeometry relative="1" x="-1" y="-52" as="geometry">
+            <mxPoint x="-50" y="-37" as="offset" />
+            <Array as="points">
+              <mxPoint x="90" y="175" />
+            </Array>
+            <mxPoint x="60" y="145" as="sourcePoint" />
+            <mxPoint x="65" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="DutyFreeShopItemsController" vertex="1">
+          <mxGeometry height="930" width="170" x="480" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-24" parent="EOKiiNB9M0-hMvIa2oWp-5" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="600" width="10" x="80" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-6" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ShopItemServiceProxy" vertex="1">
+          <mxGeometry height="930" width="130" x="660" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-26" parent="EOKiiNB9M0-hMvIa2oWp-6" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="540" width="10" x="60" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-7" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ServiceProxyBase" vertex="1">
+          <mxGeometry height="930" width="120" x="820" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-28" parent="EOKiiNB9M0-hMvIa2oWp-7" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="480" width="10" x="55" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-8" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ShopItemsController" vertex="1">
+          <mxGeometry height="930" width="120" x="970" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-30" parent="EOKiiNB9M0-hMvIa2oWp-8" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="420" width="10" x="55" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-9" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="ShopItemsService" vertex="1">
+          <mxGeometry height="930" width="100" x="1120" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-32" parent="EOKiiNB9M0-hMvIa2oWp-9" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="390" width="10" x="45" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-10" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="EfShopItemRepository" vertex="1">
+          <mxGeometry height="930" width="120" x="1240" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-34" parent="EOKiiNB9M0-hMvIa2oWp-10" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="350" width="10" x="55" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-11" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="AppDbContext" vertex="1">
+          <mxGeometry height="930" width="100" x="1400" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-36" parent="EOKiiNB9M0-hMvIa2oWp-11" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="100" width="10" x="45" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-42" parent="EOKiiNB9M0-hMvIa2oWp-11" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="40" width="10" x="45" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-44" parent="EOKiiNB9M0-hMvIa2oWp-11" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="80" width="10" x="45" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-12" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="Database" vertex="1">
+          <mxGeometry height="930" width="100" x="1650" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-38" parent="EOKiiNB9M0-hMvIa2oWp-12" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="40" width="10" x="45" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-13" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-3" value="click : Delete Item">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="80" y="240" as="sourcePoint" />
+            <mxPoint x="160" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-15" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-4" value="POST /DeleteItem(id, shopid)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="220" y="280" as="sourcePoint" />
+            <mxPoint x="300" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-22" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" value="DeleteItem(id, shopid)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="360" />
+            </Array>
+            <mxPoint x="390" y="360" as="sourcePoint" />
+            <mxPoint x="564.5" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-25" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-6" value="RemoveShopItem(id)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="570" y="380" as="sourcePoint" />
+            <mxPoint x="650" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-27" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-7" value="Delete(&quot;api/shop-items/{id}&quot;)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="730" y="400" as="sourcePoint" />
+            <mxPoint x="810" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-29" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" value="DELETE api/shop-items/{id}">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="885" y="430" as="sourcePoint" />
+            <mxPoint x="1029.5" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-31" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-9" value="RemoveShopItem(id)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="1040" y="450" as="sourcePoint" />
+            <mxPoint x="1120" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-33" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-10" value="Delete(id)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="1180" y="470" as="sourcePoint" />
+            <mxPoint x="1260" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-35" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-11" value="ShopItems.Find(id)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="1310" y="500" as="sourcePoint" />
+            <mxPoint x="1380" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-37" edge="1" parent="1" source="EOKiiNB9M0-hMvIa2oWp-36" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-12" value="SELECT * FROM ShopItems WHERE Id = {id}">
+          <mxGeometry relative="1" width="80" x="0.0042" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1490" y="530" />
+            </Array>
+            <mxPoint x="1460" y="530" as="sourcePoint" />
+            <mxPoint x="1530" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-39" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="ShopItem">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1670" y="570" />
+            </Array>
+            <mxPoint x="1700" y="570" as="sourcePoint" />
+            <mxPoint x="1455" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-40" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="ShopItem">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1440" y="600" as="sourcePoint" />
+            <mxPoint x="1310" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-41" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-11" value="ShopItems.Remove(item)">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="1300" y="650" as="sourcePoint" />
+            <mxPoint x="1380" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-43" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-34" value="OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1410.41" y="690" />
+            </Array>
+            <mxPoint x="1450.41" y="690" as="sourcePoint" />
+            <mxPoint x="1310.0009090909095" y="690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-45" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" value="SaveChanges()">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="1300" y="730" as="sourcePoint" />
+            <mxPoint x="1449.5" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-46" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-34" value="OK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1450" y="810" as="sourcePoint" />
+            <mxPoint x="1310" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-47" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-12" value="DELETE FROM ShopItems WHERE Id = {id}">
+          <mxGeometry relative="1" width="80" as="geometry">
+            <mxPoint x="1450" y="750" as="sourcePoint" />
+            <mxPoint x="1530" y="750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-48" edge="1" parent="1" source="EOKiiNB9M0-hMvIa2oWp-49" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="1700.41" y="790" as="sourcePoint" />
+            <mxPoint x="1450.0009090909095" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-50" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-49" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1630.41" y="790" />
+            </Array>
+            <mxPoint x="1700.41" y="790" as="sourcePoint" />
+            <mxPoint x="1450.0009090909095" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-49" parent="1" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" value="" vertex="1">
+          <mxGeometry height="40" width="10" x="1695" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-51" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-28" value="204 No Content">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="955" y="850" />
+            </Array>
+            <mxPoint x="1025" y="850" as="sourcePoint" />
+            <mxPoint x="890" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-52" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="870" y="880" as="sourcePoint" />
+            <mxPoint x="730" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-53" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-24" value="">
+          <mxGeometry relative="1" x="-0.0075" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="720" y="920" as="sourcePoint" />
+            <mxPoint x="580" y="920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-54" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-3" value="Redirect to Index (shopId)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="560" y="958.46" as="sourcePoint" />
+            <mxPoint x="480" y="958.46" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-56" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-1" value="Shop items list&amp;nbsp;&lt;div&gt;without the deleted item&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="1010" as="sourcePoint" />
+            <mxPoint x="140" y="1010" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-58" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" target="EOKiiNB9M0-hMvIa2oWp-32" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1260" y="820" />
+            </Array>
+            <mxPoint x="1290" y="820" as="sourcePoint" />
+            <mxPoint x="1180" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EOKiiNB9M0-hMvIa2oWp-59" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;entryX=0.5;entryY=0.976;entryDx=0;entryDy=0;entryPerimeter=0;" target="EOKiiNB9M0-hMvIa2oWp-30" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1170" y="840" as="sourcePoint" />
+            <mxPoint x="1040" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
