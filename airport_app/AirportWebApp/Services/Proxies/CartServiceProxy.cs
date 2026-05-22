@@ -2,7 +2,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class CartServiceProxy : RepositoryProxyBase, ICartService
+public class CartServiceProxy : ServiceProxyBase, ICartService
 {
     private const int MinimumCartItemQuantity = 1;
 

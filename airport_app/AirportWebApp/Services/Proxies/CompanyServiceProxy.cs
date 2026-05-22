@@ -2,7 +2,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class CompanyServiceProxy : RepositoryProxyBase, ICompanyService
+public class CompanyServiceProxy : ServiceProxyBase, ICompanyService
 {
     public CompanyServiceProxy(HttpClient httpClient)
         : base(httpClient)

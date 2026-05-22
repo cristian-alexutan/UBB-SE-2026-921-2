@@ -2,7 +2,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class EmployeeServiceProxy : RepositoryProxyBase, IEmployeeService
+public class EmployeeServiceProxy : ServiceProxyBase, IEmployeeService
 {
     private sealed class SaveEmployeeDto
     {

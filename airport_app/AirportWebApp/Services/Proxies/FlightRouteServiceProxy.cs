@@ -4,7 +4,7 @@ using Route = AirportWebApp.Domain.Route;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class FlightRouteServiceProxy : RepositoryProxyBase, IFlightRouteService
+public class FlightRouteServiceProxy : ServiceProxyBase, IFlightRouteService
 {
     private const int MinutesInADay = 1440;
     private const int MinutesInAnHour = 60;

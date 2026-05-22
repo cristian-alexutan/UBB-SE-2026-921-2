@@ -1,6 +1,6 @@
 namespace AirportWebApp.Services.Proxies;
 
-public class RunwayServiceProxy : RepositoryProxyBase, IRunwayService
+public class RunwayServiceProxy : ServiceProxyBase, IRunwayService
 {
     public RunwayServiceProxy(HttpClient httpClient) : base(httpClient)
     {
