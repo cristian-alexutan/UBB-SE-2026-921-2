@@ -10,7 +10,7 @@ using System.Text;
 
 using AirportWebApp.Services.Proxies;
 
-public class ShopServiceProxy : RepositoryProxyBase, IShopService
+public class ShopServiceProxy : ServiceProxyBase, IShopService
 {
     public ShopServiceProxy(HttpClient httpClient) : base(httpClient)
     {

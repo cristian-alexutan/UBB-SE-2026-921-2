@@ -2,7 +2,7 @@ using AirportWebApp.Services.Proxies;
 
 namespace AirportWebApp.Services.Proxies;
 
-public class GateServiceProxy : RepositoryProxyBase, IGateService
+public class GateServiceProxy : ServiceProxyBase, IGateService
 {
     public GateServiceProxy(HttpClient httpClient) : base(httpClient)
     {
