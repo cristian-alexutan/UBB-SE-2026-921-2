@@ -79,8 +79,8 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AirportLib.Services\AirportLib.Services.csproj" />
-    <ProjectReference Include="..\..\AirportLib.Domain\AirportLib.Domain.csproj" />
+    <ProjectReference Include="..\AirportLib.Services\AirportLib.Services.csproj" />
+    <ProjectReference Include="..\AirportLib.Domain\AirportLib.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="WinUI\CompanyPage.xaml">
