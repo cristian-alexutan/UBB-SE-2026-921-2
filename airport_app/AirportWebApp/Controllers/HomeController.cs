@@ -1,6 +1,7 @@
 using System.Diagnostics;
 
 using AirportWebApp.Models;
+using AirportLib.Domain.User;
 
 using Microsoft.AspNetCore.Mvc;
 

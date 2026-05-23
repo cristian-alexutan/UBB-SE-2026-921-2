@@ -1,9 +1,11 @@
+using AirportLib.Domain.User;
+
 namespace AirportWebApp.Infrastructure
 {
     public class WebUserSession(IConfiguration configuration)
     {
         public int CurrentUserId => configuration.GetValue<int>("UserID");
-        private MockUserRoles CurrentUserRoles => new MockUserUtil().GetRolesForUser(CurrentUserId);
+        private MockUserRoleContext CurrentUserRoles => new MockUserUtility().GetRolesForUser(CurrentUserId);
 
         public int UserId => CurrentUserRoles.UserId;
 

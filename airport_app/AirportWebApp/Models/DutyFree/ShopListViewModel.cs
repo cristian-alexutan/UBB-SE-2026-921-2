@@ -1,3 +1,5 @@
+using AirportLib.Domain.User;
+
 namespace AirportWebApp.Models.DutyFree
 {
     public class ShopListViewModel

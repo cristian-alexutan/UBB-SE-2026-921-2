@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
+using AirportLib.Domain.User;
+
 namespace AirportWebApp.Infrastructure;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using AirportLib.Domain.User;
+
 namespace AirportWebApp.Controllers;
 
 [RequireAirportRole(AirportModuleRole.AirportAdministrator)]

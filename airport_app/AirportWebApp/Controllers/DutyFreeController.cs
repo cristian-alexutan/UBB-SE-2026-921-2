@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using AirportLib.Domain.User;
 
 namespace AirportWebApp.Controllers;
 
